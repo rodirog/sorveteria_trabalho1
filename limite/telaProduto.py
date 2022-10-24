@@ -1,0 +1,29 @@
+class TelaProduto:
+
+    def mostra_tela_opcoes(self):
+        print("*" * 20)
+        print("PRODUTO")
+        print("*" * 20)
+        print("1 - Incluir Produto")
+        print("2 - Excluir Produto")
+        print("3 - Listar Produto")
+        print("4 - Alterar Produto")
+        print("0 - Voltar")
+        opcao = int(input("Escolha a opcao: "))
+        return opcao
+
+    def pega_dados_produto(self):
+        print("CADASTRO PRODUTO")
+        codigo_produto = input("Codigo do Produto: ")
+        quantidade_produto = input("Quantidade do Produto: ")
+        descricao_produto = input("Descricao do Produto")
+        #nao ocorre instanciacao de cliente aqui pois tela nao conversa com entidade
+
+        return {"codigo_produto": codigo_produto, "quantidade_produto": quantidade_produto, "descricao_produto": descricao_produto}
+
+    def mostra_produto(self, dados_produto):
+        print("PRODUTO")
+        print(f"Codigo: {dados_produto['codigo_produto']}")
+        print(f"Quantidade: {dados_produto['quantidade_produto']}")
+        print(f"Descricao: {dados_produto['descricao_produto']}")
+        # nao pode print(cliente.nome) pq a tela nao pode falar com cliente
