@@ -1,6 +1,6 @@
 class TelaFornecedor:
 
-    def mostra_tela_opcoes(self):
+    def mostrar_tela_opcoes(self):
         print("*" * 20)
         print("FORNECEDOR")
         print("*" * 20)
@@ -12,7 +12,7 @@ class TelaFornecedor:
         opcao = int(input("Escolha a opcao: "))
         return opcao
 
-    def pega_dados_fornecedor(self):
+    def pegar_dados_fornecedor(self):
         print("CADASTRO FORNECEDOR")
         nome_fornecedor = input("Nome do Fornecedor: ")
         cnpj_fornecedor = input("CNPJ do fornecedor")
@@ -21,7 +21,7 @@ class TelaFornecedor:
 
         return {"nome_fornecedor": nome_fornecedor, "cnpj_fornecedor": cnpj_fornecedor, "telefone_fornecedor:": telefone_fornecedor}
 
-    def mostra_fornecedor(self, dados_fornecedor):
+    def mostrar_fornecedor(self, dados_fornecedor):
         print("FORNECEDOR")
         print(f"Nome: {dados_fornecedor['nome_fornecedor']}")
         print(f"CNPJ: {dados_fornecedor['cnpj_fornecedor']}")

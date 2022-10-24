@@ -11,23 +11,23 @@ class ControladorLoja:
         self.__controlador_produto = ControladorProduto(self)
         #o self do parametro representa o parametro controlar_cliente no init de ControladorCliente
 
-    def inicia_fornecedores(self):
+    def iniciar_fornecedores(self):
         self.__controlador_fornecedor.mostra_tela_opcoes()
         #self.__controlador_fornecedor.p
 
-    def inicia_produtos(self):
-        self.__controlador_produto.mostra_tela_opcoes()
+    def iniciar_produtos(self):
+        self.__controlador_produto.mostrar_tela_opcoes()
         #self.__controlador_produto.p
 
-    def inicia_notas_fiscais(self):
+    def iniciar_notas_fiscais(self):
         print("NOTAS FISCAIS")
 
-    def finaliza(self):
+    def finalizar(self):
         sys.exit()
 
-    def inicia(self):
-        opcoes = {1: self.inicia_fornecedores(), 2: self.inicia_produtos(), 3: self.inicia_notas_fiscais, 0: self.finaliza}
+    def iniciar(self):
+        opcoes = {1: self.iniciar_fornecedores(), 2: self.iniciar_produtos(), 3: self.iniciar_notas_fiscais, 0: self.finalizar}
 
         while True:
-            opcao = self.__tela_principal.mostra_tela_inicial()
+            opcao = self.__tela_principal.mostrar_tela_inicial()
             opcoes[opcao]()

@@ -1,7 +1,7 @@
 
 class TelaLoja:
 
-    def mostra_tela_inicial(self):
+    def mostrar_tela_inicial(self):
         print("*" * 20)
         print("Sistema Vendas")
         print("*" * 20)

@@ -1,6 +1,6 @@
 class TelaProduto:
 
-    def mostra_tela_opcoes(self):
+    def mostrar_tela_opcoes(self):
         print("*" * 20)
         print("PRODUTO")
         print("*" * 20)
@@ -12,7 +12,7 @@ class TelaProduto:
         opcao = int(input("Escolha a opcao: "))
         return opcao
 
-    def pega_dados_produto(self):
+    def pegar_dados_produto(self):
         print("CADASTRO PRODUTO")
         codigo_produto = input("Codigo do Produto: ")
         quantidade_produto = input("Quantidade do Produto: ")
@@ -21,7 +21,7 @@ class TelaProduto:
 
         return {"codigo_produto": codigo_produto, "quantidade_produto": quantidade_produto, "descricao_produto": descricao_produto}
 
-    def mostra_produto(self, dados_produto):
+    def mostrar_produto(self, dados_produto):
         print("PRODUTO")
         print(f"Codigo: {dados_produto['codigo_produto']}")
         print(f"Quantidade: {dados_produto['quantidade_produto']}")
