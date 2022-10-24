@@ -2,11 +2,14 @@ from abc import ABC, abstractmethod
 
 
 class AbstractPessoa(ABC):
-    @abstractmethod
-    def __init__(self, nome):
-        self.__nome = nome
+  @abstractmethod
+  def __init__(self, nome: str):
+    self.__nome = nome
 
-    @abstractmethod
-    @property
-    def nome(self):
-        pass
+  @property
+  def nome(self):
+    return self.__nome
+
+  @nome.setter
+  def nome(self, nome: str):
+    self.__nome = nome
