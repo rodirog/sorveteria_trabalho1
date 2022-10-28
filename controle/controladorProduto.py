@@ -23,26 +23,30 @@ class ControladorProduto:
                 return produto
 
     def alterar_produto(self):
-        self.listar_produto()
+        self.listar_produtos()
         codigo_produto = self.__tela_produto.selecionar_produto()
         produto = self.encontrar_produto_pelo_codigo(codigo_produto)
 
         if(produto is not None):
             novos_dados_produto = self.__tela_produto.pegar_dados_produto()
-            produto.codigo = novos_dados_produto["codigo"]
-            produto.quantidade = novos_dados_produto["quantidade"]
-            produto.descricao = novos_dados_produto["descricao"]
-            self.listar_produto()
+            produto.codigo = novos_dados_produto["codigo_produto"]
+            produto.quantidade = novos_dados_produto["quantidade_produto"]
+            produto.descricao = novos_dados_produto["descricao_produto"]
+            self.__tela_produto.mostrar_mensagem("Produto alterado com sucesso!")
+            self.listar_produtos()
         else:
             self.__tela_produto.mostrar_mensagem("ATENCAO: Produto não existente")
 
     def excluir_produto(self):
-        codigo_produto = self.__tela_produto.pegar_dados_produto()["codigo_produto"]
+        codigo_produto = self.__tela_produto.selecionar_produto()
         produto_encontrado = self.encontrar_produto_pelo_codigo(codigo_produto)
         if produto_encontrado:
             self.__produtos.remove(produto_encontrado)
+            self.__tela_produto.mostrar_mensagem("Produto excluído com sucesso")
+        else:
+            self.__tela_produto.mostrar_mensagem("Produto não encontrado")
 
-    def listar_produto(self):
+    def listar_produtos(self):
         for produto in self.__produtos:
             dados_produto = {"codigo_produto": produto.codigo,
                              "quantidade_produto": produto.quantidade,
@@ -52,7 +56,7 @@ class ControladorProduto:
 
     def mostrar_tela_opcoes(self):
         opcoes = {1: self.incluir_produto, 2: self.excluir_produto,
-                  3:self.listar_produto, 4: self.alterar_produto}
+                  3:self.listar_produtos, 4: self.alterar_produto}
 
         while True:
             opcao = self.__tela_produto.mostrar_tela_opcoes()
