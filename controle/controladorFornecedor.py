@@ -23,7 +23,19 @@ class ControladorFornecedor:
                 return fornecedor
 
     def alterar_fornecedor(self):
-        pass
+        self.listar_fornecedor()
+        nome_fornecedor = self.__tela_fornecedor.selecionar_fornecedor()
+        fornecedor = self.encontrar_fornecedor_pelo_nome(nome_fornecedor)
+
+        if(fornecedor is not None):
+            novos_dados_fornecedor = self.__tela_fornecedor.pegar_dados_fornecedor()
+            fornecedor.nome = novos_dados_fornecedor["nome"]
+            fornecedor.cnpj = novos_dados_fornecedor["cnpj"]
+            fornecedor.telefone = novos_dados_fornecedor["telefone"]
+            self.listar_fornecedor()
+        else:
+            self.__tela_fornecedor.mostrar_mensagem("ATENCAO: Fornecedor não existente")
+
 
     def excluir_fornecedor(self):
         nome_fornecedor = self.__tela_fornecedor.pegar_dados_fornecedor()["nome_fornecedor"]

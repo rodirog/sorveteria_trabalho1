@@ -7,7 +7,7 @@ class AbstractPessoa(ABC):
 
     @property
     def nome(self):
-        self.__nome = nome
+        return self.__nome
 
     @nome.setter
     def nome(self, nome):

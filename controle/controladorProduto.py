@@ -23,13 +23,24 @@ class ControladorProduto:
                 return produto
 
     def alterar_produto(self):
+        self.listar_produto()
+        codigo_produto = self.__tela_produto.selecionar_produto()
+        produto = self.encontrar_produto_pelo_codigo(codigo_produto)
+
+        if(produto is not None):
+            novos_dados_produto = self.__tela_produto.pegar_dados_produto()
+            produto.codigo = novos_dados_produto["codigo"]
+            produto.quantidade = novos_dados_produto["quantidade"]
+            produto.descricao = novos_dados_produto["descricao"]
+            self.listar_produto()
+        else:
+            self.__tela_produto.mostrar_mensagem("ATENCAO: Produto não existente")
+
+    def excluir_produto(self):
         codigo_produto = self.__tela_produto.pegar_dados_produto()["codigo_produto"]
         produto_encontrado = self.encontrar_produto_pelo_codigo(codigo_produto)
         if produto_encontrado:
             self.__produtos.remove(produto_encontrado)
-
-    def excluir_produto(self):
-        pass
 
     def listar_produto(self):
         for produto in self.__produtos:

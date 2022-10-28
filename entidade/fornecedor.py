@@ -12,6 +12,14 @@ class Fornecedor(abstractPessoa.AbstractPessoa):
     def cnpj(self):
         return self.__cnpj
 
+    @cnpj.setter
+    def cnpj(self, cnpj):
+        self.__cnpj = cnpj
+        
     @property
     def telefone(self):
         return self.__telefone
+
+    @telefone.setter
+    def telefone(self, telefone):
+        self.__telefone = telefone

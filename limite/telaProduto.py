@@ -27,3 +27,10 @@ class TelaProduto:
         print(f"Quantidade: {dados_produto['quantidade_produto']}")
         print(f"Descricao: {dados_produto['descricao_produto']}")
         # nao pode print(cliente.nome) pq a tela nao pode falar com cliente
+
+    def selecionar_produto(self):
+        codigo = input("Insira o código do produto que deseja selecionar: ")
+        return codigo
+
+    def mostrar_mensagem(self, msg):
+        print(msg)

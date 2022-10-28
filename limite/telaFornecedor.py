@@ -27,3 +27,13 @@ class TelaFornecedor:
         print(f"CNPJ: {dados_fornecedor['cnpj_fornecedor']}")
         print(f"Telefone: {dados_fornecedor['telefone_fornecedor']}")
         # nao pode print(cliente.nome) pq a tela nao pode falar com cliente
+
+    def selecionar_fornecedor(self):
+        nome = input("Insira o nome do fornecedor que deseja selecionar: ")
+        return nome
+
+    def mostrar_mensagem(self, msg):
+        print(msg)
+
+
+
