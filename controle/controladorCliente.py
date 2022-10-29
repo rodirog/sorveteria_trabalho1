@@ -1,3 +1,5 @@
+from excecoes.clienteJahExisteException import ClienteJahExisteException
+from excecoes.clienteNaoExisteException import ClienteNaoExisteException
 from limite.telaCliente import TelaCliente
 from entidade.cliente import Cliente
 
@@ -8,22 +10,87 @@ class ControladorCliente:
         self.__clientes = []
 
     def adicionar_cliente(self):
+        print("adicionar_cliente")
         dados_cliente = self.__tela_cliente.pega_dados_cliente()
-        if not self.__encontrar_cliente_pelo_nome(dados_cliente["nome_cliente"]):
-            cliente = Cliente(dados_cliente["nome_cliente"],
-                          dados_cliente["cpf"],
-                          dados_cliente["email_cliente"],
-                          dados_cliente["telefone_cliente"])
+        cpf_cliente = dados_cliente["cpf_cliente"]
+        if self.encontrar_cliente(cpf_cliente):
+            raise ClienteJahExisteException
 
-            self.__clientes.append(cliente)
+        cliente = Cliente(dados_cliente["nome_cliente"],
+                        dados_cliente["cpf_cliente"],
+                        dados_cliente["email_cliente"],
+                        dados_cliente["telefone_cliente"])
+
+        self.__clientes.append(cliente)
+        self.__tela_cliente.mostrar_mensagem("O cliente foi cadastrado com sucesso!")
 
     def excluir_cliente(self):
-        nome_cliente = self.__tela_cliente.pega_dados_cliente()["nome_cliente"]
-        cliente_encontrado = self.__encontrar_cliente_pelo_nome(nome_cliente)
-        if cliente_encontrado:
-            self.__clientes.remove(cliente_encontrado)
+        print("excluir_cliente")
+        cpf_cliente = self.__tela_cliente.pega_cpf_cliente()
+        cliente_encontrado = self.encontrar_cliente(cpf_cliente)
+        if not cliente_encontrado:
+            raise ClienteNaoExisteException
 
-    def __encontrar_cliente_pelo_nome(self, nome):
+        self.__clientes.remove(cliente_encontrado)
+        self.__tela_cliente.mostrar_mensagem("O cliente foi removido com sucesso!")
+
+    def encontrar_cliente(self, cpf_cliente):
+        print("encontrar_cliente")
         for cliente in self.__clientes:
-            if cliente.nome == nome:
+            if cliente.cpf == cpf_cliente:
                 return cliente
+
+    def alterar_cliente(self):
+        print("alterar_cliente")
+        cpf_cliente = self.__tela_cliente.pega_cpf_cliente()
+        cliente_encontrado = self.encontrar_cliente(cpf_cliente)
+        if not cliente_encontrado:
+            raise ClienteNaoExisteException
+        
+        dados_cliente = self.__tela_cliente.pega_dados_cliente()
+        nome_cliente = dados_cliente["nome_cliente"]
+        email_cliente = dados_cliente["email_cliente"]
+        cpf_cliente = dados_cliente["cpf_cliente"]
+        telefone_cliente = dados_cliente["telefone_cliente"]
+
+        cliente_encontrado.nome = nome_cliente
+        cliente_encontrado.email = email_cliente
+        cliente_encontrado.cpf = cpf_cliente
+        cliente_encontrado.telefone = telefone_cliente
+
+        self.__tela_cliente.mostrar_mensagem("O cliente foi alterado com sucesso!")
+
+    def listar_clientes(self):
+        print("listar_clientes")
+        dados_clientes = []
+        for cliente in self.__clientes:
+            dados_cliente = {
+                "nome_cliente": cliente.nome,
+                "telefone_cliente": cliente.telefone
+            }
+            dados_clientes.append(dados_cliente)
+        
+        self.__tela_cliente.mostrar_clientes(dados_clientes)
+
+    def mostrar_tela_opcoes(self):
+        print("mostrar_tela_opcoes")
+        opcoes = {
+            1: self.adicionar_cliente,
+            2: self.excluir_cliente,
+            3: self.encontrar_cliente,
+            4: self.listar_clientes,
+            5: self.alterar_cliente
+        }
+
+        while True:
+            opcao = self.__tela_cliente.mostrar_tela_opcoes()
+
+            if opcao == 0:
+                break
+            
+            try:
+                opcoes[opcao]()
+            except ClienteJahExisteException:
+                self.__tela_cliente.mostrar_mensagem("O cliente já existe!")
+            except ClienteNaoExisteException:
+                self.__tela_cliente.mostrar_mensagem("O cliente não existe!")

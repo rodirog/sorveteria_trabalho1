@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 
 class AbstractPessoa(ABC):
-    def __init__(self, nome):
+    def __init__(self, nome: str):
         self.__nome = nome
 
     @property
@@ -10,8 +10,5 @@ class AbstractPessoa(ABC):
         return self.__nome
 
     @nome.setter
-    def nome(self, nome):
+    def nome(self, nome: str):
         self.__nome = nome
-
-#copiar o abstractPessoa certo da yaskara
-    

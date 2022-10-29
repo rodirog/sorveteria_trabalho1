@@ -5,6 +5,7 @@ from controle.controladorProduto import ControladorProduto
 from controle.controladorCliente import ControladorCliente
 from controle.controladorVendedor import ControladorVendedor
 
+
 class ControladorLoja:
 
     def __init__(self):
