@@ -18,9 +18,10 @@ class TelaProduto:
         codigo_produto = input("Codigo do Produto: ")
         quantidade_produto = input("Quantidade do Produto: ")
         descricao_produto = input("Descricao do Produto: ")
+        tipo_produto = input("Tipo do Produto: ")
         #nao ocorre instanciacao de cliente aqui pois tela nao conversa com entidade
 
-        return {"codigo_produto": codigo_produto, "quantidade_produto": quantidade_produto, "descricao_produto": descricao_produto}
+        return {"codigo_produto": codigo_produto, "quantidade_produto": quantidade_produto, "descricao_produto": descricao_produto, "tipo_produto": tipo_produto}
 
     def mostrar_produto(self, dados_produto):
         print()
@@ -28,6 +29,7 @@ class TelaProduto:
         print(f"Codigo: {dados_produto['codigo_produto']}")
         print(f"Quantidade: {dados_produto['quantidade_produto']}")
         print(f"Descricao: {dados_produto['descricao_produto']}")
+        print(f"Tipo: {dados_produto['tipo_produto']}")
         print()
         # nao pode print(cliente.nome) pq a tela nao pode falar com cliente
 

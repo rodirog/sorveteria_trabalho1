@@ -1,8 +1,10 @@
+
 class Produto:
-    def __init__(self, codigo, quantidade, descricao):
+    def __init__(self, codigo, quantidade, descricao, tipo_produto):
         self.__codigo = codigo
         self.__quantidade = quantidade
         self.__descricao = descricao
+        self.__tipo_produto = tipo_produto
 
     @property
     def codigo(self):
@@ -27,3 +29,11 @@ class Produto:
     @descricao.setter
     def descricao(self, descricao):
         self.__descricao = descricao
+
+    @property
+    def tipo_produto(self):
+        return self.__tipo_produto
+    
+    @tipo_produto.setter
+    def tipo_produto(self, tipo_produto):
+        self.__tipo_produto = tipo_produto
