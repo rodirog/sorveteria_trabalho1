@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from abstractPessoa import AbstractPessoa
+from entidade.abstractPessoa import AbstractPessoa
 
 
 class PessoaFisica(AbstractPessoa):
