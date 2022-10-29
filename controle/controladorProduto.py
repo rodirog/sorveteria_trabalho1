@@ -1,3 +1,7 @@
+
+from multiprocessing.sharedctypes import Value
+from entidade.numeroInvalidoException import NumeroInvalidoException
+from entidade.tipoProdutoInvalidoException import TipoProdutoInvalidoException
 from limite.telaProduto import TelaProduto
 from entidade.produto import Produto
 
@@ -10,14 +14,45 @@ class ControladorProduto:
         self.__produtos = []
 
     def incluir_produto(self):
-        dados_produto = self.__tela_produto.pegar_dados_produto()
-        produto = Produto(dados_produto["codigo_produto"],
-                          dados_produto["quantidade_produto"],
-                          dados_produto["descricao_produto"],
-                          dados_produto["tipo_produto"],
-                          dados_produto["valor_produto"])
-        if not self.encontrar_produto_pelo_codigo(produto.codigo):
-            self.__produtos.append(produto)
+        try:
+            dados_produto = self.__tela_produto.pegar_dados_produto()
+            #ValueError se refere a essa linha
+
+            numeros_sao_validos = dados_produto["codigo_produto"] >= 0 \
+                                    and dados_produto["quantidade_produto"] > 0 \
+                                    and dados_produto["valor_produto"] >= 0 \
+
+            if not numeros_sao_validos:
+                raise NumeroInvalidoException
+
+            tipo_produto_valido = dados_produto["tipo_produto"] == "S"\
+                                        or dados_produto["tipo_produto"] == "B"
+
+            if not tipo_produto_valido:
+                raise TipoProdutoInvalidoException
+
+        except ValueError:
+            self.__tela_produto.mostrar_mensagem("Cadastro nao efetuado. Voce inseriu")
+            self.__tela_produto.mostrar_mensagem("algum tipo errado na inserção dos dados!")
+        
+        except NumeroInvalidoException:
+                self.__tela_produto.mostrar_mensagem("Cadastro nao efetuado. Voce inseriu \
+                                                        algum numero invalido na insercao dos dados!")
+        
+        except TipoProdutoInvalidoException:
+                    self.__tela_produto.mostrar_mensagem("Cadastro nao efetuado. Voce inseriu \
+                                                        um tipo de produto invalido na insercao dos dados!")
+
+        else:
+            produto = Produto(dados_produto["codigo_produto"],
+                            dados_produto["quantidade_produto"],
+                            dados_produto["descricao_produto"],
+                            dados_produto["tipo_produto"],
+                            dados_produto["valor_produto"])
+
+            if not self.encontrar_produto_pelo_codigo(produto.codigo):
+                self.__produtos.append(produto)
+                self.__tela_produto.mostrar_mensagem("Produto incluso com sucesso!") 
 
     def encontrar_produto_pelo_codigo(self, codigo):
         for produto in self.__produtos:
@@ -26,29 +61,74 @@ class ControladorProduto:
 
     def alterar_produto(self):
         self.listar_produtos()
-        codigo_produto = self.__tela_produto.selecionar_produto()
-        produto = self.encontrar_produto_pelo_codigo(codigo_produto)
-
-        if(produto is not None):
-            novos_dados_produto = self.__tela_produto.pegar_dados_produto()
-            produto.codigo = novos_dados_produto["codigo_produto"]
-            produto.quantidade = novos_dados_produto["quantidade_produto"]
-            produto.descricao = novos_dados_produto["descricao_produto"]
-            produto.tipo_produto = novos_dados_produto["tipo_produto"]
-            produto.valor = novos_dados_produto["valor_produto"]
-            self.__tela_produto.mostrar_mensagem("Produto alterado com sucesso!")
-            self.listar_produtos()
+        
+        try:
+            codigo_produto = self.__tela_produto.selecionar_produto()
+        
+        except ValueError:
+            self.__tela_produto.mostrar_mensagem("Voce nao inseriu um numero! Tente novamente.")
+        
         else:
-            self.__tela_produto.mostrar_mensagem("ATENCAO: Produto não existente")
+            
+            produto = self.encontrar_produto_pelo_codigo(codigo_produto)
+
+            if(produto is not None):
+                
+                try:
+                    novos_dados_produto = self.__tela_produto.pegar_dados_produto()
+                    #ValueError se refere a essa linha
+
+                    numeros_sao_validos = novos_dados_produto["codigo_produto"] >= 0 \
+                                            and novos_dados_produto["quantidade_produto"] > 0 \
+                                            and novos_dados_produto["valor_produto"] >= 0 \
+                    
+                    if not numeros_sao_validos:
+                            raise NumeroInvalidoException
+
+                    tipo_produto_valido = novos_dados_produto["tipo_produto"] == "S"\
+                                                or novos_dados_produto["tipo_produto"] == "B"
+
+                    if not tipo_produto_valido:
+                        raise TipoProdutoInvalidoException
+                
+                except ValueError:
+                    self.__tela_produto.mostrar_mensagem("Alteracao nao efetuada. Voce inseriu")
+                    self.__tela_produto.mostrar_mensagem("algum tipo errado na insercao de dados.")
+
+                except NumeroInvalidoException:
+                        self.__tela_produto.mostrar_mensagem("Alteracao nao efetuada. Voce inseriu \
+                                                                algum numero invalido na insercao dos dados!")
+
+                except TipoProdutoInvalidoException:
+                            self.__tela_produto.mostrar_mensagem("Alteracao nao efetuada. Voce inseriu \
+                                                                um tipo de produto invalido na insercao dos dados!")
+                
+                else:
+            
+                    produto.codigo = novos_dados_produto["codigo_produto"]
+                    produto.quantidade = novos_dados_produto["quantidade_produto"]
+                    produto.descricao = novos_dados_produto["descricao_produto"]
+                    produto.tipo_produto = novos_dados_produto["tipo_produto"]
+                    produto.valor = novos_dados_produto["valor_produto"]
+                    self.__tela_produto.mostrar_mensagem("Produto alterado com sucesso!")
+                    self.listar_produtos()
+            else:
+                self.__tela_produto.mostrar_mensagem("ATENCAO: Produto nao existente")
 
     def excluir_produto(self):
-        codigo_produto = self.__tela_produto.selecionar_produto()
-        produto_encontrado = self.encontrar_produto_pelo_codigo(codigo_produto)
-        if produto_encontrado:
-            self.__produtos.remove(produto_encontrado)
-            self.__tela_produto.mostrar_mensagem("Produto excluído com sucesso")
+        try:
+            codigo_produto = self.__tela_produto.selecionar_produto()
+        
+        except ValueError:
+            self.__tela_produto.mostrar_mensagem("Voce nao inseriu um numero! Tente novamente.")
+        
         else:
-            self.__tela_produto.mostrar_mensagem("Produto não encontrado")
+            produto_encontrado = self.encontrar_produto_pelo_codigo(codigo_produto)
+            if produto_encontrado:
+                self.__produtos.remove(produto_encontrado)
+                self.__tela_produto.mostrar_mensagem("Produto excluido com sucesso")
+            else:
+                self.__tela_produto.mostrar_mensagem("Produto nao encontrado")
 
     def listar_produtos(self):
         for produto in self.__produtos:

@@ -1,10 +1,10 @@
-from cliente import Cliente
-from vendedor import Vendedor
-from itemNotaFiscal import ItemNotaFiscal
+from entidade.cliente import Cliente
+from entidade.vendedor import Vendedor
+from entidade.itemNotaFiscal import ItemNotaFiscal
 from datetime import datetime
 
 
-class notaFiscal:
+class NotaFiscal:
     def __init__(self, numero_nota: int,
                  cliente: Cliente,
                  vendedor: Vendedor):
