@@ -1,10 +1,11 @@
 
 class Produto:
-    def __init__(self, codigo, quantidade, descricao, tipo_produto):
+    def __init__(self, codigo, quantidade, descricao, tipo_produto, valor):
         self.__codigo = codigo
         self.__quantidade = quantidade
         self.__descricao = descricao
         self.__tipo_produto = tipo_produto
+        self.__valor = valor
 
     @property
     def codigo(self):
@@ -37,3 +38,11 @@ class Produto:
     @tipo_produto.setter
     def tipo_produto(self, tipo_produto):
         self.__tipo_produto = tipo_produto
+
+    @property
+    def valor(self):
+        return self.__valor
+    
+    @valor.setter
+    def valor(self, valor):
+        self.__valor = valor

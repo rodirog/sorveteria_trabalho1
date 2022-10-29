@@ -14,7 +14,8 @@ class ControladorProduto:
         produto = Produto(dados_produto["codigo_produto"],
                           dados_produto["quantidade_produto"],
                           dados_produto["descricao_produto"],
-                          dados_produto["tipo_produto"])
+                          dados_produto["tipo_produto"],
+                          dados_produto["valor_produto"])
         if not self.encontrar_produto_pelo_codigo(produto.codigo):
             self.__produtos.append(produto)
 
@@ -34,6 +35,7 @@ class ControladorProduto:
             produto.quantidade = novos_dados_produto["quantidade_produto"]
             produto.descricao = novos_dados_produto["descricao_produto"]
             produto.tipo_produto = novos_dados_produto["tipo_produto"]
+            produto.valor = novos_dados_produto["valor_produto"]
             self.__tela_produto.mostrar_mensagem("Produto alterado com sucesso!")
             self.listar_produtos()
         else:
@@ -53,7 +55,8 @@ class ControladorProduto:
             dados_produto = {"codigo_produto": produto.codigo,
                              "quantidade_produto": produto.quantidade,
                              "descricao_produto": produto.descricao,
-                             "tipo_produto": produto.tipo_produto}
+                             "tipo_produto": produto.tipo_produto,
+                             "valor_produto": produto.valor}
 
             self.__tela_produto.mostrar_produto(dados_produto)
 
