@@ -13,3 +13,7 @@ class TelaLoja:
         print("0 - Sair")
         opcao = int(input("Escolha a opcao: "))
         return opcao
+
+    def mostrar_mensagem(self, msg):
+        print(msg)
+        print()

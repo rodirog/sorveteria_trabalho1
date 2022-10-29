@@ -1,11 +1,11 @@
 
 class Produto:
-    def __init__(self, codigo, quantidade, descricao, tipo_produto, valor):
+    def __init__(self, codigo, estoque, descricao, tipo_produto, valor):
         if isinstance(codigo, int):
             self.__codigo = codigo
     
-        if isinstance(quantidade, int):
-            self.__quantidade = quantidade
+        if isinstance(estoque, int):
+            self.__estoque = estoque
         
         if isinstance(descricao, str):
             self.__descricao = descricao
@@ -15,6 +15,9 @@ class Produto:
        
         if isinstance(valor, float):
             self.__valor = valor 
+
+    def calcular_preco_item(self, quantidade, peso=1):
+        return (self.__valor * peso) * quantidade
 
     @property
     def codigo(self):
@@ -26,13 +29,13 @@ class Produto:
             self.__codigo = codigo
 
     @property
-    def quantidade(self):
-        return self.__quantidade
+    def estoque(self):
+        return self.__estoque
 
-    @quantidade.setter
-    def quantidade(self, quantidade):
-        if isinstance(quantidade, int):
-            self.__quantidade = quantidade
+    @estoque.setter
+    def estoque(self, estoque):
+        if isinstance(estoque, int):
+            self.__estoque = estoque
       
     @property
     def descricao(self):
@@ -61,3 +64,4 @@ class Produto:
         if isinstance(valor, float):
             self.__valor = valor
       
+    

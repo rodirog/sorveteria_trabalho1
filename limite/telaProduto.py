@@ -16,19 +16,19 @@ class TelaProduto:
         print()
         print("CADASTRO/ALTERAR PRODUTO")
         codigo_produto = int(input("Codigo do Produto: "))
-        quantidade_produto = int(input("Quantidade do Produto: "))
+        estoque_produto = int(input("Estoque do Produto: "))
         descricao_produto = str(input("Descricao do Produto: "))
         tipo_produto = str(input("Tipo do Produto: (insira 'S' para sorvete ou 'B' para bebida): ").upper())
         valor_produto = float(input("Valor do Produto: "))
         #nao ocorre instanciacao de cliente aqui pois tela nao conversa com entidade
 
-        return {"codigo_produto": codigo_produto, "quantidade_produto": quantidade_produto, "descricao_produto": descricao_produto, "tipo_produto": tipo_produto, "valor_produto": valor_produto}
+        return {"codigo_produto": codigo_produto, "estoque_produto": estoque_produto, "descricao_produto": descricao_produto, "tipo_produto": tipo_produto, "valor_produto": valor_produto}
 
     def mostrar_produto(self, dados_produto):
         print()
         print("PRODUTO")
         print(f"Codigo: {dados_produto['codigo_produto']}")
-        print(f"Quantidade: {dados_produto['quantidade_produto']}")
+        print(f"Estoque: {dados_produto['estoque_produto']}")
         print(f"Descricao: {dados_produto['descricao_produto']}")
         print(f"Tipo: {dados_produto['tipo_produto']}")
         print(f"Valor: {dados_produto['valor_produto']}")
