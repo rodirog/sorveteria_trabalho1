@@ -9,39 +9,60 @@ class ControladorFornecedor:
         self.__tela_fornecedor = TelaFornecedor()
         self.__fornecedores = []
 
-    def inclui_fornecedor(self):
-        dados_fornecedor = self.__tela_fornecedor.pega_dados_fornecedor()
+    def incluir_fornecedor(self):
+        dados_fornecedor = self.__tela_fornecedor.pegar_dados_fornecedor()
         fornecedor = Fornecedor(dados_fornecedor["nome_fornecedor"],
                                 dados_fornecedor["cnpj_fornecedor"],
                                 dados_fornecedor["telefone_fornecedor"])
-        if not self.retorna_fornecedor_pelo_nome(fornecedor.nome):
+        if not self.encontrar_fornecedor_pelo_nome(fornecedor.nome):
             self.__fornecedores.append(fornecedor)
 
-    def retorna_fornecedor_pelo_nome(self, nome):
+    def encontrar_fornecedor_pelo_nome(self, nome):
         for fornecedor in self.__fornecedores:
             if fornecedor.nome == nome:
                 return fornecedor
 
-    def altera_fornecedor(self):
-        pass
+    def alterar_fornecedor(self):
+        self.listar_fornecedores()
+        nome_fornecedor = self.__tela_fornecedor.selecionar_fornecedor()
+        fornecedor = self.encontrar_fornecedor_pelo_nome(nome_fornecedor)
 
-    def exclui_fornecedor(self):
-        pass
+        if(fornecedor is not None):
+            novos_dados_fornecedor = self.__tela_fornecedor.pegar_dados_fornecedor()
+            fornecedor.nome = novos_dados_fornecedor["nome_fornecedor"]
+            fornecedor.cnpj = novos_dados_fornecedor["cnpj_fornecedor"]
+            fornecedor.telefone = novos_dados_fornecedor["telefone_fornecedor"]
+            self.__tela_fornecedor.mostrar_mensagem("Fornecedor alterado com sucesso!")
+            self.listar_fornecedores()
 
-    def lista_fornecedor(self):
+        else:
+            self.__tela_fornecedor.mostrar_mensagem("ATENCAO: Fornecedor não existente")
+
+
+    def excluir_fornecedor(self):
+        nome_fornecedor = self.__tela_fornecedor.selecionar_fornecedor()
+        fornecedor_encontrado = self.encontrar_fornecedor_pelo_nome(nome_fornecedor)
+        if fornecedor_encontrado:
+            self.__fornecedores.remove(fornecedor_encontrado)
+            self.__tela_fornecedor.mostrar_mensagem("Fornecedor excluído com sucesso")
+        else:
+            self.__tela_produto.mostrar_mensagem("Fornecedor excluído com sucesso")
+
+    def listar_fornecedores(self):
         for fornecedor in self.__fornecedores:
             dados_fornecedor = {"nome_fornecedor": fornecedor.nome,
                                 "cnpj_fornecedor": fornecedor.cnpj,
                                 "telefone_fornecedor": fornecedor.telefone}
 
-            self.__tela_fornecedor.mostra_fornecedor(dados_fornecedor)
+            self.__tela_fornecedor.mostrar_fornecedor(dados_fornecedor)
+            
 
-    def mostra_tela_opcoes(self):
-        opcoes = {1: self.inclui_fornecedor, 2: self.exclui_fornecedor,
-                  3:self.lista_fornecedor, 4: self.altera_fornecedor}
+    def mostrar_tela_opcoes(self):
+        opcoes = {1: self.incluir_fornecedor, 2: self.excluir_fornecedor,
+                  3:self.listar_fornecedores, 4: self.alterar_fornecedor}
 
         while True:
-            opcao = self.__tela_fornecedor.mostra_tela_opcoes()
+            opcao = self.__tela_fornecedor.mostrar_tela_opcoes()
             if opcao == 0:
                 break
             opcoes[opcao]()

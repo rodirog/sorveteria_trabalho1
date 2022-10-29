@@ -1,4 +1,4 @@
-from pessoaFisica import PessoaFisica
+from entidade.pessoaFisica import PessoaFisica
 
 
 class Vendedor(PessoaFisica):
