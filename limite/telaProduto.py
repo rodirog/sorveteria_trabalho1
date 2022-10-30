@@ -15,20 +15,20 @@ class TelaProduto:
     def pegar_dados_produto(self):
         print()
         print("CADASTRO/ALTERAR PRODUTO")
-        codigo_produto = input("Codigo do Produto: ")
-        quantidade_produto = input("Quantidade do Produto: ")
-        descricao_produto = input("Descricao do Produto: ")
-        tipo_produto = input("Tipo do Produto: ")
-        valor_produto = input("Valor do Produto: ")
+        codigo_produto = int(input("Codigo do Produto: "))
+        estoque_produto = int(input("Estoque do Produto: "))
+        descricao_produto = str(input("Descricao do Produto: "))
+        tipo_produto = str(input("Tipo do Produto: (insira 'S' para sorvete ou 'B' para bebida): ").upper())
+        valor_produto = float(input("Valor do Produto: "))
         #nao ocorre instanciacao de cliente aqui pois tela nao conversa com entidade
 
-        return {"codigo_produto": codigo_produto, "quantidade_produto": quantidade_produto, "descricao_produto": descricao_produto, "tipo_produto": tipo_produto, "valor_produto": valor_produto}
+        return {"codigo_produto": codigo_produto, "estoque_produto": estoque_produto, "descricao_produto": descricao_produto, "tipo_produto": tipo_produto, "valor_produto": valor_produto}
 
     def mostrar_produto(self, dados_produto):
         print()
         print("PRODUTO")
         print(f"Codigo: {dados_produto['codigo_produto']}")
-        print(f"Quantidade: {dados_produto['quantidade_produto']}")
+        print(f"Estoque: {dados_produto['estoque_produto']}")
         print(f"Descricao: {dados_produto['descricao_produto']}")
         print(f"Tipo: {dados_produto['tipo_produto']}")
         print(f"Valor: {dados_produto['valor_produto']}")
@@ -37,7 +37,7 @@ class TelaProduto:
 
     def selecionar_produto(self):
         print()
-        codigo = input("Insira o código do produto que deseja selecionar: ")
+        codigo = int(input("Insira o codigo do produto que deseja selecionar: "))
         return codigo
 
     def mostrar_mensagem(self, msg):
