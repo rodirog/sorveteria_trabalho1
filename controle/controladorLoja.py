@@ -39,7 +39,14 @@ class ControladorLoja:
         sys.exit()
 
     def iniciar(self):
-        opcoes = {1: self.iniciar_fornecedores, 2: self.iniciar_produtos, 3: self.iniciar_clientes, 4: self.iniciar_vendedores, 5: self.iniciar_notas_fiscais, 0: self.finalizar}
+        opcoes = {
+            1: self.iniciar_fornecedores,
+            2: self.iniciar_produtos,
+            3: self.iniciar_clientes,
+            4: self.iniciar_vendedores,
+            5: self.iniciar_notas_fiscais,
+            0: self.finalizar
+        }
 
         while True:
             opcao = self.__tela_principal.mostrar_tela_inicial()

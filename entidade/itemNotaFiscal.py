@@ -1,4 +1,4 @@
-from produto import Produto
+from entidade.produto import Produto
 
 
 class ItemNotaFiscal:
