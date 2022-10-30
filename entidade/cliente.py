@@ -2,7 +2,7 @@ from entidade.pessoaFisica import PessoaFisica
 
 
 class Cliente(PessoaFisica):
-    def __init__(self, nome: str, cpf: str, email: str, telefone: str):
+    def __init__(self, nome: str, cpf: int, email: str, telefone: str):
         super().__init__(nome, cpf)
         self.__email = email
         self.__telefone = telefone

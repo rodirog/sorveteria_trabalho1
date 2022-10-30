@@ -4,7 +4,7 @@ from entidade.abstractPessoa import AbstractPessoa
 
 class PessoaFisica(AbstractPessoa):
     @abstractmethod
-    def __init__(self, nome: str, cpf: str):
+    def __init__(self, nome: str, cpf: int):
         super().__init__(nome)
         self.__cpf = cpf
 
