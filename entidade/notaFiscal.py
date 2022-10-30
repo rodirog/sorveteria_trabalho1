@@ -6,11 +6,11 @@ from datetime import datetime
 
 
 class NotaFiscal:
-    def __init__(self, numero_nota: int,
+    def __init__(self, numero: int,
                  cliente: Cliente,
                  vendedor: Vendedor):
 
-        self.__numero_nota = numero_nota
+        self.__numero = numero
         self.__cliente = cliente
         self.__vendedor = vendedor
         self.__itens_da_nota = []
@@ -18,8 +18,8 @@ class NotaFiscal:
         self.__datetime = None
 
     @property
-    def numero_nota(self):
-        return self.__numero_nota
+    def numero(self):
+        return self.__numero
 
     @property
     def cliente(self):
@@ -37,17 +37,23 @@ class NotaFiscal:
     def data(self):
         return self.__datetime
 
-    def adicionar_item_nota_fiscal(self, item_nota: ItemNotaFiscal):
+    def adicionar_item_nota_fiscal(self, dados_item_nota: dict):
         if self.__datetime:
             raise NotaJahGeradaException
+
+        produto_nota = dados_item_nota["produto_nota"]
+        quantidade_nota = dados_item_nota["quantidade_nota"]
+        peso_nota = dados_item_nota["peso_nota"]
+
+        item_nota = ItemNotaFiscal(produto_nota, quantidade_nota, peso_nota)
 
         self.__itens_da_nota.append(item_nota)
 
-    def excluir_item_nota_fiscal(self, item_nota: ItemNotaFiscal):
+    def excluir_item_nota_fiscal(self, posicao_item_nota: int):
         if self.__datetime:
             raise NotaJahGeradaException
 
-        self.__itens_da_nota.remove(item_nota)
+        self.__itens_da_nota.pop(posicao_item_nota)
 
     def gerar_nota(self):
         self.__datetime = datetime.now()
@@ -56,6 +62,6 @@ class NotaFiscal:
     def __calcular_valor_total(self):
         total = 0.0
         for item_nota in self.__itens_da_nota:
-            total += item_nota.produto.valor
+            total += item_nota.calcular_valor_total()
 
         self.__valor_total = total

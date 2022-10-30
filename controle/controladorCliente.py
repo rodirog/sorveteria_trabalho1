@@ -26,6 +26,7 @@ class ControladorCliente:
 
         if not self.eh_cpf_valido(cpf_cliente):
             raise CpfInvalidoException
+        cpf_cliente = int(cpf_cliente)
 
         email_cliente = dados_cliente["email_cliente"]
         if not self.eh_email_valido(email_cliente):
@@ -73,6 +74,7 @@ class ControladorCliente:
 
         if not self.eh_cpf_valido(cpf_cliente):
             raise CpfInvalidoException
+        cpf_cliente = int(cpf_cliente)
 
         email_cliente = dados_cliente["email_cliente"]
         if not self.eh_email_valido(email_cliente):
