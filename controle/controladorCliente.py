@@ -95,6 +95,8 @@ class ControladorCliente:
         for cliente in self.__clientes:
             dados_cliente = {
                 "nome_cliente": cliente.nome,
+                "cpf_cliente": cliente.cpf,
+                "email_cliente": cliente.email,
                 "telefone_cliente": cliente.telefone
             }
             dados_clientes.append(dados_cliente)
