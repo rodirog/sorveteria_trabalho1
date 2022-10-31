@@ -1,7 +1,7 @@
 
 from multiprocessing.sharedctypes import Value
-from entidade.numeroInvalidoException import NumeroInvalidoException
-from entidade.tipoProdutoInvalidoException import TipoProdutoInvalidoException
+from excecoes.numeroInvalidoException import NumeroInvalidoException
+from excecoes.tipoProdutoInvalidoException import TipoProdutoInvalidoException
 from limite.telaProduto import TelaProduto
 from entidade.produto import Produto
 
@@ -25,8 +25,8 @@ class ControladorProduto:
             if not numeros_sao_validos:
                 raise NumeroInvalidoException
 
-            tipo_produto_valido = dados_produto["tipo_produto"] == "S"\
-                                        or dados_produto["tipo_produto"] == "B"
+            tipo_produto_valido = dados_produto["tipo_produto"] == "Sorvete"\
+                                        or dados_produto["tipo_produto"] == "Bebida"
 
             if not tipo_produto_valido:
                 raise TipoProdutoInvalidoException
@@ -89,8 +89,8 @@ class ControladorProduto:
                     if not numeros_sao_validos:
                         raise NumeroInvalidoException
 
-                    tipo_produto_valido = novos_dados_produto["tipo_produto"] == "S"\
-                                                or novos_dados_produto["tipo_produto"] == "B"
+                    tipo_produto_valido = novos_dados_produto["tipo_produto"] == "Sorvete"\
+                                                or novos_dados_produto["tipo_produto"] == "Bebida"
 
                     if not tipo_produto_valido:
                         raise TipoProdutoInvalidoException

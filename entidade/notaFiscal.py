@@ -1,4 +1,4 @@
-from excecoes.notaJahGeradaException import NotaJahGeradaException
+from excecoes.NotaJahGeradaException import NotaJahGeradaException
 from entidade.cliente import Cliente
 from entidade.vendedor import Vendedor
 from entidade.itemNotaFiscal import ItemNotaFiscal

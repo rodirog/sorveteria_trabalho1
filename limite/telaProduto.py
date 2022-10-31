@@ -18,7 +18,7 @@ class TelaProduto:
         codigo_produto = int(input("Codigo do Produto: "))
         estoque_produto = int(input("Estoque do Produto: "))
         descricao_produto = str(input("Descricao do Produto: "))
-        tipo_produto = str(input("Tipo do Produto: (insira 'S' para sorvete ou 'B' para bebida): ").upper())
+        tipo_produto = str(input("Tipo do Produto (insira 'Sorvete' ou 'Bebida'): ").capitalize())
         valor_produto = float(input("Valor do Produto: "))
         #nao ocorre instanciacao de cliente aqui pois tela nao conversa com entidade
 
