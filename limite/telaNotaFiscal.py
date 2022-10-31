@@ -5,9 +5,20 @@ class TelaNotaFiscal:
         print("*" * 20)
         print("NOTA FISCAL")
         print("*" * 20)
-        print("1 - Incluir item")
+        print("1 - Incluir nota")
         print("2 - Listar nota")
-        print("3 - Excluir item")
+        print("3 - Excluir nota")
+        print("0 - Voltar")
+        opcao = int(input("Escolha a opcao: "))
+        return opcao
+
+    def mostrar_tela_item_opcoes(self):
+        print("*" * 20)
+        print("ITEM NOTA FISCAL")
+        print("*" * 20)
+        print("1 - Incluir item")
+        print("2 - Excluir item")
+        print("3 - Gerar nota")
         print("0 - Voltar")
         opcao = int(input("Escolha a opcao: "))
         return opcao
@@ -19,8 +30,8 @@ class TelaNotaFiscal:
 
     def __mostrar_nota(self, dados_nota_fiscal):
         numero_nota = dados_nota_fiscal["numero_nota"]
-        cliente_nota = dados_nota_fiscal["cliente_nota"]
-        vendedor_nota = dados_nota_fiscal["vendedor_nota"]
+        cliente_nota = dados_nota_fiscal["nome_cliente_nota"]
+        vendedor_nota = dados_nota_fiscal["nome_vendedor_nota"]
         valor_total_nota = dados_nota_fiscal["valor_total_nota"]
         data_nota = dados_nota_fiscal["data_nota"]
 
@@ -44,7 +55,7 @@ class TelaNotaFiscal:
 
     def pegar_dados_item_nota(self):
         print("CADASTRO ITEM NOTA FISCAL")
-        codigo_produto_item_nota = input("Cpf do cliente: ")
+        codigo_produto_item_nota = input("Codigo produto: ")
         quantidade_item_nota = input("Quantidade do produto:")
         peso_item_nota = input("Peso do produto:")
 
@@ -58,3 +69,9 @@ class TelaNotaFiscal:
         print()
         numero_nota = input("Insira o número da nota que deseja selecionar: ")
         return numero_nota
+
+    def selecionar_item_nota(self):
+        print()
+        posicao_item_nota = input(
+            "Insira o numero do item da nota que deseja selecionar: ")
+        return posicao_item_nota

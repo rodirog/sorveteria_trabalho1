@@ -34,17 +34,20 @@ class NotaFiscal:
         return self.__valor_total
 
     @property
-    def data(self):
+    def datetime(self) -> datetime:
         return self.__datetime
+
+    @property
+    def itens_da_nota(self):
+        return self.__itens_da_nota
 
     def adicionar_item_nota_fiscal(self, dados_item_nota: dict):
         if self.__datetime:
             raise NotaJahGeradaException
 
-        produto_nota = dados_item_nota["produto_nota"]
-        quantidade_nota = dados_item_nota["quantidade_nota"]
-        peso_nota = dados_item_nota["peso_nota"]
-
+        produto_nota = dados_item_nota["produto_item"]
+        quantidade_nota = dados_item_nota["quantidade_item"]
+        peso_nota = dados_item_nota["peso_item"]
         item_nota = ItemNotaFiscal(produto_nota, quantidade_nota, peso_nota)
 
         self.__itens_da_nota.append(item_nota)
