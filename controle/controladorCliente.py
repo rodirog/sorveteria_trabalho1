@@ -9,8 +9,7 @@ from entidade.cliente import Cliente
 
 
 class ControladorCliente:
-    def __init__(self, controlador_principal):
-        #self.__controlador_principal = controlador_principal
+    def __init__(self):
         self.__tela_cliente = TelaCliente()
         self.__clientes = []
 

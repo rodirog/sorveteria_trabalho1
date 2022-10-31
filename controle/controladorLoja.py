@@ -10,24 +10,20 @@ class ControladorLoja:
 
     def __init__(self):
         self.__tela_principal = TelaLoja()
-        self.__controlador_produto = ControladorProduto(self)
-        self.__controlador_cliente = ControladorCliente(self)
-        self.__controlador_vendedor = ControladorVendedor(self)
+        self.__controlador_produto = ControladorProduto()
+        self.__controlador_cliente = ControladorCliente()
+        self.__controlador_vendedor = ControladorVendedor()
         self.__controlador_nota_fiscal = ControladorNotaFiscal(
-            self, self.__controlador_cliente, self.__controlador_vendedor, self.__controlador_produto)
-        # o self do parametro representa o parametro controlar_cliente no init de ControladorCliente
+            self.__controlador_cliente, self.__controlador_vendedor, self.__controlador_produto)
 
     def iniciar_produtos(self):
         self.__controlador_produto.mostrar_tela_opcoes()
-        # self.__controlador_produto.p
 
     def iniciar_clientes(self):
         self.__controlador_cliente.mostrar_tela_opcoes()
-        # self.__controlador_cliente.p
 
     def iniciar_vendedores(self):
         self.__controlador_vendedor.mostrar_tela_opcoes()
-        # self.__controlador_vendedor.p
 
     def iniciar_notas_fiscais(self):
         self.__controlador_nota_fiscal.mostrar_tela_opcoes()

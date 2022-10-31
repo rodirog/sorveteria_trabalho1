@@ -11,8 +11,7 @@ from entidade.notaFiscal import NotaFiscal
 
 
 class ControladorNotaFiscal:
-    def __init__(self, controlador_principal, controlador_cliente, controlador_vendedor, controlador_produto):
-        #self.__controlador_principal = controlador_principal
+    def __init__(self, controlador_cliente, controlador_vendedor, controlador_produto):
         self.__controlador_cliente = controlador_cliente
         self.__controlador_vendedor = controlador_vendedor
         self.__controlador_produto = controlador_produto

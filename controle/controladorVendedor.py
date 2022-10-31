@@ -7,8 +7,7 @@ from entidade.vendedor import Vendedor
 
 
 class ControladorVendedor:
-    def __init__(self, controlador_principal):
-        #self.__controlador_principal = controlador_principal
+    def __init__(self):
         self.__tela_vendedor = TelaVendedor()
         self.__vendedores = []
         self.__codigo = 1

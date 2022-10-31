@@ -7,9 +7,7 @@ from entidade.produto import Produto
 
 
 class ControladorProduto:
-    def __init__(self, controlador_principal):
-        self.__controlador_principal = controlador_principal
-        #aqui define que a relacao eh bidirecional
+    def __init__(self):
         self.__tela_produto = TelaProduto()
         self.__produtos = []
 
