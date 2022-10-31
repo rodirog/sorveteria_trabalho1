@@ -72,7 +72,7 @@ class ControladorNotaFiscal:
                 "nome_cliente_nota": nota_fiscal.cliente.nome,
                 "nome_vendedor_nota": nota_fiscal.vendedor.nome,
                 "valor_total_nota": nota_fiscal.valor_total,
-                "data_nota": nota_fiscal.datetime.strtime("%d/%m/%Y %H:%M:%S")
+                "data_nota": nota_fiscal.datetime.strftime("%d/%m/%Y %H:%M:%S")
             }
             dados_notas_fiscais.append(dados_nota_fiscal)
 
