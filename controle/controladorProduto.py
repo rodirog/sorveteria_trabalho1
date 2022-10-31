@@ -144,9 +144,25 @@ class ControladorProduto:
 
             self.__tela_produto.mostrar_produto(dados_produto)
 
+    def gerar_relatorio_de_vendas(self):
+        self.__tela_produto.mostrar_mensagem("")
+        self.__tela_produto.mostrar_mensagem("       RELATORIO DE QUANTIDADE DE VENDAS POR PRODUTO")
+        ordem_de_vendas = sorted(self.__produtos, key=lambda x: x.numero_de_vendas, reverse=True)
+        for produto in ordem_de_vendas:
+            
+            dados_produto = {"numero_de_vendas_produto": produto.numero_de_vendas,
+                             "codigo_produto": produto.codigo,
+                             "estoque_produto": produto.estoque,
+                             "descricao_produto": produto.descricao,
+                             "tipo_produto": produto.tipo_produto,
+                             "valor_produto": produto.valor}
+            
+            self.__tela_produto.mostrar_relatorio(dados_produto)
+
     def mostrar_tela_opcoes(self):
         opcoes = {1: self.incluir_produto, 2: self.excluir_produto,
-                  3:self.listar_produtos, 4: self.alterar_produto}
+                  3: self.listar_produtos, 4: self.alterar_produto,
+                  5: self.gerar_relatorio_de_vendas}
 
         while True:
             try:

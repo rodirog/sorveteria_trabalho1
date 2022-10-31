@@ -15,6 +15,8 @@ class Produto:
 
         if isinstance(valor, float):
             self.__valor = valor
+        
+        self.__numero_de_vendas = 0
 
     def calcular_preco_item(self, quantidade, peso=1):
         return (self.__valor * peso) * quantidade
@@ -24,6 +26,9 @@ class Produto:
             self.__estoque -= peso
         else:
             self.__estoque -= quantidade
+
+    def incrementar_numero_de_vendas(self, quantidade):
+        self.__numero_de_vendas += quantidade
 
     @property
     def codigo(self):
@@ -69,3 +74,7 @@ class Produto:
     def valor(self, valor):
         if isinstance(valor, float):
             self.__valor = valor
+
+    @property
+    def numero_de_vendas(self):
+        return self.__numero_de_vendas

@@ -8,6 +8,7 @@ class TelaProduto:
         print("2 - Excluir Produto")
         print("3 - Listar Produto(s)")
         print("4 - Alterar Produto")
+        print("5 - Relatorio de vendas")
         print("0 - Voltar")
         opcao = int(input("Escolha a opcao: "))
         return opcao
@@ -39,6 +40,17 @@ class TelaProduto:
         print()
         codigo = int(input("Insira o codigo do produto que deseja selecionar: "))
         return codigo
+
+    def mostrar_relatorio(self, dados_produto):
+        print()
+        print("PRODUTO")
+        print(f"Numero de vendas: {dados_produto['numero_de_vendas_produto']}")
+        print(f"Codigo: {dados_produto['codigo_produto']}")
+        print(f"Estoque: {dados_produto['estoque_produto']}")
+        print(f"Descricao: {dados_produto['descricao_produto']}")
+        print(f"Tipo: {dados_produto['tipo_produto']}")
+        print(f"Valor: {dados_produto['valor_produto']}")
+        print()
 
     def mostrar_mensagem(self, msg):
         print(msg)

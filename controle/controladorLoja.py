@@ -1,6 +1,5 @@
 from limite.telaLoja import TelaLoja
 import sys
-from controle.controladorFornecedor import ControladorFornecedor
 from controle.controladorProduto import ControladorProduto
 from controle.controladorCliente import ControladorCliente
 from controle.controladorVendedor import ControladorVendedor
@@ -11,17 +10,12 @@ class ControladorLoja:
 
     def __init__(self):
         self.__tela_principal = TelaLoja()
-        self.__controlador_fornecedor = ControladorFornecedor(self)
         self.__controlador_produto = ControladorProduto(self)
         self.__controlador_cliente = ControladorCliente(self)
         self.__controlador_vendedor = ControladorVendedor(self)
         self.__controlador_nota_fiscal = ControladorNotaFiscal(
             self, self.__controlador_cliente, self.__controlador_vendedor, self.__controlador_produto)
         # o self do parametro representa o parametro controlar_cliente no init de ControladorCliente
-
-    def iniciar_fornecedores(self):
-        self.__controlador_fornecedor.mostrar_tela_opcoes()
-        # self.__controlador_fornecedor.p
 
     def iniciar_produtos(self):
         self.__controlador_produto.mostrar_tela_opcoes()
@@ -43,11 +37,10 @@ class ControladorLoja:
 
     def iniciar(self):
         opcoes = {
-            1: self.iniciar_fornecedores,
-            2: self.iniciar_produtos,
-            3: self.iniciar_clientes,
-            4: self.iniciar_vendedores,
-            5: self.iniciar_notas_fiscais,
+            1: self.iniciar_produtos,
+            2: self.iniciar_clientes,
+            3: self.iniciar_vendedores,
+            4: self.iniciar_notas_fiscais,
             0: self.finalizar
         }
 

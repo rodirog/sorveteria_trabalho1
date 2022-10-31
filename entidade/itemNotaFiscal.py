@@ -7,6 +7,7 @@ class ItemNotaFiscal:
         self.__quantidade = quantidade
         self.__peso = peso
         self.__diminuir_estoque()
+        self.__incrementar_numero_de_vendas()
 
     @property
     def produto(self):
@@ -29,3 +30,6 @@ class ItemNotaFiscal:
 
     def __diminuir_estoque(self):
         self.__produto.diminuir_estoque(self.__quantidade, self.__peso)
+
+    def __incrementar_numero_de_vendas(self):
+        self.__produto.incrementar_numero_de_vendas(self.__quantidade)
