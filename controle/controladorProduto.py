@@ -144,25 +144,53 @@ class ControladorProduto:
 
             self.__tela_produto.mostrar_produto(dados_produto)
 
-    def gerar_relatorio_de_vendas(self):
+    def gerar_relatorio_de_sorvetes(self):
         self.__tela_produto.mostrar_mensagem("")
-        self.__tela_produto.mostrar_mensagem("       RELATORIO DE QUANTIDADE DE VENDAS POR PRODUTO")
-        ordem_de_vendas = sorted(self.__produtos, key=lambda x: x.numero_de_vendas, reverse=True)
-        for produto in ordem_de_vendas:
+        self.__tela_produto.mostrar_mensagem("       RELATORIO DE PESO VENDIDO POR SORVETE")
+        sorvetes = []
+        
+        for produto in self.__produtos:
+            if produto.tipo_produto == "Sorvete":
+                sorvetes.append(produto)
+
+        ordem_de_vendas = sorted(sorvetes, key=lambda x: x.somatorio_de_vendas, reverse=True)
+        
+        for sorvete in ordem_de_vendas:
             
-            dados_produto = {"numero_de_vendas_produto": produto.numero_de_vendas,
-                             "codigo_produto": produto.codigo,
-                             "estoque_produto": produto.estoque,
-                             "descricao_produto": produto.descricao,
-                             "tipo_produto": produto.tipo_produto,
-                             "valor_produto": produto.valor}
+            dados_sorvete = {"somatorio_de_vendas_produto": sorvete.somatorio_de_vendas,
+                             "codigo_produto": sorvete.codigo,
+                             "estoque_produto": sorvete.estoque,
+                             "descricao_produto": sorvete.descricao,
+                             "valor_produto": sorvete.valor}
             
-            self.__tela_produto.mostrar_relatorio(dados_produto)
+            self.__tela_produto.mostrar_relatorio_de_sorvetes(dados_sorvete)
+
+    def gerar_relatorio_de_bebidas(self):
+        self.__tela_produto.mostrar_mensagem("")
+        self.__tela_produto.mostrar_mensagem("       RELATORIO DE QUANTIDADE VENDIDA POR BEBIDA")
+        bebidas = []
+        
+        for produto in self.__produtos:
+            if produto.tipo_produto == "Bebida":
+                bebidas.append(produto)
+
+        ordem_de_vendas = sorted(bebidas, key=lambda x: x.somatorio_de_vendas, reverse=True)
+        
+        for bebida in ordem_de_vendas:
+            
+            dados_bebida = {"somatorio_de_vendas_produto": bebida.somatorio_de_vendas,
+                             "codigo_produto": bebida.codigo,
+                             "estoque_produto": bebida.estoque,
+                             "descricao_produto": bebida.descricao,
+                             "valor_produto": bebida.valor}
+            
+            self.__tela_produto.mostrar_relatorio_de_bebidas(dados_bebida)
 
     def mostrar_tela_opcoes(self):
         opcoes = {1: self.incluir_produto, 2: self.excluir_produto,
                   3: self.listar_produtos, 4: self.alterar_produto,
-                  5: self.gerar_relatorio_de_vendas}
+                  5: self.gerar_relatorio_de_sorvetes,
+                  6: self.gerar_relatorio_de_bebidas}
 
         while True:
             try:

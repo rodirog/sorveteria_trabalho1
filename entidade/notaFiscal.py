@@ -5,6 +5,8 @@ from entidade.itemNotaFiscal import ItemNotaFiscal
 from datetime import datetime
 
 
+
+
 class NotaFiscal:
     def __init__(self, numero: int,
                  cliente: Cliente,
@@ -48,8 +50,9 @@ class NotaFiscal:
         produto_nota = dados_item_nota["produto_item"]
         quantidade_nota = dados_item_nota["quantidade_item"]
         peso_nota = dados_item_nota["peso_item"]
+        
         item_nota = ItemNotaFiscal(produto_nota, quantidade_nota, peso_nota)
-
+        
         self.__itens_da_nota.append(item_nota)
 
     def excluir_item_nota_fiscal(self, posicao_item_nota: int):

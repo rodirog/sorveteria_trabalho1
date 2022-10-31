@@ -56,8 +56,8 @@ class TelaNotaFiscal:
     def pegar_dados_item_nota(self):
         print("CADASTRO ITEM NOTA FISCAL")
         codigo_produto_item_nota = input("Codigo produto: ")
-        quantidade_item_nota = input("Quantidade do produto:")
-        peso_item_nota = input("Peso do produto:")
+        quantidade_item_nota = input("Quantidade do produto ('1' se for sorvete):")
+        peso_item_nota = input("Peso do produto ('1' se for bebida):")
 
         return {
             "codigo_produto_item_nota": codigo_produto_item_nota,

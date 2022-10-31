@@ -5,6 +5,7 @@ from excecoes.posicaoItemInvalidaException import PosicaoItemInvalidaException
 from excecoes.produtoNaoExisteException import ProdutoNaoExisteException
 from excecoes.quantidadeInvalidaException import QuantidadeInvalidoException
 from excecoes.vendedorNaoExisteException import VendedorNaoExisteException
+from excecoes.estoqueVazioException import EstoqueVazioException
 from limite.telaNotaFiscal import TelaNotaFiscal
 from entidade.notaFiscal import NotaFiscal
 
@@ -164,7 +165,7 @@ class ControladorNotaFiscal:
 
             try:
                 opcoes[opcao]()
-            except (ProdutoNaoExisteException, QuantidadeInvalidoException, PesoInvalidoException, PosicaoItemInvalidaException) as err:
+            except (ProdutoNaoExisteException, QuantidadeInvalidoException, PesoInvalidoException, PosicaoItemInvalidaException, EstoqueVazioException) as err:
                 self.__tela_nota_fiscal.mostrar_mensagem(
                     f"Erro: {err.args[0]}")
 

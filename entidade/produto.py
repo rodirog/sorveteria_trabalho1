@@ -1,3 +1,5 @@
+from excecoes.estoqueVazioException import EstoqueVazioException
+
 
 class Produto:
     def __init__(self, codigo, estoque, descricao, tipo_produto, valor):
@@ -16,19 +18,28 @@ class Produto:
         if isinstance(valor, float):
             self.__valor = valor
         
-        self.__numero_de_vendas = 0
+        self.__somatorio_de_vendas = 0
 
-    def calcular_preco_item(self, quantidade, peso=1):
+    def calcular_preco_item(self, quantidade, peso):
         return (self.__valor * peso) * quantidade
 
     def diminuir_estoque(self, quantidade, peso):
         if self.__tipo_produto == "Sorvete":
-            self.__estoque -= peso
+            if self.__estoque - peso < 0:
+                raise EstoqueVazioException
+            else:
+                self.__estoque -= peso
         else:
-            self.__estoque -= quantidade
+            if self.__estoque - quantidade < 0:
+                raise EstoqueVazioException
+            else:
+                self.__estoque -= quantidade
 
-    def incrementar_numero_de_vendas(self, quantidade):
-        self.__numero_de_vendas += quantidade
+    def incrementar_somatorio_de_vendas(self, quantidade, peso):
+        if self.__tipo_produto == "Bebida":
+            self.__somatorio_de_vendas += quantidade
+        else:
+            self.__somatorio_de_vendas += peso
 
     @property
     def codigo(self):
@@ -76,5 +87,5 @@ class Produto:
             self.__valor = valor
 
     @property
-    def numero_de_vendas(self):
-        return self.__numero_de_vendas
+    def somatorio_de_vendas(self):
+        return self.__somatorio_de_vendas
