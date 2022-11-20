@@ -3,7 +3,8 @@ from multiprocessing.sharedctypes import Value
 from excecoes.numeroInvalidoException import NumeroInvalidoException
 from excecoes.tipoProdutoInvalidoException import TipoProdutoInvalidoException
 from limite.telaProduto import TelaProduto
-from entidade.produto import Produto
+from entidade.produtoBebida import ProdutoBebida
+from entidade.produtoSorvete import ProdutoSorvete
 
 
 class ControladorProduto:
@@ -23,8 +24,8 @@ class ControladorProduto:
             if not numeros_sao_validos:
                 raise NumeroInvalidoException
 
-            tipo_produto_valido = dados_produto["tipo_produto"] == "Sorvete"\
-                                        or dados_produto["tipo_produto"] == "Bebida"
+            tipo_produto_valido = dados_produto["tipo_produto"] == 1\
+                                        or dados_produto["tipo_produto"] == 2
 
             if not tipo_produto_valido:
                 raise TipoProdutoInvalidoException
@@ -42,11 +43,16 @@ class ControladorProduto:
                                                     um tipo de produto invalido na insercao dos dados!")
 
         else:
-            produto = Produto(dados_produto["codigo_produto"],
-                            dados_produto["estoque_produto"],
-                            dados_produto["descricao_produto"],
-                            dados_produto["tipo_produto"],
-                            dados_produto["valor_produto"])
+            if dados_produto["tipo_produto"] == 1:
+                produto = ProdutoSorvete(dados_produto["codigo_produto"],
+                                dados_produto["estoque_produto"],
+                                dados_produto["descricao_produto"],
+                                dados_produto["valor_produto"])
+            else:
+                produto = ProdutoBebida(dados_produto["codigo_produto"],
+                                dados_produto["estoque_produto"],
+                                dados_produto["descricao_produto"],
+                                dados_produto["valor_produto"])
             
             if not self.encontrar_produto_pelo_codigo(produto.codigo):
                 self.__produtos.append(produto)
@@ -77,7 +83,7 @@ class ControladorProduto:
             if(produto is not None):
                 
                 try:
-                    novos_dados_produto = self.__tela_produto.pegar_dados_produto()
+                    novos_dados_produto = self.__tela_produto.alterar_dados_produto()
                     #ValueError se refere a essa linha
 
                     numeros_sao_validos = novos_dados_produto["codigo_produto"] >= 0 \
@@ -86,12 +92,6 @@ class ControladorProduto:
                     
                     if not numeros_sao_validos:
                         raise NumeroInvalidoException
-
-                    tipo_produto_valido = novos_dados_produto["tipo_produto"] == "Sorvete"\
-                                                or novos_dados_produto["tipo_produto"] == "Bebida"
-
-                    if not tipo_produto_valido:
-                        raise TipoProdutoInvalidoException
                 
                 except ValueError:
                     self.__tela_produto.mostrar_mensagem("Alteracao nao efetuada. Voce inseriu")
@@ -100,17 +100,12 @@ class ControladorProduto:
                 except NumeroInvalidoException:
                         self.__tela_produto.mostrar_mensagem("Alteracao nao efetuada. Voce inseriu \
                                                                 algum numero invalido na insercao dos dados!")
-
-                except TipoProdutoInvalidoException:
-                            self.__tela_produto.mostrar_mensagem("Alteracao nao efetuada. Voce inseriu \
-                                                                um tipo de produto invalido na insercao dos dados!")
                 
                 else:
             
                     produto.codigo = novos_dados_produto["codigo_produto"]
                     produto.estoque = novos_dados_produto["estoque_produto"]
                     produto.descricao = novos_dados_produto["descricao_produto"]
-                    produto.tipo_produto = novos_dados_produto["tipo_produto"]
                     produto.valor = novos_dados_produto["valor_produto"]
                     self.__tela_produto.mostrar_mensagem("Produto alterado com sucesso!")
                     self.listar_produtos()
@@ -137,7 +132,7 @@ class ControladorProduto:
             dados_produto = {"codigo_produto": produto.codigo,
                              "estoque_produto": produto.estoque,
                              "descricao_produto": produto.descricao,
-                             "tipo_produto": produto.tipo_produto,
+                             "tipo_produto": produto.tipo,
                              "valor_produto": produto.valor}
 
             self.__tela_produto.mostrar_produto(dados_produto)
@@ -148,14 +143,14 @@ class ControladorProduto:
         sorvetes = []
         
         for produto in self.__produtos:
-            if produto.tipo_produto == "Sorvete":
+            if produto.tipo == 1:
                 sorvetes.append(produto)
 
-        ordem_de_vendas = sorted(sorvetes, key=lambda x: x.somatorio_de_vendas, reverse=True)
+        ordem_de_vendas = sorted(sorvetes, key=lambda x: x.quantidade_vendida, reverse=True)
         
         for sorvete in ordem_de_vendas:
             
-            dados_sorvete = {"somatorio_de_vendas_produto": sorvete.somatorio_de_vendas,
+            dados_sorvete = {"quantidade_vendida_produto": sorvete.quantidade_vendida,
                              "codigo_produto": sorvete.codigo,
                              "estoque_produto": sorvete.estoque,
                              "descricao_produto": sorvete.descricao,
@@ -169,14 +164,14 @@ class ControladorProduto:
         bebidas = []
         
         for produto in self.__produtos:
-            if produto.tipo_produto == "Bebida":
+            if produto.tipo == 2:
                 bebidas.append(produto)
 
-        ordem_de_vendas = sorted(bebidas, key=lambda x: x.somatorio_de_vendas, reverse=True)
+        ordem_de_vendas = sorted(bebidas, key=lambda x: x.quantidade_vendida, reverse=True)
         
         for bebida in ordem_de_vendas:
             
-            dados_bebida = {"somatorio_de_vendas_produto": bebida.somatorio_de_vendas,
+            dados_bebida = {"quantidade_vendida_produto": bebida.quantidade_vendida,
                              "codigo_produto": bebida.codigo,
                              "estoque_produto": bebida.estoque,
                              "descricao_produto": bebida.descricao,

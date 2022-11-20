@@ -1,12 +1,19 @@
-from abc import abstractmethod
-from entidade.abstractPessoa import AbstractPessoa
+from abc import abstractmethod, ABC
 
 
-class PessoaFisica(AbstractPessoa):
+class PessoaFisica(ABC):
     @abstractmethod
     def __init__(self, nome: str, cpf: int):
-        super().__init__(nome)
+        self.__nome = nome
         self.__cpf = cpf
+
+    @property
+    def nome(self):
+        return self.__nome
+
+    @nome.setter
+    def nome(self, nome: str):
+        self.__nome = nome
 
     @property
     def cpf(self):

@@ -16,15 +16,24 @@ class TelaProduto:
 
     def pegar_dados_produto(self):
         print()
-        print("CADASTRO/ALTERAR PRODUTO")
+        print("CADASTRO PRODUTO")
         codigo_produto = int(input("Codigo do Produto: "))
         estoque_produto = int(input("Estoque do Produto: "))
         descricao_produto = str(input("Descricao do Produto: "))
-        tipo_produto = str(input("Tipo do Produto (insira 'Sorvete' ou 'Bebida'): ").capitalize())
+        tipo_produto = int(input("Tipo do Produto (insira '1' para sorvete ou '2' para bebida): "))
         valor_produto = float(input("Valor do Produto: "))
-        #nao ocorre instanciacao de cliente aqui pois tela nao conversa com entidade
 
         return {"codigo_produto": codigo_produto, "estoque_produto": estoque_produto, "descricao_produto": descricao_produto, "tipo_produto": tipo_produto, "valor_produto": valor_produto}
+
+    def alterar_dados_produto(self):
+        print()
+        print("ALTERAR PRODUTO")
+        codigo_produto = int(input("Codigo do Produto: "))
+        estoque_produto = int(input("Estoque do Produto: "))
+        descricao_produto = str(input("Descricao do Produto: "))
+        valor_produto = float(input("Valor do Produto: "))
+
+        return {"codigo_produto": codigo_produto, "estoque_produto": estoque_produto, "descricao_produto": descricao_produto, "valor_produto": valor_produto}
 
     def mostrar_produto(self, dados_produto):
         print()
@@ -35,7 +44,6 @@ class TelaProduto:
         print(f"Tipo: {dados_produto['tipo_produto']}")
         print(f"Valor: {dados_produto['valor_produto']}")
         print()
-        # nao pode print(cliente.nome) pq a tela nao pode falar com cliente
 
     def selecionar_produto(self):
         print()
@@ -45,7 +53,7 @@ class TelaProduto:
     def mostrar_relatorio_de_sorvetes(self, dados_sorvete):
         print()
         print("SORVETE")
-        print(f"Peso total vendido: {dados_sorvete['somatorio_de_vendas_produto']}kg")
+        print(f"Peso total vendido: {dados_sorvete['quantidade_vendida_produto']}kg")
         print(f"Codigo: {dados_sorvete['codigo_produto']}")
         print(f"Estoque: {dados_sorvete['estoque_produto']}")
         print(f"Descricao: {dados_sorvete['descricao_produto']}")
@@ -55,7 +63,7 @@ class TelaProduto:
     def mostrar_relatorio_de_bebidas(self, dados_bebida):
         print()
         print("BEBIDA")
-        print(f"Quantidade total vendida: {dados_bebida['somatorio_de_vendas_produto']} unidades")
+        print(f"Quantidade total vendida: {dados_bebida['quantidade_vendida_produto']} unidade(s)")
         print(f"Codigo: {dados_bebida['codigo_produto']}")
         print(f"Estoque: {dados_bebida['estoque_produto']}")
         print(f"Descricao: {dados_bebida['descricao_produto']}")
