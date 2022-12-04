@@ -44,9 +44,23 @@ class ControladorNotaFiscal:
         self.__notas_fiscais.append(nota_fiscal)
 
         self.__mostrar_tela_item_opcoes()
+        
+        self.gerar_relatorio_da_nota(nota_fiscal)
 
         self.__tela_nota_fiscal.mostrar_mensagem(
             "A nota fiscal foi cadastrada com sucesso!")
+
+    def gerar_relatorio_da_nota(self, nota_fiscal):
+
+        dados_nota_fiscal = {
+            "numero_nota": nota_fiscal.numero,
+            "nome_cliente_nota": nota_fiscal.cliente.nome,
+            "nome_vendedor_nota": nota_fiscal.vendedor.nome,
+            "valor_total_nota": nota_fiscal.valor_total,
+            "data_nota": nota_fiscal.datetime.strftime("%d/%m/%Y %H:%M:%S"),
+            "itens_nota": nota_fiscal.itens_da_nota}
+
+        self.__tela_nota_fiscal.mostrar_relatorio_da_nota(dados_nota_fiscal)
 
     def excluir_nota_fiscal(self):
         numero_nota = int(self.__tela_nota_fiscal.selecionar_nota_fiscal())
@@ -81,18 +95,18 @@ class ControladorNotaFiscal:
     def adicionar_item_nota_fiscal(self):
         dados_item_nota = self.__tela_nota_fiscal.pegar_dados_item_nota()
 
-        codigo_produto = int(dados_item_nota["codigo_produto_item_nota"])
+        codigo_produto = int(dados_item_nota["it_codigo_produto_item_nota"])
         produto_encontrado = self.encontrar_produto(codigo_produto)
         if not produto_encontrado:
             raise ProdutoNaoExisteException
 
         if produto_encontrado.tipo == 1:
-            quantidade_item = dados_item_nota["quantidade_item_nota"]
+            quantidade_item = dados_item_nota["it_quantidade_item_nota"]
             if not self.__eh_peso_valido(quantidade_item):
                 raise PesoInvalidoException
             quantidade_item = float(quantidade_item)
         else:
-            quantidade_item = dados_item_nota["quantidade_item_nota"]
+            quantidade_item = dados_item_nota["it_quantidade_item_nota"]
             if not self.__eh_quantidade_valida(quantidade_item):
                 raise QuantidadeInvalidoException
             quantidade_item = int(quantidade_item)
@@ -138,10 +152,10 @@ class ControladorNotaFiscal:
         }
 
         while True:
-            opcao = self.__tela_nota_fiscal.mostrar_tela_opcoes()
+            opcao = self.__tela_nota_fiscal.tela_opcoes()
 
-            if opcao == 0:
-                break
+            # if opcao == 0:
+            #     break
 
             try:
                 opcoes[opcao]()
@@ -157,10 +171,10 @@ class ControladorNotaFiscal:
         }
 
         while self.__nota_fiscal_atual:
-            opcao = self.__tela_nota_fiscal.mostrar_tela_item_opcoes()
+            opcao = self.__tela_nota_fiscal.tela_itens_opcoes()
 
-            if opcao == 0:
-                break
+            # if opcao == 0:
+            #     break
 
             try:
                 opcoes[opcao]()
