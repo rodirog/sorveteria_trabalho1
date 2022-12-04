@@ -70,7 +70,7 @@ class TelaProduto:
             [sg.Text("Codigo", size = (15,1)), sg.InputText(key="it_codigo")],
             [sg.Text("Estoque", size = (15,1)), sg.InputText(key="it_estoque")],
             [sg.Text("Descricao", size = (15,1)), sg.InputText(key="it_descricao")],
-            [sg.Radio('Sorvete', "RADIO01", default=True), sg.Radio('Bebida', "RADIO01")],
+            [sg.Radio('Sorvete', "RADIO01", default=True, key="rd_sorvete"), sg.Radio('Bebida', "RADIO01", key="rd_bebida")],
             [sg.Text("Valor", size = (15,1)), sg.InputText(key="it_valor")],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
@@ -80,7 +80,7 @@ class TelaProduto:
         codigo = int(values['it_codigo'])
         estoque = int(values['it_estoque'])
         descricao = values['it_descricao']
-        tipo = values[0]
+        tipo = values["rd_sorvete"]
         valor = float(values['it_valor'])
 
         self.close()
