@@ -9,7 +9,7 @@ from entidade.cliente import Cliente
 
 
 class ControladorCliente:
-    def __init__(self, controlador_principal):
+    def __init__(self):
         #self.__controlador_principal = controlador_principal
         self.__tela_cliente = TelaCliente([])
         self.__clientes = []
@@ -137,7 +137,7 @@ class ControladorCliente:
         return nome_cliente.isalpha()
 
     def eh_cpf_valido(self, cpf_cliente):
-        return cpf_cliente.isdigit() and isinstance(cpf_cliente, int)
+        return isinstance(cpf_cliente, int)
 
     def eh_email_valido(self, email_cliente):
         return isinstance(email_cliente, str)

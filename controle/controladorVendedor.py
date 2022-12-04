@@ -8,7 +8,7 @@ from entidade.vendedor import Vendedor
 
 
 class ControladorVendedor:
-  def __init__(self, controlador_principal):
+  def __init__(self):
     #self.__controlador_principal = controlador_principal
     self.__tela_vendedor = TelaVendedor([])
     self.__vendedores = []
@@ -124,4 +124,4 @@ class ControladorVendedor:
     return nome_vendedor.isalpha()
 
   def eh_cpf_valido(self, cpf_vendedor):
-    return cpf_vendedor.isdigit() and isinstance(cpf_vendedor, int)
+    return isinstance(cpf_vendedor, int)
