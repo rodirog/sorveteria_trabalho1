@@ -32,7 +32,7 @@ class ControladorLoja:
         sys.exit()
 
     def iniciar(self):
-        opcoes = {
+        lista_opcoes = {
             1: self.iniciar_produtos,
             2: self.iniciar_clientes,
             3: self.iniciar_vendedores,
@@ -42,8 +42,10 @@ class ControladorLoja:
 
         while True:
             try:
-                opcao = self.__tela_principal.mostrar_tela_inicial()
-                opcoes[opcao]()
+                opcao_escolhida = self.__tela_principal.tela_opcoes()
+                funcao_escolhida = lista_opcoes[opcao_escolhida]
+                funcao_escolhida()
+                #opcoes[opcao]()
             except KeyError:
                 self.__tela_principal.mostrar_mensagem(
                     "Voce digitou um numero invalido.")
