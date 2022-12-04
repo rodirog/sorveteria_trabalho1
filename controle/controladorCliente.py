@@ -11,22 +11,23 @@ from entidade.cliente import Cliente
 class ControladorCliente:
     def __init__(self, controlador_principal):
         #self.__controlador_principal = controlador_principal
-        self.__tela_cliente = TelaCliente()
+        self.__tela_cliente = TelaCliente([])
         self.__clientes = []
 
     def adicionar_cliente(self):
         dados_cliente = self.__tela_cliente.pegar_dados_cliente()
+
         cpf_cliente = dados_cliente["cpf_cliente"]
-        if self.encontrar_cliente(cpf_cliente):
+        if not self.eh_cpf_valido(cpf_cliente):
+            raise CpfInvalidoException
+
+        cliente_encontrado = self.encontrar_cliente(cpf_cliente)
+        if cliente_encontrado:
             raise ClienteJahExisteException
 
         nome_cliente = dados_cliente["nome_cliente"]
         if not self.eh_nome_valido(nome_cliente):
             raise NomeInvalidoException
-
-        if not self.eh_cpf_valido(cpf_cliente):
-            raise CpfInvalidoException
-        cpf_cliente = int(cpf_cliente)
 
         email_cliente = dados_cliente["email_cliente"]
         if not self.eh_email_valido(email_cliente):
@@ -47,6 +48,9 @@ class ControladorCliente:
 
     def excluir_cliente(self):
         cpf_cliente = self.__tela_cliente.selecionar_cliente()
+        if not self.eh_cpf_valido(cpf_cliente):
+            raise CpfInvalidoException
+
         cliente_encontrado = self.encontrar_cliente(cpf_cliente)
         if not cliente_encontrado:
             raise ClienteNaoExisteException
@@ -62,6 +66,9 @@ class ControladorCliente:
 
     def alterar_cliente(self):
         cpf_cliente = self.__tela_cliente.selecionar_cliente()
+        if not self.eh_cpf_valido(cpf_cliente):
+            raise CpfInvalidoException
+            
         cliente_encontrado = self.encontrar_cliente(cpf_cliente)
         if not cliente_encontrado:
             raise ClienteNaoExisteException
@@ -103,6 +110,7 @@ class ControladorCliente:
             }
             dados_clientes.append(dados_cliente)
 
+        return dados_clientes
         self.__tela_cliente.mostrar_clientes(dados_clientes)
 
     def mostrar_tela_opcoes(self):
@@ -114,7 +122,8 @@ class ControladorCliente:
         }
 
         while True:
-            opcao = self.__tela_cliente.mostrar_tela_opcoes()
+            dados_clientes = self.listar_clientes()
+            opcao = self.__tela_cliente.mostrar_tela_opcoes(dados_clientes)
 
             if opcao == 0:
                 break
@@ -128,7 +137,7 @@ class ControladorCliente:
         return nome_cliente.isalpha()
 
     def eh_cpf_valido(self, cpf_cliente):
-        return cpf_cliente.isdigit()
+        return cpf_cliente.isdigit() and isinstance(cpf_cliente, int)
 
     def eh_email_valido(self, email_cliente):
         return isinstance(email_cliente, str)
