@@ -1,15 +1,13 @@
-
 from multiprocessing.sharedctypes import Value
 from excecoes.numeroInvalidoException import NumeroInvalidoException
 from excecoes.tipoProdutoInvalidoException import TipoProdutoInvalidoException
 from limite.telaProduto import TelaProduto
-from entidade.produto import Produto
+from entidade.produtoBebida import ProdutoBebida
+from entidade.produtoSorvete import ProdutoSorvete
 
 
 class ControladorProduto:
-    def __init__(self, controlador_principal):
-        self.__controlador_principal = controlador_principal
-        #aqui define que a relacao eh bidirecional
+    def __init__(self):
         self.__tela_produto = TelaProduto()
         self.__produtos = []
 
@@ -25,11 +23,11 @@ class ControladorProduto:
             if not numeros_sao_validos:
                 raise NumeroInvalidoException
 
-            tipo_produto_valido = dados_produto["tipo_produto"] == "Sorvete"\
-                                        or dados_produto["tipo_produto"] == "Bebida"
+            # tipo_produto_valido = dados_produto["tipo_produto"] == 0\
+            #                             or dados_produto["tipo_produto"] == 1
 
-            if not tipo_produto_valido:
-                raise TipoProdutoInvalidoException
+            # if not tipo_produto_valido:
+            #     raise TipoProdutoInvalidoException
 
         except ValueError:
             self.__tela_produto.mostrar_mensagem("Cadastro nao efetuado. Voce inseriu")
@@ -39,16 +37,21 @@ class ControladorProduto:
                 self.__tela_produto.mostrar_mensagem("Cadastro nao efetuado. Voce inseriu \
                                                         algum numero invalido na insercao dos dados!")
         
-        except TipoProdutoInvalidoException:
-                self.__tela_produto.mostrar_mensagem("Cadastro nao efetuado. Voce inseriu \
-                                                    um tipo de produto invalido na insercao dos dados!")
+        # except TipoProdutoInvalidoException:
+        #         self.__tela_produto.mostrar_mensagem("Cadastro nao efetuado. Voce inseriu \
+        #                                             um tipo de produto invalido na insercao dos dados!")
 
         else:
-            produto = Produto(dados_produto["codigo_produto"],
-                            dados_produto["estoque_produto"],
-                            dados_produto["descricao_produto"],
-                            dados_produto["tipo_produto"],
-                            dados_produto["valor_produto"])
+            if dados_produto["tipo_produto"] == True:
+                produto = ProdutoSorvete(dados_produto["codigo_produto"],
+                                dados_produto["estoque_produto"],
+                                dados_produto["descricao_produto"],
+                                dados_produto["valor_produto"])
+            else:
+                produto = ProdutoBebida(dados_produto["codigo_produto"],
+                                dados_produto["estoque_produto"],
+                                dados_produto["descricao_produto"],
+                                dados_produto["valor_produto"])
             
             if not self.encontrar_produto_pelo_codigo(produto.codigo):
                 self.__produtos.append(produto)
@@ -77,9 +80,17 @@ class ControladorProduto:
             produto = self.encontrar_produto_pelo_codigo(codigo_produto)
 
             if(produto is not None):
+
+                dados_produto = {"codigo_produto": produto.codigo,
+                                 "estoque_produto": produto.estoque,
+                                 "descricao_produto": produto.descricao,
+                                 "tipo_produto": produto.tipo,
+                                 "valor_produto": produto.valor}
                 
                 try:
-                    novos_dados_produto = self.__tela_produto.pegar_dados_produto()
+                                        
+
+                    novos_dados_produto = self.__tela_produto.alterar_dados_produto(dados_produto)
                     #ValueError se refere a essa linha
 
                     numeros_sao_validos = novos_dados_produto["codigo_produto"] >= 0 \
@@ -88,12 +99,6 @@ class ControladorProduto:
                     
                     if not numeros_sao_validos:
                         raise NumeroInvalidoException
-
-                    tipo_produto_valido = novos_dados_produto["tipo_produto"] == "Sorvete"\
-                                                or novos_dados_produto["tipo_produto"] == "Bebida"
-
-                    if not tipo_produto_valido:
-                        raise TipoProdutoInvalidoException
                 
                 except ValueError:
                     self.__tela_produto.mostrar_mensagem("Alteracao nao efetuada. Voce inseriu")
@@ -102,18 +107,29 @@ class ControladorProduto:
                 except NumeroInvalidoException:
                         self.__tela_produto.mostrar_mensagem("Alteracao nao efetuada. Voce inseriu \
                                                                 algum numero invalido na insercao dos dados!")
-
-                except TipoProdutoInvalidoException:
-                            self.__tela_produto.mostrar_mensagem("Alteracao nao efetuada. Voce inseriu \
-                                                                um tipo de produto invalido na insercao dos dados!")
                 
                 else:
             
-                    produto.codigo = novos_dados_produto["codigo_produto"]
-                    produto.estoque = novos_dados_produto["estoque_produto"]
-                    produto.descricao = novos_dados_produto["descricao_produto"]
-                    produto.tipo_produto = novos_dados_produto["tipo_produto"]
-                    produto.valor = novos_dados_produto["valor_produto"]
+                    if (novos_dados_produto["tipo_produto"] == True and produto.tipo == 1)\
+                        or (novos_dados_produto["tipo_produto"] == False and produto.tipo == 2):
+                            produto.codigo = novos_dados_produto["codigo_produto"]
+                            produto.estoque = novos_dados_produto["estoque_produto"]
+                            produto.descricao = novos_dados_produto["descricao_produto"]
+                            produto.valor = novos_dados_produto["valor_produto"]
+                    else:
+                        self.__produtos.remove(produto)
+                        if produto.tipo == 1:
+                            produto = ProdutoBebida(novos_dados_produto["codigo_produto"],
+                                novos_dados_produto["estoque_produto"],
+                                novos_dados_produto["descricao_produto"],
+                                novos_dados_produto["valor_produto"])
+                        else:
+                            produto = ProdutoSorvete(novos_dados_produto["codigo_produto"],
+                                novos_dados_produto["estoque_produto"],
+                                novos_dados_produto["descricao_produto"],
+                                novos_dados_produto["valor_produto"])
+                        self.__produtos.append(produto)
+
                     self.__tela_produto.mostrar_mensagem("Produto alterado com sucesso!")
                     self.listar_produtos()
             else:
@@ -135,56 +151,60 @@ class ControladorProduto:
                 self.__tela_produto.mostrar_mensagem("Produto nao encontrado")
 
     def listar_produtos(self):
+        dados_produto = []
         for produto in self.__produtos:
-            dados_produto = {"codigo_produto": produto.codigo,
-                             "estoque_produto": produto.estoque,
-                             "descricao_produto": produto.descricao,
-                             "tipo_produto": produto.tipo_produto,
-                             "valor_produto": produto.valor}
+            # dados_produto = {"codigo_produto": produto.codigo,
+            #                  "estoque_produto": produto.estoque,
+            #                  "descricao_produto": produto.descricao,
+            #                  "tipo_produto": produto.tipo,
+            #                  "valor_produto": produto.valor}
+            dados_produto.append({"codigo_produto": produto.codigo, 
+                                  "estoque_produto": produto.estoque, 
+                                  "descricao_produto": produto.descricao, 
+                                  "tipo_produto": produto.tipo, 
+                                  "valor_produto": produto.valor})
 
-            self.__tela_produto.mostrar_produto(dados_produto)
+        self.__tela_produto.mostrar_produto(dados_produto)
 
     def gerar_relatorio_de_sorvetes(self):
-        self.__tela_produto.mostrar_mensagem("")
-        self.__tela_produto.mostrar_mensagem("       RELATORIO DE PESO VENDIDO POR SORVETE")
         sorvetes = []
+        lista_relatorio = []
         
         for produto in self.__produtos:
-            if produto.tipo_produto == "Sorvete":
+            if produto.tipo == 1:
                 sorvetes.append(produto)
 
-        ordem_de_vendas = sorted(sorvetes, key=lambda x: x.somatorio_de_vendas, reverse=True)
+        ordem_de_vendas = sorted(sorvetes, key=lambda x: x.quantidade_vendida, reverse=True)
         
         for sorvete in ordem_de_vendas:
             
-            dados_sorvete = {"somatorio_de_vendas_produto": sorvete.somatorio_de_vendas,
-                             "codigo_produto": sorvete.codigo,
-                             "estoque_produto": sorvete.estoque,
-                             "descricao_produto": sorvete.descricao,
-                             "valor_produto": sorvete.valor}
+            lista_relatorio.append({"quantidade_vendida_sorvete": sorvete.quantidade_vendida,
+                                    "codigo_sorvete": sorvete.codigo,
+                                    "estoque_sorvete": sorvete.estoque,
+                                    "descricao_sorvete": sorvete.descricao,
+                                    "valor_sorvete": sorvete.valor})
             
-            self.__tela_produto.mostrar_relatorio_de_sorvetes(dados_sorvete)
+        self.__tela_produto.mostrar_relatorio_de_sorvetes(lista_relatorio)
 
     def gerar_relatorio_de_bebidas(self):
-        self.__tela_produto.mostrar_mensagem("")
-        self.__tela_produto.mostrar_mensagem("       RELATORIO DE QUANTIDADE VENDIDA POR BEBIDA")
         bebidas = []
+        lista_relatorio = []
         
         for produto in self.__produtos:
-            if produto.tipo_produto == "Bebida":
+            if produto.tipo == 2:
                 bebidas.append(produto)
 
-        ordem_de_vendas = sorted(bebidas, key=lambda x: x.somatorio_de_vendas, reverse=True)
+        ordem_de_vendas = sorted(bebidas, key=lambda x: x.quantidade_vendida, reverse=True)
         
         for bebida in ordem_de_vendas:
             
-            dados_bebida = {"somatorio_de_vendas_produto": bebida.somatorio_de_vendas,
-                             "codigo_produto": bebida.codigo,
-                             "estoque_produto": bebida.estoque,
-                             "descricao_produto": bebida.descricao,
-                             "valor_produto": bebida.valor}
+            lista_relatorio.append({"quantidade_vendida_bebida": bebida.quantidade_vendida,
+                                    "codigo_bebida": bebida.codigo,
+                                    "estoque_bebida": bebida.estoque,
+                                    "descricao_bebida": bebida.descricao,
+                                    "valor_bebida": bebida.valor})
             
-            self.__tela_produto.mostrar_relatorio_de_bebidas(dados_bebida)
+        self.__tela_produto.mostrar_relatorio_de_bebidas(lista_relatorio)
 
     def mostrar_tela_opcoes(self):
         opcoes = {1: self.incluir_produto, 2: self.excluir_produto,
@@ -194,7 +214,7 @@ class ControladorProduto:
 
         while True:
             try:
-                opcao = self.__tela_produto.mostrar_tela_opcoes()
+                opcao = self.__tela_produto.tela_opcoes()
                 if opcao == 0:
                     break
                 opcoes[opcao]()

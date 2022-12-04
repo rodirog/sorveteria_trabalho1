@@ -11,8 +11,7 @@ from entidade.notaFiscal import NotaFiscal
 
 
 class ControladorNotaFiscal:
-    def __init__(self, controlador_principal, controlador_cliente, controlador_vendedor, controlador_produto):
-        #self.__controlador_principal = controlador_principal
+    def __init__(self, controlador_cliente, controlador_vendedor, controlador_produto):
         self.__controlador_cliente = controlador_cliente
         self.__controlador_vendedor = controlador_vendedor
         self.__controlador_produto = controlador_produto
@@ -87,19 +86,19 @@ class ControladorNotaFiscal:
         if not produto_encontrado:
             raise ProdutoNaoExisteException
 
-        quantidade_item = dados_item_nota["quantidade_item_nota"]
-        if not self.__eh_quantidade_valida(quantidade_item):
-            raise QuantidadeInvalidoException
-        quantidade_item = int(quantidade_item)
-
-        peso_item = dados_item_nota["peso_item_nota"]
-        if not self.__eh_peso_valido(peso_item):
-            raise PesoInvalidoException
-        peso_item = float(peso_item)
+        if produto_encontrado.tipo == 1:
+            quantidade_item = dados_item_nota["quantidade_item_nota"]
+            if not self.__eh_peso_valido(quantidade_item):
+                raise PesoInvalidoException
+            quantidade_item = float(quantidade_item)
+        else:
+            quantidade_item = dados_item_nota["quantidade_item_nota"]
+            if not self.__eh_quantidade_valida(quantidade_item):
+                raise QuantidadeInvalidoException
+            quantidade_item = int(quantidade_item)
         dados_item_nota = {
             "produto_item": produto_encontrado,
             "quantidade_item": quantidade_item,
-            "peso_item": peso_item
         }
 
         self.__nota_fiscal_atual.adicionar_item_nota_fiscal(dados_item_nota)
