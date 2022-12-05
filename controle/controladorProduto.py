@@ -151,20 +151,20 @@ class ControladorProduto:
                 self.__tela_produto.mostrar_mensagem("Produto nao encontrado")
 
     def listar_produtos(self):
-        dados_produto = []
+        dados_produtos = []
         for produto in self.__produtos:
             # dados_produto = {"codigo_produto": produto.codigo,
             #                  "estoque_produto": produto.estoque,
             #                  "descricao_produto": produto.descricao,
             #                  "tipo_produto": produto.tipo,
             #                  "valor_produto": produto.valor}
-            dados_produto.append({"codigo_produto": produto.codigo, 
+            dados_produtos.append({"codigo_produto": produto.codigo, 
                                   "estoque_produto": produto.estoque, 
                                   "descricao_produto": produto.descricao, 
                                   "tipo_produto": produto.tipo, 
                                   "valor_produto": produto.valor})
 
-        self.__tela_produto.mostrar_produto(dados_produto)
+        self.__tela_produto.mostrar_produtos(dados_produtos)
 
     def gerar_relatorio_de_sorvetes(self):
         sorvetes = []

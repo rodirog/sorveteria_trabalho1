@@ -110,14 +110,14 @@ class TelaProduto:
         return {"codigo_produto": codigo, "estoque_produto": estoque, "descricao_produto": descricao, "tipo_produto": tipo, "valor_produto": valor}
 
      # fazer aqui tratamento dos dados, caso a entrada seja diferente do esperado
-    def mostrar_produto(self, dados_produto):
+    def mostrar_produtos(self, dados_produtos):
         string_todos_produtos = ""
-        for dado in dados_produto:
-            string_todos_produtos = string_todos_produtos + "CODIGO: " + str(dado["codigo_produto"]) + '\n'
-            string_todos_produtos = string_todos_produtos + "ESTOQUE: " + str(dado["estoque_produto"]) + '\n'
-            string_todos_produtos = string_todos_produtos + "DESCRICAO: " + str(dado["descricao_produto"]) + '\n'
-            string_todos_produtos = string_todos_produtos + "TIPO: " + str(dado["tipo_produto"]) + '\n'
-            string_todos_produtos = string_todos_produtos + "VALOR: " + str(dado["valor_produto"]) + '\n\n'
+        for produto in dados_produtos:
+            string_todos_produtos = string_todos_produtos + "CODIGO: " + str(produto["codigo_produto"]) + '\n'
+            string_todos_produtos = string_todos_produtos + "ESTOQUE: " + str(produto["estoque_produto"]) + '\n'
+            string_todos_produtos = string_todos_produtos + "DESCRICAO: " + str(produto["descricao_produto"]) + '\n'
+            string_todos_produtos = string_todos_produtos + "TIPO: " + str(produto["tipo_produto"]) + '\n'
+            string_todos_produtos = string_todos_produtos + "VALOR: " + str(produto["valor_produto"]) + '\n\n'
 
         sg.Popup('-------- LISTA DE PRODUTOS ----------', string_todos_produtos)
 

@@ -5,7 +5,7 @@ class TelaNotaFiscal:
 
     def __init__(self):
         self.__window = None
-        self.init_opcoes()
+        self.init_notas_opcoes()
 
     # def mostrar_tela_opcoes(self):
     #     print("*" * 20)
@@ -18,8 +18,8 @@ class TelaNotaFiscal:
     #     opcao = int(input("Escolha a opcao: "))
     #     return opcao
 
-    def tela_opcoes(self):
-        self.init_opcoes()
+    def tela_notas_opcoes(self):
+        self.init_notas_opcoes()
         button, values = self.open()
         if values['1']:
             opcao = 1
@@ -34,7 +34,7 @@ class TelaNotaFiscal:
         self.close()
         return opcao
 
-    def init_opcoes(self):
+    def init_notas_opcoes(self):
     #sg.theme_previewer()
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
@@ -168,25 +168,37 @@ class TelaNotaFiscal:
         self.close()
         # return {"cpf_cliente": cpf_cliente, "codigo_vendedor": codigo_vendedor}
 
-    def mostrar_notas(self, dados_notas_fiscais):
-        print("LISTA NOTAS")
-        for dados_nota_fiscal in dados_notas_fiscais:
-            self.__mostrar_nota(dados_nota_fiscal)
+    def mostrar_notas(self, dados_notas):
+        string_todas_notas = ""
+        for nota in dados_notas:
+            string_todas_notas = string_todas_notas + "NUMERO: " + str(nota["numero_nota"]) + '\n'
+            string_todas_notas = string_todas_notas + "CLIENTE: " + str(nota["nome_cliente_nota"]) + '\n'
+            string_todas_notas = string_todas_notas + "VENDEDOR: " + str(nota["nome_vendedor_nota"]) + '\n'
+            string_todas_notas = string_todas_notas + "VALOR: " + str(nota["valor_total_nota"]) + '\n'
+            string_todas_notas = string_todas_notas + "DATA: " + str(nota["data_nota"]) + '\n\n'
 
-    def __mostrar_nota(self, dados_nota_fiscal):
-        numero_nota = dados_nota_fiscal["numero_nota"]
-        cliente_nota = dados_nota_fiscal["nome_cliente_nota"]
-        vendedor_nota = dados_nota_fiscal["nome_vendedor_nota"]
-        valor_total_nota = dados_nota_fiscal["valor_total_nota"]
-        data_nota = dados_nota_fiscal["data_nota"]
+        sg.Popup('-------- LISTA DE NOTAS ----------', string_todas_notas)
 
-        print("/ NOTA")
-        print(f"| Número: {numero_nota}")
-        print(f"| Cliente: {cliente_nota}")
-        print(f"| Vendedor: {vendedor_nota}")
-        print(f"| Valor total: {valor_total_nota}")
-        print(f"| Data: {data_nota}")
-        print("\__________________")
+
+    # def mostrar_notas(self, dados_notas_fiscais):
+    #     print("LISTA NOTAS")
+    #     for dados_nota_fiscal in dados_notas_fiscais:
+    #         self.__mostrar_nota(dados_nota_fiscal)
+
+    # def __mostrar_nota(self, dados_nota_fiscal):
+    #     numero_nota = dados_nota_fiscal["numero_nota"]
+    #     cliente_nota = dados_nota_fiscal["nome_cliente_nota"]
+    #     vendedor_nota = dados_nota_fiscal["nome_vendedor_nota"]
+    #     valor_total_nota = dados_nota_fiscal["valor_total_nota"]
+    #     data_nota = dados_nota_fiscal["data_nota"]
+
+        # print("/ NOTA")
+        # print(f"| Número: {numero_nota}")
+        # print(f"| Cliente: {cliente_nota}")
+        # print(f"| Vendedor: {vendedor_nota}")
+        # print(f"| Valor total: {valor_total_nota}")
+        # print(f"| Data: {data_nota}")
+        # print("\__________________")
 
     def pegar_dados_nota(self):
         sg.ChangeLookAndFeel('DarkTeal4')
@@ -240,12 +252,42 @@ class TelaNotaFiscal:
     #     }
 
     def selecionar_nota_fiscal(self):
-        print()
-        numero_nota = input("Insira o número da nota que deseja selecionar: ")
-        return numero_nota
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+        [sg.Text('-------- SELECIONAR NOTA FISCAL ----------', font=("Helvica", 25))],
+        [sg.Text('Digite o numero da nota que deseja selecionar:', font=("Helvica", 15))],
+        [sg.Text('Numero:', size=(15, 1)), sg.InputText(key='it_numero_nota')],
+        [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Seleciona nota fiscal').Layout(layout)
+
+        button, values = self.open()
+        numero = values['it_numero_nota']
+        self.close()
+        return int(numero)
+
+    # def selecionar_nota_fiscal(self):
+    #     print()
+    #     numero_nota = input("Insira o número da nota que deseja selecionar: ")
+    #     return numero_nota
 
     def selecionar_item_nota(self):
-        print()
-        posicao_item_nota = input(
-            "Insira o numero do item da nota que deseja selecionar: ")
-        return posicao_item_nota
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+        [sg.Text('-------- SELECIONAR ITEM DA NOTA ----------', font=("Helvica", 25))],
+        [sg.Text('Digite o numero do item que deseja selecionar:', font=("Helvica", 15))],
+        [sg.Text('Numero:', size=(15, 1)), sg.InputText(key='it_numero_item')],
+        [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Seleciona item').Layout(layout)
+
+        button, values = self.open()
+        numero = values['it_numero_item']
+        self.close()
+        return int(numero)
+
+    # def selecionar_item_nota(self):
+    #     print()
+    #     posicao_item_nota = input(
+    #         "Insira o numero do item da nota que deseja selecionar: ")
+    #     return posicao_item_nota

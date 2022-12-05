@@ -87,20 +87,36 @@ class ControladorNotaFiscal:
             if nota_fiscal.numero == numero_nota:
                 return nota_fiscal
 
-    def listar_nota_fiscal(self):
-        dados_notas_fiscais = []
-        for nota_fiscal in self.__notas_fiscais:
-            print(nota_fiscal.itens_da_nota)
-            dados_nota_fiscal = {
-                "numero_nota": nota_fiscal.numero,
-                "nome_cliente_nota": nota_fiscal.cliente.nome,
-                "nome_vendedor_nota": nota_fiscal.vendedor.nome,
-                "valor_total_nota": nota_fiscal.valor_total,
-                "data_nota": nota_fiscal.datetime.strftime("%d/%m/%Y %H:%M:%S")
-            }
-            dados_notas_fiscais.append(dados_nota_fiscal)
+    def listar_notas(self):
+        dados_notas = []
+        for nota in self.__notas_fiscais:
+            # dados_produto = {"codigo_produto": produto.codigo,
+            #                  "estoque_produto": produto.estoque,
+            #                  "descricao_produto": produto.descricao,
+            #                  "tipo_produto": produto.tipo,
+            #                  "valor_produto": produto.valor}
+            dados_notas.append({"numero_nota": nota.numero, 
+                                  "nome_cliente_nota": nota.cliente.nome, 
+                                  "nome_vendedor_nota": nota.vendedor.nome, 
+                                  "valor_total_nota": nota.valor_total, 
+                                  "data_nota": nota.datetime.strftime("%d/%m/%Y %H:%M:%S")})
 
-        self.__tela_nota_fiscal.mostrar_notas(dados_notas_fiscais)
+        self.__tela_nota_fiscal.mostrar_notas(dados_notas)
+
+    # def listar_nota_fiscal(self):
+    #     dados_notas_fiscais = []
+    #     for nota_fiscal in self.__notas_fiscais:
+    #         print(nota_fiscal.itens_da_nota)
+    #         dados_nota_fiscal = {
+    #             "numero_nota": nota_fiscal.numero,
+    #             "nome_cliente_nota": nota_fiscal.cliente.nome,
+    #             "nome_vendedor_nota": nota_fiscal.vendedor.nome,
+    #             "valor_total_nota": nota_fiscal.valor_total,
+    #             "data_nota": nota_fiscal.datetime.strftime("%d/%m/%Y %H:%M:%S")
+    #         }
+    #         dados_notas_fiscais.append(dados_nota_fiscal)
+
+    #     self.__tela_nota_fiscal.mostrar_notas(dados_notas_fiscais)
 
     def adicionar_item_nota_fiscal(self):
         dados_item_nota = self.__tela_nota_fiscal.pegar_dados_item_nota()
@@ -157,12 +173,12 @@ class ControladorNotaFiscal:
 
         opcoes = {
             1: self.adicionar_nota_fiscal,
-            2: self.listar_nota_fiscal,
+            2: self.listar_notas,
             3: self.excluir_nota_fiscal
         }
 
         while True:
-            opcao = self.__tela_nota_fiscal.tela_opcoes()
+            opcao = self.__tela_nota_fiscal.tela_notas_opcoes()
 
             # if opcao == 0:
             #     break
