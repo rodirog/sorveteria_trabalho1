@@ -53,14 +53,16 @@ class ControladorNotaFiscal:
     def gerar_relatorio_da_nota(self, nota_fiscal):
 
         dados_itens = []
-        
+        i=0
         for item in nota_fiscal.itens_da_nota:
             dados_itens.append({
+                "numero_item": i,
                 "codigo_produto": item.produto.codigo,
                 "descricao_produto": item.produto.descricao,
                 "qtd_item": item.quantidade,
                 "valor_item": item.produto.valor,
                 "total_item": item.produto.calcular_preco_item(item.quantidade)})
+            i = i+1
 
         dados_nota_fiscal = {
             "numero_nota": nota_fiscal.numero,
@@ -150,9 +152,31 @@ class ControladorNotaFiscal:
         if not self.__eh_posicao_item_nota_valida(posicao_item):
             raise PosicaoItemInvalidaException
 
+        item_excluido = self.__nota_fiscal_atual.itens_da_nota[posicao_item]
+        quantidade_retornada = item_excluido.quantidade
+        item_excluido.produto.retornar_ao_estoque(quantidade_retornada)
+
         self.__nota_fiscal_atual.excluir_item_nota_fiscal(posicao_item)
         self.__tela_nota_fiscal.mostrar_mensagem(
             "O item da nota fiscal foi removido com sucesso!")
+
+    def listar_itens_nota(self):
+        dados_itens = []
+        i=0
+        for item in self.__nota_fiscal_atual.itens_da_nota:
+            # dados_produto = {"codigo_produto": produto.codigo,
+            #                  "estoque_produto": produto.estoque,
+            #                  "descricao_produto": produto.descricao,
+            #                  "tipo_produto": produto.tipo,
+            #                  "valor_produto": produto.valor}
+            dados_itens.append({"numero_item": i,
+                                "codigo_produto": item.produto.codigo,
+                                "descricao_produto": item.produto.descricao,
+                                "qtd_item": item.quantidade,
+                                })
+            i = i+1
+
+        self.__tela_nota_fiscal.mostrar_itens_nota(dados_itens)
 
     def gerar_nota(self):
         self.__nota_fiscal_atual.gerar_nota()
@@ -193,7 +217,8 @@ class ControladorNotaFiscal:
         opcoes = {
             1: self.adicionar_item_nota_fiscal,
             2: self.excluir_item_nota_fiscal,
-            3: self.gerar_nota
+            3: self.listar_itens_nota,
+            4: self.gerar_nota
         }
 
         while self.__nota_fiscal_atual:

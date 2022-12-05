@@ -140,10 +140,10 @@ class TelaProduto:
     def mostrar_relatorio_de_sorvetes(self, dados_sorvetes):
         string_todos_sorvetes = ""
         for dado in dados_sorvetes:
+            string_todos_sorvetes = string_todos_sorvetes + "DESCRICAO: " + str(dado["descricao_sorvete"]) + '\n'
             string_todos_sorvetes = string_todos_sorvetes + "QUANTIDADE VENDIDA: " + str(dado["quantidade_vendida_sorvete"]) + "Kg" + '\n'
             string_todos_sorvetes = string_todos_sorvetes + "CODIGO: " + str(dado["codigo_sorvete"]) + '\n'
             string_todos_sorvetes = string_todos_sorvetes + "ESTOQUE: " + str(dado["estoque_sorvete"]) + '\n'
-            string_todos_sorvetes = string_todos_sorvetes + "DESCRICAO: " + str(dado["descricao_sorvete"]) + '\n'
             string_todos_sorvetes = string_todos_sorvetes + "VALOR: " + str(dado["valor_sorvete"]) + '\n\n'
 
         sg.Popup('-------- LISTA DE SORVETES ----------', string_todos_sorvetes)
@@ -151,10 +151,10 @@ class TelaProduto:
     def mostrar_relatorio_de_bebidas(self, dados_bebidas):
         string_todas_bebidas = ""
         for dado in dados_bebidas:
+            string_todas_bebidas = string_todas_bebidas + "DESCRICAO: " + str(dado["descricao_bebida"]) + '\n'
             string_todas_bebidas = string_todas_bebidas + "QUANTIDADE VENDIDA: " + str(dado["quantidade_vendida_bebida"]) + " unidade(s)" + '\n'
             string_todas_bebidas = string_todas_bebidas + "CODIGO: " + str(dado["codigo_bebida"]) + '\n'
             string_todas_bebidas = string_todas_bebidas + "ESTOQUE: " + str(dado["estoque_bebida"]) + '\n'
-            string_todas_bebidas = string_todas_bebidas + "DESCRICAO: " + str(dado["descricao_bebida"]) + '\n'
             string_todas_bebidas = string_todas_bebidas + "VALOR: " + str(dado["valor_bebida"]) + '\n\n'
 
         sg.Popup('-------- LISTA DE BEBIDAS ----------', string_todas_bebidas)

@@ -67,6 +67,8 @@ class TelaNotaFiscal:
             opcao = 2
         if values['3']:
             opcao = 3
+        if values['4']:
+            opcao = 4
         # cobre os casos de Retornar, fechar janela, ou clicar cancelar
         #Isso faz com que retornemos a tela do sistema caso qualquer uma dessas coisas aconteca
         if values['0'] or button in (None, 'Cancelar'):
@@ -82,7 +84,8 @@ class TelaNotaFiscal:
         [sg.Text('Escolha sua opção', font=("Helvica", 15))],
         [sg.Radio('Incluir Item', "RD1", key='1')],
         [sg.Radio('Excluir Item', "RD1", key='2')],
-        [sg.Radio('Gerar Nota', "RD1", key='3')],
+        [sg.Radio('Listar Itens', "RD1", key='3')],
+        [sg.Radio('Gerar Nota', "RD1", key='4')],
         [sg.Radio('Retornar', "RD1", key='0')],
         [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
@@ -101,25 +104,25 @@ class TelaNotaFiscal:
     def mostrar_relatorio_da_nota(self, dados_nota_fiscal, dados_itens):
         sg.ChangeLookAndFeel('DarkTeal4')
         col1= [
-            [sg.Text("Numero da nota: " + str(dados_nota_fiscal["numero_nota"]), font=("Helvica", 10))],
+            [sg.Text("Numero da nota: " + str(dados_nota_fiscal["numero_nota"]), font=("Helvica", 12))],
             [sg.Text("")],
             [sg.Text("Nome do(a) cliente:", font=("Helvica", 10))],
-            [sg.Text(str(dados_nota_fiscal["nome_cliente_nota"]), font=("Helvica", 10))],
+            [sg.Text(str(dados_nota_fiscal["nome_cliente_nota"]), font=("Helvica", 12))],
             [sg.Text("")],
             [sg.Text("Nome do(a) vendedor(a):", font=("Helvica", 10))],
-            [sg.Text(str(dados_nota_fiscal["nome_vendedor_nota"]), font=("Helvica", 10))],
+            [sg.Text(str(dados_nota_fiscal["nome_vendedor_nota"]), font=("Helvica", 12))],
             [sg.Text("")],
             [sg.Text("Data:", font=("Helvica", 10))],
             [sg.Text(str(dados_nota_fiscal["data_nota"]), font=("Helvica", 10))],
             [sg.Text("")],
-            [sg.Text("Subtotal:", font=("Helvica", 30))],
-            [sg.Text(str(dados_nota_fiscal["valor_total_nota"]), font=("Helvica", 10))],
+            [sg.Text("Total:", font=("Helvica", 30))],
+            [sg.Text(str(dados_nota_fiscal["valor_total_nota"]), font=("Helvica", 14))],
             ]
         
         col2 = [[sg.Text("Numero do item:", font=("Helvica", 10))]]
         
-        for i in range (0, len(dados_itens)):
-            col2.append([sg.Text(str(i+1), font=("Helvica", 10))])
+        for item in dados_itens:
+            col2.append([sg.Text(str(item["numero_item"]), font=("Helvica", 10))])
 
         col3 = [[sg.Text("Codigo produto:", font=("Helvica", 10))]]
         
@@ -156,7 +159,7 @@ class TelaNotaFiscal:
         ],
         ],
             # [sg.Radio('Retornar', "RD1", key='0')],
-            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+            [sg.Button('Retornar')]
         ]
         
         self.__window = sg.Window('Relatório de nota fiscal').Layout(layout)
@@ -178,6 +181,48 @@ class TelaNotaFiscal:
             string_todas_notas = string_todas_notas + "DATA: " + str(nota["data_nota"]) + '\n\n'
 
         sg.Popup('-------- LISTA DE NOTAS ----------', string_todas_notas)
+
+    def mostrar_itens_nota(self, dados_itens):
+        sg.ChangeLookAndFeel('DarkTeal4')
+        col1 = [[sg.Text("Numero do item:", font=("Helvica", 10))]]
+        
+        for item in dados_itens:
+            col1.append([sg.Text(str(item["numero_item"]), font=("Helvica", 10))])
+
+        col2 = [[sg.Text("Codigo produto:", font=("Helvica", 10))]]
+        
+        for item in dados_itens:
+            col2.append([sg.Text(str(item["codigo_produto"]), font=("Helvica", 10))])
+                        
+        col3 = [[sg.Text("Descricao:", font=("Helvica", 10))]]
+        for item in dados_itens:
+            col3.append([sg.Text(str(item["descricao_produto"]), font=("Helvica", 10))])
+
+        col4 = [[sg.Text("Quantidade:", font=("Helvica", 10))]]
+        for item in dados_itens:
+            col4.append([sg.Text(str(item["qtd_item"]), font=("Helvica", 10))])
+        
+        layout = [[[[sg.Text('------------- Itens da Nota -------------', font=("Helvica", 15))],
+            [sg.Column(col1, key='c1', element_justification='l', expand_x=True),
+             sg.Column(col2, key='c2', element_justification='c', vertical_alignment='t', expand_x=True),
+             sg.Column(col3, key='c3', element_justification='c', vertical_alignment='t', expand_x=True),
+             sg.Column(col4, key='c4', element_justification='c', vertical_alignment='t', expand_x=True)
+             ]
+        ],
+        ],
+            # [sg.Radio('Retornar', "RD1", key='0')],
+            [sg.Button('Retornar')]
+        ]
+        
+        self.__window = sg.Window('Itens da Nota').Layout(layout)
+
+        button, values = self.open()
+        # cpf_cliente = values['it_cpf_cliente']
+        # codigo_vendedor = values['it_codigo_vendedor']
+        
+        self.close()
+        # return {"cpf_cliente": cpf_cliente, "codigo_vendedor": codigo_vendedor}
+
 
 
     # def mostrar_notas(self, dados_notas_fiscais):

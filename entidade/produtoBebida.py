@@ -10,6 +10,10 @@ class ProdutoBebida(AbstractProduto):
 
     def calcular_preco_item(self, quantidade):
         return (self.valor * quantidade)
+    
+    def retornar_ao_estoque(self, quantidade):
+        self.estoque += quantidade
+        self.__quantidade_vendida -= quantidade
 
     def diminuir_estoque(self, quantidade):
         if self.estoque - quantidade < 0:
