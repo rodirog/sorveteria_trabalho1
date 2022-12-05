@@ -118,8 +118,8 @@ class TelaNotaFiscal:
         
         col2 = [[sg.Text("Numero do item:", font=("Helvica", 10))]]
         
-        for i in range (1, len(dados_itens)):
-            col2.append([sg.Text(str(i), font=("Helvica", 10))])
+        for i in range (0, len(dados_itens)):
+            col2.append([sg.Text(str(i+1), font=("Helvica", 10))])
 
         col3 = [[sg.Text("Codigo produto:", font=("Helvica", 10))]]
         
@@ -143,8 +143,7 @@ class TelaNotaFiscal:
             col7.append([sg.Text(str(item["total_item"]), font=("Helvica", 10))])
         
 
-        layout = [[[[sg.Text('------------- Relatório da Nota -------------', font=("Helvica", 25),\
-                    element_justification='c')],
+        layout = [[[[sg.Text('------------- Relatório da Nota -------------', font=("Helvica", 25))],
             [sg.Column(col1, key='c1', element_justification='l', expand_x=True),
              sg.Column(col2, key='c2', element_justification='c', vertical_alignment='t', expand_x=True),
              sg.Column(col3, key='c3', element_justification='c', vertical_alignment='t', expand_x=True),
