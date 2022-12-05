@@ -98,15 +98,76 @@ class TelaNotaFiscal:
     #     print("0 - Voltar")
     #     opcao = int(input("Escolha a opcao: "))
     #     return opcao
-    def mostrar_relatorio_da_nota(self, dados_nota_fiscal):
+    def mostrar_relatorio_da_nota(self, dados_nota_fiscal, dados_itens):
         sg.ChangeLookAndFeel('DarkTeal4')
-        layout = [
-        [sg.Text('-------- Relatório da Nota ----------', font=("Helvica", 25))],
-        [sg.Text('Escolha sua opção', font=("Helvica", 15))],
-        [sg.Radio('Retornar', "RD1", key='0')],
-        [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        col1= [
+            [sg.Text("Numero da nota: " + str(dados_nota_fiscal["numero_nota"]), font=("Helvica", 10))],
+            [sg.Text("")],
+            [sg.Text("Nome do(a) cliente:", font=("Helvica", 10))],
+            [sg.Text(str(dados_nota_fiscal["nome_cliente_nota"]), font=("Helvica", 10))],
+            [sg.Text("")],
+            [sg.Text("Nome do(a) vendedor(a):", font=("Helvica", 10))],
+            [sg.Text(str(dados_nota_fiscal["nome_vendedor_nota"]), font=("Helvica", 10))],
+            [sg.Text("")],
+            [sg.Text("Data:", font=("Helvica", 10))],
+            [sg.Text(str(dados_nota_fiscal["data_nota"]), font=("Helvica", 10))],
+            [sg.Text("")],
+            [sg.Text("Subtotal:", font=("Helvica", 30))],
+            [sg.Text(str(dados_nota_fiscal["valor_total_nota"]), font=("Helvica", 10))],
+            ]
+        
+        col2 = [[sg.Text("Numero do item:", font=("Helvica", 10))]]
+        
+        for i in range (1, len(dados_itens)):
+            col2.append([sg.Text(str(i), font=("Helvica", 10))])
+
+        col3 = [[sg.Text("Codigo produto:", font=("Helvica", 10))]]
+        
+        for item in dados_itens:
+            col3.append([sg.Text(str(item["codigo_produto"]), font=("Helvica", 10))])
+                        
+        col4 = [[sg.Text("Descricao:", font=("Helvica", 10))]]
+        for item in dados_itens:
+            col4.append([sg.Text(str(item["descricao_produto"]), font=("Helvica", 10))])
+
+        col5 = [[sg.Text("Quantidade:", font=("Helvica", 10))]]
+        for item in dados_itens:
+            col5.append([sg.Text(str(item["qtd_item"]), font=("Helvica", 10))])
+
+        col6 = [[sg.Text("Valor:", font=("Helvica", 10))]]
+        for item in dados_itens:
+            col6.append([sg.Text(str(item["valor_item"]), font=("Helvica", 10))])
+
+        col7 = [[sg.Text("Total:", font=("Helvica", 10))]]
+        for item in dados_itens:
+            col7.append([sg.Text(str(item["total_item"]), font=("Helvica", 10))])
+        
+
+        layout = [[[[sg.Text('------------- Relatório da Nota -------------', font=("Helvica", 25),\
+                    element_justification='c')],
+            [sg.Column(col1, key='c1', element_justification='l', expand_x=True),
+             sg.Column(col2, key='c2', element_justification='c', vertical_alignment='t', expand_x=True),
+             sg.Column(col3, key='c3', element_justification='c', vertical_alignment='t', expand_x=True),
+             sg.Column(col4, key='c4', element_justification='c', vertical_alignment='t', expand_x=True),
+             sg.Column(col5, key='c5', element_justification='c', vertical_alignment='t', expand_x=True),
+             sg.Column(col6, key='c6', element_justification='c', vertical_alignment='t', expand_x=True),
+             sg.Column(col7, key='c7', element_justification='c', vertical_alignment='t', expand_x=True)
+             ]
+             #sg.Column(col3, key='c3', element_justification='r')]
+        ],
+        ],
+            # [sg.Radio('Retornar', "RD1", key='0')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
+        
         self.__window = sg.Window('Relatório de nota fiscal').Layout(layout)
+
+        button, values = self.open()
+        # cpf_cliente = values['it_cpf_cliente']
+        # codigo_vendedor = values['it_codigo_vendedor']
+        
+        self.close()
+        # return {"cpf_cliente": cpf_cliente, "codigo_vendedor": codigo_vendedor}
 
     def mostrar_notas(self, dados_notas_fiscais):
         print("LISTA NOTAS")

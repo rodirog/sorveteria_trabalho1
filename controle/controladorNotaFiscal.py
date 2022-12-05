@@ -52,6 +52,16 @@ class ControladorNotaFiscal:
 
     def gerar_relatorio_da_nota(self, nota_fiscal):
 
+        dados_itens = []
+        
+        for item in nota_fiscal.itens_da_nota:
+            dados_itens.append({
+                "codigo_produto": item.produto.codigo,
+                "descricao_produto": item.produto.descricao,
+                "qtd_item": item.quantidade,
+                "valor_item": item.produto.valor,
+                "total_item": item.produto.calcular_preco_item(item.quantidade)})
+
         dados_nota_fiscal = {
             "numero_nota": nota_fiscal.numero,
             "nome_cliente_nota": nota_fiscal.cliente.nome,
@@ -60,7 +70,7 @@ class ControladorNotaFiscal:
             "data_nota": nota_fiscal.datetime.strftime("%d/%m/%Y %H:%M:%S"),
             "itens_nota": nota_fiscal.itens_da_nota}
 
-        self.__tela_nota_fiscal.mostrar_relatorio_da_nota(dados_nota_fiscal)
+        self.__tela_nota_fiscal.mostrar_relatorio_da_nota(dados_nota_fiscal, dados_itens)
 
     def excluir_nota_fiscal(self):
         numero_nota = int(self.__tela_nota_fiscal.selecionar_nota_fiscal())
