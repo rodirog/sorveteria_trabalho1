@@ -10,10 +10,10 @@ from excecoes.clienteJahExisteException import ClienteJahExisteException
 from excecoes.clienteNaoExisteException import ClienteNaoExisteException
 from excecoes.cpfInvalidoException import CpfInvalidoException
 from excecoes.objeto_vazio_exception import ObjetoVazioException
-from persistencia.dao import DAO
+from persistencia.pickle_dao import PickleDAO
 
 
-class ClienteDAO(DAO):
+class ClienteDAO(PickleDAO):
   def __init__(self):
     super().__init__('clientes')
 
