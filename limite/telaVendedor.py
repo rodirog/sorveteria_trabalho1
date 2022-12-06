@@ -47,7 +47,7 @@ class TelaVendedor:
     # return opcao
 
   def criar_tela_opcoes(self):
-    return ComponenteOpcoes('vendedores', self.__dados_vendedores).container
+    return ComponenteOpcoes('vendedores').container
 
   def criar_tela_dados(self):
     return ComponenteCadastroVendedor().container

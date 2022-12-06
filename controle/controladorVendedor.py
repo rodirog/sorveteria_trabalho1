@@ -1,3 +1,4 @@
+from dtos.vendedor_dto import VendedorDto
 from excecoes.codigoVendedorInvalidoException import CodigoVendedorInvalidoException
 from excecoes.cpfInvalidoException import CpfInvalidoException
 from excecoes.nomeInvalidoException import NomeInvalidoException
@@ -89,14 +90,17 @@ class ControladorVendedor:
   def listar_vendedores(self):
     dados_vendedores = []
     for vendedor in self.__vendedores:
-      dados_vendedor = {
-          "codigo_vendedor": vendedor.codigo,
-          "nome_vendedor": vendedor.nome,
-          "cpf_vendedor": vendedor.cpf
-      }
-      dados_vendedores.append(dados_vendedor)
+    #   dados_vendedor = {
+    #       "codigo_vendedor": vendedor.codigo,
+    #       "nome_vendedor": vendedor.nome,
+    #       "cpf_vendedor": vendedor.cpf
+    #   }
+    #   dados_vendedores.append(dados_vendedor)
+      vendedor_dto = VendedorDto(vendedor.codigo, vendedor.nome, vendedor.cpf)
+            # dados_clientes.append(dados_cliente)
+      vendedor.append(vendedor_dto)
 
-    return dados_vendedores
+    # return dados_vendedores
     self.__tela_vendedor.mostrar_vendedores(dados_vendedores)
 
   def mostrar_tela_opcoes(self):

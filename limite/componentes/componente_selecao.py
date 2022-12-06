@@ -1,9 +1,9 @@
 import PySimpleGUI as sg
 
-class ComponenteEdicao:
+class ComponenteSelecao:
   def __init__(self):
     cliente_edit_layout = [
-        [sg.Text('cpf:', size=(7,1)), sg.InputText(key='-cpf-', size=(25,1))],
+        [sg.Text('cpf:', size=(7,1)), sg.InputText(key='it_selecao_cliente_cpf', size=(25,1))],
         [sg.Button('Cancel'), sg.Submit()]
     ]
 

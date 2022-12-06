@@ -1,3 +1,4 @@
+from dtos.cliente_dto import ClienteDto
 from excecoes.clienteJahExisteException import ClienteJahExisteException
 from excecoes.clienteNaoExisteException import ClienteNaoExisteException
 from excecoes.cpfInvalidoException import CpfInvalidoException
@@ -6,111 +7,93 @@ from excecoes.nomeInvalidoException import NomeInvalidoException
 from excecoes.telefoneInvalidoException import TelefoneInvalidoException
 from limite.telaCliente import TelaCliente
 from entidade.cliente import Cliente
+from persistencia.cliente_dao import ClienteDAO
 
 
 class ControladorCliente:
     def __init__(self):
         self.__tela_cliente = TelaCliente([])
-        self.__clientes = []
+        self.__cliente_dao = ClienteDAO()
+        # self.__clientes = []
 
     def adicionar_cliente(self):
-        dados_cliente = self.__tela_cliente.pegar_dados_cliente()
+        cliente_dto = self.__tela_cliente.pegar_dados_cliente()
 
-        cpf_cliente = dados_cliente["cpf_cliente"]
-        if not self.eh_cpf_valido(cpf_cliente):
+        cpf = cliente_dto.cpf
+        if not self.eh_cpf_valido(cpf):
             raise CpfInvalidoException
 
-        cliente_encontrado = self.encontrar_cliente(cpf_cliente)
-        if cliente_encontrado:
-            raise ClienteJahExisteException
-
-        nome_cliente = dados_cliente["nome_cliente"]
-        if not self.eh_nome_valido(nome_cliente):
+        nome = cliente_dto.nome
+        if not self.eh_nome_valido(nome):
             raise NomeInvalidoException
 
-        email_cliente = dados_cliente["email_cliente"]
-        if not self.eh_email_valido(email_cliente):
+        email = cliente_dto.email
+        if not self.eh_email_valido(email):
             raise EmailInvalidoException
 
-        telefone_cliente = dados_cliente["telefone_cliente"]
-        if not self.eh_telefone_valido(telefone_cliente):
+        telefone = cliente_dto.telefone
+        if not self.eh_telefone_valido(telefone):
             raise TelefoneInvalidoException
 
-        cliente = Cliente(nome_cliente,
-                          cpf_cliente,
-                          email_cliente,
-                          telefone_cliente)
+        cliente = Cliente(nome,
+                          cpf,
+                          email,
+                          telefone)
 
-        self.__clientes.append(cliente)
+        self.__cliente_dao.adicionar(cliente)
         self.__tela_cliente.mostrar_mensagem(
             "O cliente foi cadastrado com sucesso!")
 
     def excluir_cliente(self):
-        cpf_cliente = self.__tela_cliente.selecionar_cliente()
-        if not self.eh_cpf_valido(cpf_cliente):
+        cpf = self.__tela_cliente.selecionar_cliente()
+        if not self.eh_cpf_valido(cpf):
             raise CpfInvalidoException
 
-        cliente_encontrado = self.encontrar_cliente(cpf_cliente)
-        if not cliente_encontrado:
-            raise ClienteNaoExisteException
-
-        self.__clientes.remove(cliente_encontrado)
+        self.__cliente_dao.remover(cpf)
         self.__tela_cliente.mostrar_mensagem(
             "O cliente foi removido com sucesso!")
 
-    def encontrar_cliente(self, cpf_cliente):
-        for cliente in self.__clientes:
-            if cliente.cpf == cpf_cliente:
-                return cliente
+    def encontrar_cliente(self, cpf):
+      return self.__cliente_dao.encontrar(cpf)
 
     def alterar_cliente(self):
-        cpf_cliente = self.__tela_cliente.selecionar_cliente()
-        if not self.eh_cpf_valido(cpf_cliente):
-            raise CpfInvalidoException
+        cpf = self.__tela_cliente.selecionar_cliente()
             
-        cliente_encontrado = self.encontrar_cliente(cpf_cliente)
+        cliente_encontrado = self.encontrar_cliente(cpf)
         if not cliente_encontrado:
             raise ClienteNaoExisteException
 
-        dados_cliente = self.__tela_cliente.pegar_dados_cliente()
+        cliente_dto = ClienteDto(cliente_encontrado.nome, cliente_encontrado.cpf, cliente_encontrado.email, cliente_encontrado.telefone)
 
-        nome_cliente = dados_cliente["nome_cliente"]
-        if not self.eh_nome_valido(nome_cliente):
+        cliente_dto = self.__tela_cliente.alterar_dados_cliente(cliente_dto)
+
+        nome = cliente_dto.nome
+
+        if not self.eh_nome_valido(nome):
             raise NomeInvalidoException
 
-        if not self.eh_cpf_valido(cpf_cliente):
-            raise CpfInvalidoException
-        cpf_cliente = int(cpf_cliente)
-
-        email_cliente = dados_cliente["email_cliente"]
-        if not self.eh_email_valido(email_cliente):
+        email = cliente_dto.email
+        if not self.eh_email_valido(email):
             raise EmailInvalidoException
 
-        telefone_cliente = dados_cliente["telefone_cliente"]
-        if not self.eh_telefone_valido(telefone_cliente):
+        telefone = cliente_dto.telefone
+        if not self.eh_telefone_valido(telefone):
             raise TelefoneInvalidoException
 
-        cliente_encontrado.nome = nome_cliente
-        cliente_encontrado.email = email_cliente
-        cliente_encontrado.cpf = cpf_cliente
-        cliente_encontrado.telefone = telefone_cliente
+        cliente = Cliente(nome, cpf, email, telefone)
 
+        self.__cliente_dao.atualizar(cliente)
         self.__tela_cliente.mostrar_mensagem(
             "O cliente foi alterado com sucesso!")
 
     def listar_clientes(self):
-        dados_clientes = []
-        for cliente in self.__clientes:
-            dados_cliente = {
-                "nome_cliente": cliente.nome,
-                "cpf_cliente": cliente.cpf,
-                "email_cliente": cliente.email,
-                "telefone_cliente": cliente.telefone
-            }
-            dados_clientes.append(dados_cliente)
+        clientes_dtos = []
+        clientes = self.__cliente_dao.listar()
+        for cliente in clientes:
+            cliente_dto = ClienteDto(cliente.nome, cliente.cpf, cliente.email, cliente.telefone)
+            clientes_dtos.append(cliente_dto)
 
-        return dados_clientes
-        self.__tela_cliente.mostrar_clientes(dados_clientes)
+        self.__tela_cliente.mostrar_clientes(clientes_dtos)
 
     def mostrar_tela_opcoes(self):
         opcoes = {
@@ -121,8 +104,7 @@ class ControladorCliente:
         }
 
         while True:
-            dados_clientes = self.listar_clientes()
-            opcao = self.__tela_cliente.mostrar_tela_opcoes(dados_clientes)
+            opcao = self.__tela_cliente.mostrar_tela_opcoes()
 
             if opcao == 0:
                 break
