@@ -1,16 +1,16 @@
 import PySimpleGUI as sg
 from dtos.cliente_dto import ClienteDto
-from limite.componentes.componente_edicao_cliente import ComponenteEdicaoCliente
+from limite.componentes.componente_cliente_edicao import ComponenteClienteEdicao
 
 from limite.componentes.componente_cadastro_cliente import ComponenteCadastroCliente
-from limite.componentes.componente_selecao import ComponenteSelecao
-from limite.componentes.componente_exclusao import ComponenteExclusao
+from limite.componentes.componente_cliente_selecao import ComponenteClienteSelecao
+from limite.componentes.componente_cliente_exclusao import ComponenteClienteExclusao
 from limite.componentes.componente_listagem import ComponenteListagem
 from limite.componentes.item_lista import ItemLista
 from limite.componentes.componente_opcoes import ComponenteOpcoes
 
 class TelaCliente:
-  def __init__(self, dados_clientes):
+  def __init__(self):
     self.__window = self.criar_tela_opcoes()
     # self.__dados_clientes = dados_clientes
     
@@ -50,15 +50,15 @@ class TelaCliente:
     return ComponenteListagem('clientes', dados_clientes).container
 
   def criar_tela_selecao(self):
-    return ComponenteSelecao().container
+    return ComponenteClienteSelecao().container
 
   def criar_tela_edicao(self, cliente_dto):
-    return ComponenteEdicaoCliente(cliente_dto).container
+    return ComponenteClienteEdicao(cliente_dto).container
 
   def mostrar_clientes(self, dados_clientes):
     self.__window = self.criar_tela_listagem(dados_clientes)
 
-    button, values = self.open()
+    button, _ = self.open()
     while True:
       if button in (sg.WIN_CLOSED, 'Voltar'):
         break
@@ -67,7 +67,6 @@ class TelaCliente:
 
   def mostrar_mensagem(self, mensagem):
     sg.popup("", mensagem)
-    print(mensagem)
 
   def pegar_dados_cliente(self):
     self.__window = self.criar_tela_dados()
@@ -88,7 +87,7 @@ class TelaCliente:
     email = values['it_cadasto_cliente_email']
     telefone = values['it_cadasto_cliente_telefone']
 
-    cliente_dto = ClienteDto(nome, cpf, email, telefone)
+    cliente_dto = ClienteDto(nome, email, telefone, cpf)
 
     return cliente_dto
 
@@ -122,9 +121,8 @@ class TelaCliente:
     nome = values['it_edicao_cliente_nome']
     telefone = values['it_edicao_cliente_telefone']
     email = values['it_edicao_cliente_email']
-    cpf = int(values['it_edicao_cliente_cpf'])
 
-    cliente_dto = ClienteDto(nome, cpf, email, telefone)
+    cliente_dto = ClienteDto(nome, email, telefone)
 
     return cliente_dto
 

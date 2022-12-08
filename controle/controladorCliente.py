@@ -12,7 +12,7 @@ from persistencia.cliente_dao import ClienteDAO
 
 class ControladorCliente:
     def __init__(self):
-        self.__tela_cliente = TelaCliente([])
+        self.__tela_cliente = TelaCliente()
         self.__cliente_dao = ClienteDAO()
         # self.__clientes = []
 
@@ -63,12 +63,11 @@ class ControladorCliente:
         if not cliente_encontrado:
             raise ClienteNaoExisteException
 
-        cliente_dto = ClienteDto(cliente_encontrado.nome, cliente_encontrado.cpf, cliente_encontrado.email, cliente_encontrado.telefone)
+        cliente_dto = ClienteDto(cliente_encontrado.nome, cliente_encontrado.email, cliente_encontrado.telefone, cliente_encontrado.cpf)
 
         cliente_dto = self.__tela_cliente.alterar_dados_cliente(cliente_dto)
 
         nome = cliente_dto.nome
-
         if not self.eh_nome_valido(nome):
             raise NomeInvalidoException
 
@@ -80,9 +79,11 @@ class ControladorCliente:
         if not self.eh_telefone_valido(telefone):
             raise TelefoneInvalidoException
 
-        cliente = Cliente(nome, cpf, email, telefone)
+        cliente_encontrado.nome = nome
+        cliente_encontrado.email = email
+        cliente_encontrado.telefone = telefone
 
-        self.__cliente_dao.atualizar(cliente)
+        self.__cliente_dao.atualizar(cliente_encontrado)
         self.__tela_cliente.mostrar_mensagem(
             "O cliente foi alterado com sucesso!")
 
@@ -90,7 +91,7 @@ class ControladorCliente:
         clientes_dtos = []
         clientes = self.__cliente_dao.listar()
         for cliente in clientes:
-            cliente_dto = ClienteDto(cliente.nome, cliente.cpf, cliente.email, cliente.telefone)
+            cliente_dto = ClienteDto(cliente.nome, cliente.email, cliente.telefone, cliente.cpf)
             clientes_dtos.append(cliente_dto)
 
         self.__tela_cliente.mostrar_clientes(clientes_dtos)
