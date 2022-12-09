@@ -21,10 +21,10 @@
 # 			return super().remove(key)
 
 from entidade.produtoSorvete import ProdutoSorvete
-from persistencia.pickle_dao import PickleDAO
+from persistencia.dao import DAO
 
 
-class ProdutoSorveteDAO(PickleDAO):
+class ProdutoSorveteDAO(DAO):
     def __init__(self):
         super().__init__('sorvetes')
 
