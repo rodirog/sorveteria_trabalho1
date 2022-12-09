@@ -80,6 +80,5 @@ class DAO(ABC):
 
   def encontrar_entidade(self, entidades, chave: int):
     for entidade in entidades:
-      print('aqui', entidade.chave, chave, entidade.codigo, entidade.chave == chave)
       if entidade.chave == chave:
         return entidade
