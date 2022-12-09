@@ -28,25 +28,7 @@ class TelaVendedor:
       opcao = 0
     self.close()
     return opcao
-    # while True:
-    #   button, values = self.open()
-    #   if event == sg.WIN_CLOSED:
-    #     print('window break')
-    #     break
-    #   elif event == 'adicionar':
-    #     opcao = 1
-    #     #self.pegar_dados_vendeor()
-    #     break
-    #   elif event == 'editar':
-    #     opcao = 3
-    #     break
-    #   elif event == 'remover':
-    #     opcao = 4
-    #     break
-    #   elif event == 'Exit':
-    #     opcao = 0
-    #     break
-
+    
   def criar_tela_opcoes(self):
     return ComponenteOpcoes('vendedores').container
 
@@ -62,10 +44,10 @@ class TelaVendedor:
   def criar_tela_edicao(self, vendedor_dto):
     return ComponenteVendedorEdicao(vendedor_dto).container
 
-  def mostrar_vendedores(self, dados_vendedores):
-    self.__window = self.criar_tela_listagem(dados_vendedores)
+  def mostrar_vendedores(self, vendedores_dtos):
+    self.__window = self.criar_tela_listagem(vendedores_dtos)
 
-    button, values = self.open()
+    button, _ = self.open()
     while True:
       if button in (sg.WIN_CLOSED, 'Voltar'):
         break
@@ -120,7 +102,7 @@ class TelaVendedor:
         except ValueError:
           self.mostrar_mensagem('Dado invalido!')
 
-  def alterar_dados_vendedor(self, vendedor_dto):
+  def alterar_vendedor(self):
     _, values = self.open()
 
     nome = values['it_edicao_vendedor_nome']

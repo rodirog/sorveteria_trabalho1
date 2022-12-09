@@ -41,15 +41,17 @@ class ControladorVendedor:
         "O vendedor foi removido com sucesso!")
 
   def encontrar_vendedor(self, codigo: int):
-    self.__vendedor_dao.encontrar(codigo)
+    return self.__vendedor_dao.encontrar(codigo)
 
   # def encontrar_vendedor_por_cpf(self, cpf: int):
   #   self.__vendedor_dao.encontrar(cpf)
 
   def alterar_vendedor(self):
-    codigo_vendedor = self.__tela_vendedor.selecionar_vendedor()
+    codigo = self.__tela_vendedor.selecionar_vendedor()
 
-    vendedor_encontrado = self.encontrar_vendedor(codigo_vendedor)
+    print('erro aqui', codigo, type(codigo))
+    vendedor_encontrado = self.encontrar_vendedor(codigo)
+    print('2', vendedor_encontrado)
     if not vendedor_encontrado:
       raise VendedorNaoExisteException
 
@@ -71,7 +73,7 @@ class ControladorVendedor:
     vendedores_dtos = []
     vendedores = self.__vendedor_dao.listar()
     for vendedor in vendedores:
-      vendedor_dto = VendedorDto(vendedor.codigo, vendedor.nome, vendedor.cpf)
+      vendedor_dto = VendedorDto(vendedor.nome, vendedor.cpf, vendedor.codigo)
            
       vendedores_dtos.append(vendedor_dto)
 
@@ -96,8 +98,11 @@ class ControladorVendedor:
       except (VendedorJahExisteException, VendedorNaoExisteException, NomeInvalidoException, CpfInvalidoException) as err:
         self.__tela_vendedor.mostrar_mensagem(f"Erro: {err.args[0]}")
 
-  def eh_nome_valido(self, nome_vendedor):
-    return nome_vendedor.isalpha()
+  def eh_nome_valido(self, nome):
+    return nome.isalpha()
 
-  def eh_cpf_valido(self, cpf_vendedor):
-    return isinstance(cpf_vendedor, int)
+  def eh_cpf_valido(self, cpf):
+    return isinstance(cpf, int)
+
+  def eh_codigo_valido(self, codigo):
+    return isinstance(codigo, int)

@@ -93,11 +93,11 @@ class TelaCliente:
 
   def selecionar_cliente(self):
     self.__window = self.criar_tela_selecao()
-
     while True:
       try:
         _, values = self.open()
         cpf_cliente = int(values['it_selecao_cliente_cpf'])
+
         self.close()
 
         return cpf_cliente
