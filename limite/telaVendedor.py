@@ -1,107 +1,137 @@
 import PySimpleGUI as sg
+from dtos.vendedor_dto import VendedorDto
+from limite.componentes.componente_listagem import ComponenteListagem
 from limite.componentes.componente_opcoes import ComponenteOpcoes
-from limite.componentes.componente_cadastro_vendedor import ComponenteCadastroVendedor
+from limite.componentes.componente_vendedor_cadastro import ComponenteVendedorCadastro
+from limite.componentes.componente_vendedor_edicao import ComponenteVendedorEdicao
+from limite.componentes.componente_vendedor_selecao import ComponenteVendedorSelecao
 
 class TelaVendedor:
-  def __init__(self, dados_vendedores):
-    self.__dados_vendedores = dados_vendedores
-    self.__tela_opcoes = self.criar_tela_opcoes()
-    self.__tela_dados = self.criar_tela_dados()
+  def __init__(self):
+    self.__window = self.criar_tela_opcoes()
     self.__cpf_vendedor_selecionado = None
 
-  def mostrar_tela_opcoes(self, dados_vendedores):
-    self.__dados_vendedor = dados_vendedores
-    self.__tela_opcoes['-LISTBOX-'].update(values=dados_vendedores)
-    self.__tela_opcoes.un_hide()
+  def mostrar_tela_opcoes(self):
+    self.__window = self.criar_tela_opcoes()
     opcao = None
-    while True:
-      event, values = self.__tela_opcoes.read()
-      if event == sg.WIN_CLOSED:
-        print('window break')
-        break
-      elif event == 'adicionar':
-        opcao = 1
-        #self.pegar_dados_cliente()
-        break
-      elif event == 'editar':
-        opcao = 3
-        break
-      elif event == 'remover':
-        opcao = 4
-        break
-      elif event == 'Exit':
-        opcao = 0
-        break
-    print(opcao)
-    self.__tela_opcoes.hide()
+    button, values = self.open()
+    if values['1']:
+      opcao = 1
+      #self.pegar_dados_vendeor()
+    elif values['2']:
+      opcao = 2
+    elif values['3']:
+      opcao = 3
+    elif values['4']:
+      opcao = 4
+    if values['0'] or button in (None, 'Cancelar'):
+      opcao = 0
+    self.close()
     return opcao
-    # print("*" * 20)
-    # print("VENDEDOR")
-    # print("*" * 20)
-    # print("1 - Incluir vendedor")
-    # print("2 - Listar vendedor")
-    # print("3 - Alterar Vendedor")
-    # print("4 - Excluir vendedor")
-    # print("0 - Voltar")
-    # opcao = int(input("Escolha a opcao: "))
-    # return opcao
+    # while True:
+    #   button, values = self.open()
+    #   if event == sg.WIN_CLOSED:
+    #     print('window break')
+    #     break
+    #   elif event == 'adicionar':
+    #     opcao = 1
+    #     #self.pegar_dados_vendeor()
+    #     break
+    #   elif event == 'editar':
+    #     opcao = 3
+    #     break
+    #   elif event == 'remover':
+    #     opcao = 4
+    #     break
+    #   elif event == 'Exit':
+    #     opcao = 0
+    #     break
 
   def criar_tela_opcoes(self):
     return ComponenteOpcoes('vendedores').container
 
   def criar_tela_dados(self):
-    return ComponenteCadastroVendedor().container
+    return ComponenteVendedorCadastro().container
+
+  def criar_tela_listagem(self, dados_vendedores):
+    return ComponenteListagem('vendedores', dados_vendedores).container
+
+  def criar_tela_selecao(self):
+    return ComponenteVendedorSelecao().container
+
+  def criar_tela_edicao(self, vendedor_dto):
+    return ComponenteVendedorEdicao(vendedor_dto).container
 
   def mostrar_vendedores(self, dados_vendedores):
-    print("LISTA VENDEDORES")
-    for dados_vendedor in dados_vendedores:
-      self.__mostrar_vendedor(dados_vendedor)
+    self.__window = self.criar_tela_listagem(dados_vendedores)
 
-  def __mostrar_vendedor(self, dados_vendedor):
-    codigo_vendedor = dados_vendedor["codigo_vendedor"]
-    nome_vendedor = dados_vendedor["nome_vendedor"]
-    cpf_vendedor = dados_vendedor["cpf_vendedor"]
-    print("/ VENDEDOR")
-    print(f"| Codigo: {codigo_vendedor}")
-    print(f"| Nome: {nome_vendedor}")
-    print(f"| Cpf: {cpf_vendedor}")
-    print("\__________________")
+    button, values = self.open()
+    while True:
+      if button in (sg.WIN_CLOSED, 'Voltar'):
+        break
+
+    self.close()
 
   def mostrar_mensagem(self, mensagem):
-    print(mensagem)
+    sg.popup("", mensagem)
 
   def pegar_dados_vendedor(self):
-    self.__tela_dados.un_hide()
-    vendedor = None
+    self.__window = self.criar_tela_dados()
     while True:
-      event, values = self.__tela_dados.read()
-      if event == 'Submit':
-        # print("CADASTRO VENDEDOR")
-        # nome_vendedor = input("Nome do vendedor: ")
-        # cpf_vendedor = input("Cpf do Vendedor:")
-        nome_vendedor = values['-vendedor-nome-']
-        cpf_vendedor = values['-vendedor-cpf-']
+      try:
+        vendedor = self.pegar_vendedor()
+        self.close()
 
-        try:
-          cpf_vendedor = int(cpf_vendedor)
-        except ValueError:
-          self.mostrar_mensagem('O cpf informado é invalido.')
-          continue
+        return vendedor
+      except ValueError:
+        self.mostrar_mensagem('Dado invalido!')
 
-        print(nome_vendedor, cpf_vendedor)
+  def pegar_vendedor(self):
+    _, values = self.open()
 
-        return {"nome_vendedor": nome_vendedor, "cpf_vendedor": cpf_vendedor}
+    nome = values['it_cadasto_vendedor_nome']
+    cpf = int(values['it_cadasto_vendedor_cpf'])
 
-    
-        break
-      elif event == 'Cancel':
-        break
+    vendedor_dto = VendedorDto(nome, cpf)
 
-    self.__tela_dados.hide()
-
-    return vendedor
+    return vendedor_dto
 
   def selecionar_vendedor(self):
-    codigo_vendedor = input(
-        "Insira o codigo do vendedor que deseja selecionar: ")
-    return codigo_vendedor
+    self.__window = self.criar_tela_selecao()
+
+    while True:
+      try:
+        _, values = self.open()
+        cpf_vendedor = int(values['it_selecao_vendedor_codigo'])
+        self.close()
+
+        return cpf_vendedor
+      except ValueError:
+        self.mostrar_mensagem('Dado invalido!')
+
+  def alterar_dados_vendedor(self, vendedor_dto):
+      self.__window = self.criar_tela_edicao(vendedor_dto)
+      while True:
+        try:
+          vendedor = self.alterar_vendedor()
+          self.close()
+
+          return vendedor
+        except ValueError:
+          self.mostrar_mensagem('Dado invalido!')
+
+  def alterar_dados_vendedor(self, vendedor_dto):
+    _, values = self.open()
+
+    nome = values['it_edicao_vendedor_nome']
+
+    vendedor_dto = VendedorDto(nome)
+
+    return vendedor_dto
+
+  def close(self):
+    self.__window.Close()
+
+  def open(self):
+    button, values = self.__window.Read()
+    return button, values

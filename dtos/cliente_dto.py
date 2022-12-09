@@ -1,7 +1,7 @@
 
 
 class ClienteDto:
-  def __init__(self, nome: str, cpf: int, email: str, telefone: str):
+  def __init__(self, nome: str, email: str, telefone: str, cpf: int = None):
     self.__nome = nome
     self.__cpf = cpf
     self.__email = email

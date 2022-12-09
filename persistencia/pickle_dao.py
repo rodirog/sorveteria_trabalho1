@@ -8,13 +8,15 @@ class PickleDAO(ABC):
   @abstractmethod
   def __init__(self, repositorio):
     self.__repositorio = repositorio
+    self.__criar_arquivo_caso_nao_existe()
     # self.salvar([])
 
   @abstractmethod
-  def adicionar(self, entidade):
+  def adicionar(self, entidade, chave):
     entidades = self.carregar()
 
-    entidades.append(entidade)
+    item = (chave, entidade)
+    entidades.append(item)
 
     self.salvar(entidades)
 
@@ -51,23 +53,29 @@ class PickleDAO(ABC):
     return entidades
 
   def carregar(self):
-    entidades = []
+    itens = []
 
     nome_arquivo = f'{self.__repositorio}.pkl'
-    arquivo_entidades = open(nome_arquivo, 'rb')
-    entidades = pickle.load(arquivo_entidades)
-    arquivo_entidades.close()
+    arquivo = open(nome_arquivo, 'rb')
+    itens = pickle.load(arquivo)
+    arquivo.close()
 
-    return entidades
+    return itens
 
-  def salvar(self, entidades):
+  def salvar(self, itens):
     nome_arquivo = f'{self.__repositorio}.pkl'
-    arquivo_entidades = open(nome_arquivo, 'wb')
+    arquivo = open(nome_arquivo, 'wb')
 
-    pickle.dump(entidades, arquivo_entidades)
-    arquivo_entidades.close()
-  
-  def encontrar_entidade(self, entidades, chave):
-    for entidade in entidades:
-      if entidade.cpf == chave:
+    pickle.dump(itens, arquivo)
+    arquivo.close()
+
+  def __criar_arquivo_caso_nao_existe(self):
+    try:
+      self.carregar()
+    except FileNotFoundError:
+      self.salvar([])
+
+  def encontrar_entidade(self, itens, chave_buscada):
+    for chave, entidade in itens:
+      if chave == chave_buscada:
         return entidade
