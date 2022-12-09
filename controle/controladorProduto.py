@@ -4,12 +4,14 @@ from excecoes.tipoProdutoInvalidoException import TipoProdutoInvalidoException
 from limite.telaProduto import TelaProduto
 from entidade.produtoBebida import ProdutoBebida
 from entidade.produtoSorvete import ProdutoSorvete
+from persistencia.produto_sorvete_dao import ProdutoSorveteDAO
 
 
 class ControladorProduto:
     def __init__(self):
         self.__tela_produto = TelaProduto()
-        self.__produtos = []
+        self.__produto_sorvete_dao = ProdutoSorveteDAO()
+        # self.__produtos = []
 
     def incluir_produto(self):
         try:
@@ -56,15 +58,20 @@ class ControladorProduto:
             if not self.encontrar_produto_pelo_codigo(produto.codigo):
                 self.__produtos.append(produto)
                 self.__tela_produto.mostrar_mensagem("Produto incluso com sucesso!") 
+                if isinstance(produto, ProdutoSorvete):
+                    self.__produto_sorvete_DAO.adicionar(produto)
+                else:
+                    pass
             
             else:
                 self.__tela_produto.mostrar_mensagem("Cadastro nao efetuado")
                 self.__tela_produto.mostrar_mensagem("Um produto com esse codigo ja existe.")
 
     def encontrar_produto_pelo_codigo(self, codigo):
-        for produto in self.__produtos:
-            if produto.codigo == codigo:
-                return produto
+        # for produto in self.__produtos:
+        #     if produto.codigo == codigo:
+        #         return produto
+        return self.__produto_sorvete_DAO.encontrar(codigo)
 
     def alterar_produto(self):
         self.listar_produtos()
@@ -145,14 +152,16 @@ class ControladorProduto:
         else:
             produto_encontrado = self.encontrar_produto_pelo_codigo(codigo_produto)
             if produto_encontrado:
-                self.__produtos.remove(produto_encontrado)
+                # self.__produtos.remove(produto_encontrado)
+                self.__produto_sorvete_DAO.remover(codigo_produto)
                 self.__tela_produto.mostrar_mensagem("Produto excluido com sucesso")
             else:
                 self.__tela_produto.mostrar_mensagem("Produto nao encontrado")
 
     def listar_produtos(self):
         dados_produtos = []
-        for produto in self.__produtos:
+        produtos = self.__produto_sorvete_DAO.listar()
+        for produto in produtos:
             # dados_produto = {"codigo_produto": produto.codigo,
             #                  "estoque_produto": produto.estoque,
             #                  "descricao_produto": produto.descricao,
