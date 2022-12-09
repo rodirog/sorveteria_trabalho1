@@ -3,20 +3,21 @@
 from abc import ABC, abstractmethod
 import pickle
 
+from entidade.entidade import Entidade
+from excecoes.entidadeNaoExisteException import EntidadeNaoExisteException
 
-class PickleDAO(ABC):
+
+class DAO(ABC):
   @abstractmethod
   def __init__(self, repositorio):
     self.__repositorio = repositorio
     self.__criar_arquivo_caso_nao_existe()
-    # self.salvar([])
 
   @abstractmethod
-  def adicionar(self, entidade, chave):
+  def adicionar(self, entidade: Entidade):
     entidades = self.carregar()
 
-    item = (chave, entidade)
-    entidades.append(item)
+    entidades.append(entidade)
 
     self.salvar(entidades)
 
@@ -27,22 +28,24 @@ class PickleDAO(ABC):
     return self.encontrar_entidade(entidades, chave)
 
   @abstractmethod
-  def atualizar(self, entidade):
+  def atualizar(self, entidade: Entidade):
     entidades = self.carregar()
 
-    entidade_encontrado = self.encontrar_entidade(entidades, entidade.cpf)
-
-    entidade_encontrado.nome = entidade.nome
-    entidade_encontrado.email = entidade.email
-    entidade_encontrado.telefone = entidade.telefone
+    entidade_antiga = self.encontrar_entidade(entidades, entidade.chave)
+    entidades.remove(entidade_antiga)
+    entidades.append(entidade)
 
     self.salvar(entidades)
 
   @abstractmethod
-  def remover(self, entidade):
+  def remover(self, chave: int):
     entidades = self.carregar()
 
-    entidades.remove(entidade)
+    entidade_encontrada = self.encontrar_entidade(entidades, chave)
+    if not entidade_encontrada:
+      raise EntidadeNaoExisteException
+
+    entidades.remove(entidade_encontrada)
 
     self.salvar(entidades)
 
@@ -75,7 +78,8 @@ class PickleDAO(ABC):
     except FileNotFoundError:
       self.salvar([])
 
-  def encontrar_entidade(self, itens, chave_buscada):
-    for chave, entidade in itens:
-      if chave == chave_buscada:
+  def encontrar_entidade(self, entidades, chave: int):
+    for entidade in entidades:
+      print('aqui', entidade.chave, chave, entidade.codigo, entidade.chave == chave)
+      if entidade.chave == chave:
         return entidade

@@ -1,7 +1,7 @@
 from abc import abstractmethod, ABC
 
 
-class PessoaFisica(ABC):
+class AbstractPessoa(ABC):
     @abstractmethod
     def __init__(self, nome: str, cpf: int):
         self.__nome = nome

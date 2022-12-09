@@ -9,10 +9,10 @@ from excecoes.vendedorJahExisteException import VendedorJahExisteException
 from excecoes.vendedorNaoExisteException import VendedorNaoExisteException
 from excecoes.cpfInvalidoException import CpfInvalidoException
 from excecoes.objeto_vazio_exception import ObjetoVazioException
-from persistencia.pickle_dao import PickleDAO
+from persistencia.dao import DAO
 
 
-class VendedorDAO(PickleDAO):
+class VendedorDAO(DAO):
   def __init__(self):
     super().__init__('vendedores')
     self.__codigo = 1
@@ -28,7 +28,7 @@ class VendedorDAO(PickleDAO):
     vendedor.codigo = self.__codigo
     self.__codigo += 1
 
-    super().adicionar(vendedor, vendedor.codigo)
+    super().adicionar(vendedor)
 
   def encontrar(self, codigo):
     if not codigo:
@@ -50,11 +50,7 @@ class VendedorDAO(PickleDAO):
     if not codigo:
       raise ObjetoVazioException
 
-    vendedor_encontrado = self.encontrar(codigo)
-    if not vendedor_encontrado:
-        raise VendedorNaoExisteException
-
-    super().remover(vendedor_encontrado)
+    super().remover(codigo)
 
   def listar(self):
     return super().listar()

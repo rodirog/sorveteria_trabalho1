@@ -53,7 +53,7 @@ class ControladorCliente:
         self.__tela_cliente.mostrar_mensagem(
             "O cliente foi removido com sucesso!")
 
-    def encontrar_cliente(self, cpf):
+    def encontrar_cliente(self, cpf: int):
       return self.__cliente_dao.encontrar(cpf)
 
     def alterar_cliente(self):
@@ -115,14 +115,14 @@ class ControladorCliente:
             except (ClienteJahExisteException, ClienteNaoExisteException, NomeInvalidoException, CpfInvalidoException, EmailInvalidoException, TelefoneInvalidoException) as err:
                 self.__tela_cliente.mostrar_mensagem(f"Erro: {err.args[0]}")
 
-    def eh_nome_valido(self, nome_cliente):
-        return nome_cliente.isalpha()
+    def eh_nome_valido(self, nome):
+        return nome.isalpha()
 
-    def eh_cpf_valido(self, cpf_cliente):
-        return isinstance(cpf_cliente, int)
+    def eh_cpf_valido(self, cpf):
+        return isinstance(cpf, int)
 
-    def eh_email_valido(self, email_cliente):
-        return isinstance(email_cliente, str)
+    def eh_email_valido(self, email):
+        return isinstance(email, str)
 
-    def eh_telefone_valido(self, telefone_cliente):
-        return telefone_cliente.isalnum()
+    def eh_telefone_valido(self, telefone):
+        return telefone.isalnum()

@@ -10,10 +10,10 @@ from excecoes.clienteJahExisteException import ClienteJahExisteException
 from excecoes.clienteNaoExisteException import ClienteNaoExisteException
 from excecoes.cpfInvalidoException import CpfInvalidoException
 from excecoes.objeto_vazio_exception import ObjetoVazioException
-from persistencia.pickle_dao import PickleDAO
+from persistencia.dao import DAO
 
 
-class ClienteDAO(PickleDAO):
+class ClienteDAO(DAO):
   def __init__(self):
     super().__init__('clientes')
 
@@ -27,7 +27,7 @@ class ClienteDAO(PickleDAO):
     
     super().adicionar(cliente)
 
-  def encontrar(self, cpf):
+  def encontrar(self, cpf: int):
     if not cpf:
       raise ObjetoVazioException
     
@@ -41,17 +41,17 @@ class ClienteDAO(PickleDAO):
     if not cliente_encontrado:
         raise ClienteNaoExisteException
     
+    cliente_encontrado.nome = cliente.nome
+    cliente_encontrado.email = cliente.email
+    cliente_encontrado.telefone = cliente.telefone
+
     super().atualizar(cliente)
 
   def remover(self, cpf):
     if not cpf:
       raise ObjetoVazioException
 
-    cliente_encontrado = self.encontrar(cpf)
-    if not cliente_encontrado:
-        raise ClienteNaoExisteException
-
-    super().remover(cliente_encontrado)
+    super().remover(cpf)
 
   def listar(self):
     return super().listar()
