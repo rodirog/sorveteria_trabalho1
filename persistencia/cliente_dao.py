@@ -56,5 +56,3 @@ class ClienteDAO(DAO):
   def listar(self):
     return super().listar()
   
-  # def encontrar_pelo_codigo(self):
-  #   pass

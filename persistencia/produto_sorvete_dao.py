@@ -31,11 +31,8 @@ class ProdutoSorveteDAO(DAO):
     def adicionar(self, sorvete: ProdutoSorvete):
         super().adicionar(sorvete)
 
-    # def encontrar_pelo_codigo(self, codigo):
-    #     return super().encontrar_pelo_codigo(codigo)
-
     def encontrar(self, codigo):
-        super().encontrar(codigo)
+        return super().encontrar(codigo)
 
     def remover(self, codigo):
         super().remover(codigo)

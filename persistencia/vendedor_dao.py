@@ -61,5 +61,4 @@ class VendedorDAO(DAO):
     
     return super().encontrar(cpf)
 
-  # def encontrar_pelo_codigo(self, codigo):
-  #   pass
+ 
