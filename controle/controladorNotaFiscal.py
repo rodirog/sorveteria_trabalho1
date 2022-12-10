@@ -123,13 +123,17 @@ class ControladorNotaFiscal:
 
     def adicionar_item_nota_fiscal(self):
         dados_item_nota = self.__tela_nota_fiscal.pegar_dados_item_nota()
-
+        eh_sorvete = dados_item_nota["rd_sorvete"]
         codigo_produto = int(dados_item_nota["it_codigo_produto_item_nota"])
-        produto_encontrado = self.encontrar_produto(codigo_produto)
+        if eh_sorvete:
+            produto_encontrado = self.encontrar_sorvete(codigo_produto)
+        else:
+            produto_encontrado = self.encontrar_bebida(codigo_produto)
         if not produto_encontrado:
             raise ProdutoNaoExisteException
 
-        if produto_encontrado.tipo == 1:
+        # if produto_encontrado.tipo == 1:
+        if eh_sorvete:
             quantidade_item = dados_item_nota["it_quantidade_item_nota"]
             if not self.__eh_peso_valido(quantidade_item):
                 raise PesoInvalidoException
@@ -189,8 +193,14 @@ class ControladorNotaFiscal:
     def encontrar_vendedor(self, codigo_vendedor):
         return self.__controlador_vendedor.encontrar_vendedor(codigo_vendedor)
 
-    def encontrar_produto(self, codigo_produto):
-        return self.__controlador_produto.encontrar_produto_pelo_codigo(codigo_produto)
+    # def encontrar_produto(self, codigo_produto):
+    #     return self.__controlador_produto.encontrar_produto_pelo_codigo(codigo_produto)
+
+    def encontrar_sorvete(self, codigo_produto):
+        return self.__controlador_sorvete.encontrar_sorvete_pelo_codigo(codigo_produto)
+
+    def encontrar_bebida(self, codigo_produto):
+        return self.__controlador_bebida.encontrar_bebida_pelo_codigo(codigo_produto)
 
     def mostrar_tela_opcoes(self):
         if self.__nota_fiscal_atual:

@@ -148,51 +148,5 @@ class TelaBebida:
         sg.popup("", msg)
 
 
-    # def pegar_dados_bebida(self):
-    #     print()
-    #     print("CADASTRO bebida")
-    #     codigo_bebida = int(input("Codigo do bebida: "))
-    #     estoque_bebida = int(input("Estoque do bebida: "))
-    #     descricao_bebida = str(input("Descricao do bebida: "))
-    #     tipo_bebida = int(input("Tipo do bebida (insira '1' para bebida ou '2' para bebida): "))
-    #     valor_bebida = float(input("Valor do bebida: "))
-
-    #     return {"codigo_bebida": codigo_bebida, "estoque_bebida": estoque_bebida, "descricao_bebida": descricao_bebida, "tipo_bebida": tipo_bebida, "valor_bebida": valor_bebida}
-
-    # def alterar_dados_bebida(self):
-    #     print()
-    #     print("ALTERAR bebida")
-    #     codigo_bebida = int(input("Codigo do bebida: "))
-    #     estoque_bebida = int(input("Estoque do bebida: "))
-    #     descricao_bebida = str(input("Descricao do bebida: "))
-    #     valor_bebida = float(input("Valor do bebida: "))
-
-    #     return {"codigo_bebida": codigo_bebida, "estoque_bebida": estoque_bebida, "descricao_bebida": descricao_bebida, "valor_bebida": valor_bebida}
-
-    # def mostrar_bebida(self, dados_bebida):
-    #     print()
-    #     print("bebida")
-    #     print(f"Codigo: {dados_bebida['codigo_bebida']}")
-    #     print(f"Estoque: {dados_bebida['estoque_bebida']}")
-    #     print(f"Descricao: {dados_bebida['descricao_bebida']}")
-    #     print(f"Tipo: {dados_bebida['tipo_bebida']}")
-    #     print(f"Valor: {dados_bebida['valor_bebida']}")
-    #     print()
-
-    # def selecionar_bebida(self):
-    #     print()
-    #     codigo = int(input("Insira o codigo do bebida que deseja selecionar: "))
-    #     return codigo
-
-
-
-    # def mostrar_relatorio_de_bebidas(self, dados_bebida):
-    #     print()
-    #     print("BEBIDA")
-    #     print(f"Quantidade total vendida: {dados_bebida['quantidade_vendida_bebida']} unidade(s)")
-    #     print(f"Codigo: {dados_bebida['codigo_bebida']}")
-    #     print(f"Estoque: {dados_bebida['estoque_bebida']}")
-    #     print(f"Descricao: {dados_bebida['descricao_bebida']}")
-    #     print(f"Valor: {dados_bebida['valor_bebida']}")
-    #     print()
+   
 
