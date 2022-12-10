@@ -2,10 +2,12 @@ from excecoes.notaJahGeradaException import NotaJahGeradaException
 from entidade.cliente import Cliente
 from entidade.vendedor import Vendedor
 from entidade.itemNotaFiscal import ItemNotaFiscal
+from entidade.entidade import Entidade
 from datetime import datetime
 
 
-class NotaFiscal:
+
+class NotaFiscal(Entidade):
     def __init__(self, numero: int,
                  cliente: Cliente,
                  vendedor: Vendedor):
@@ -68,3 +70,7 @@ class NotaFiscal:
             total += item_nota.calcular_valor_total()
 
         self.__valor_total = total
+
+    @property
+    def chave(self):
+        return self.numero

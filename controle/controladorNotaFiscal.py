@@ -8,6 +8,7 @@ from excecoes.vendedorNaoExisteException import VendedorNaoExisteException
 from excecoes.estoqueVazioException import EstoqueVazioException
 from limite.telaNotaFiscal import TelaNotaFiscal
 from entidade.notaFiscal import NotaFiscal
+from persistencia.nota_fiscal_dao import NotaFiscalDAO
 
 
 class ControladorNotaFiscal:
@@ -17,6 +18,7 @@ class ControladorNotaFiscal:
         self.__controlador_sorvete = controlador_sorvete
         self.__controlador_bebida = controlador_bebida
         self.__tela_nota_fiscal = TelaNotaFiscal()
+        self.__nota_fiscal_dao = NotaFiscalDAO()
         self.__notas_fiscais = []
         self.__nota_fiscal_atual = None
         self.__numero = 1
@@ -34,9 +36,9 @@ class ControladorNotaFiscal:
         if not vendedor_encontrado:
             raise VendedorNaoExisteException
 
-        numero_nota = self.__numero
-
-        self.__numero += 1
+        # numero_nota = self.__numero
+        numero_nota = len(self.__nota_fiscal_dao.listar()) + 1
+        # self.__numero += 1
 
         nota_fiscal = NotaFiscal(
             numero_nota, cliente_encontrado, vendedor_encontrado)
@@ -47,7 +49,7 @@ class ControladorNotaFiscal:
         self.__mostrar_tela_item_opcoes()
         
         self.gerar_relatorio_da_nota(nota_fiscal)
-
+        self.__nota_fiscal_dao.adicionar(nota_fiscal)
         self.__tela_nota_fiscal.mostrar_mensagem(
             "A nota fiscal foi cadastrada com sucesso!")
 
@@ -82,17 +84,21 @@ class ControladorNotaFiscal:
             raise NotaFiscalNaoExisteException
 
         self.__notas_fiscais.remove(nota_fiscal_encontrada)
+        self.__nota_fiscal_dao.remover(numero_nota)
         self.__tela_nota_fiscal.mostrar_mensagem(
             "A nota fiscal foi removida com sucesso!")
 
     def encontrar_nota_fiscal(self, numero_nota):
-        for nota_fiscal in self.__notas_fiscais:
-            if nota_fiscal.numero == numero_nota:
-                return nota_fiscal
+        # for nota_fiscal in self.__notas_fiscais:
+        #     if nota_fiscal.numero == numero_nota:
+        #         return nota_fiscal
+        return self.__nota_fiscal_dao.encontrar(numero_nota)
 
     def listar_notas(self):
         dados_notas = []
-        for nota in self.__notas_fiscais:
+        notas = self.__nota_fiscal_dao.listar()
+        # for nota in self.__notas_fiscais:
+        for nota in notas:
             # dados_produto = {"codigo_produto": produto.codigo,
             #                  "estoque_produto": produto.estoque,
             #                  "descricao_produto": produto.descricao,
