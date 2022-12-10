@@ -19,9 +19,9 @@ class ControladorNotaFiscal:
         self.__controlador_bebida = controlador_bebida
         self.__tela_nota_fiscal = TelaNotaFiscal()
         self.__nota_fiscal_dao = NotaFiscalDAO()
-        self.__notas_fiscais = []
+        # self.__notas_fiscais = []
         self.__nota_fiscal_atual = None
-        self.__numero = 1
+        # self.__numero = 1
 
     def adicionar_nota_fiscal(self):
         dados_nota = self.__tela_nota_fiscal.pegar_dados_nota()
@@ -44,7 +44,7 @@ class ControladorNotaFiscal:
             numero_nota, cliente_encontrado, vendedor_encontrado)
 
         self.__nota_fiscal_atual = nota_fiscal
-        self.__notas_fiscais.append(nota_fiscal)
+        # self.__notas_fiscais.append(nota_fiscal)
 
         self.__mostrar_tela_item_opcoes()
         
@@ -83,7 +83,7 @@ class ControladorNotaFiscal:
         if not nota_fiscal_encontrada:
             raise NotaFiscalNaoExisteException
 
-        self.__notas_fiscais.remove(nota_fiscal_encontrada)
+        # self.__notas_fiscais.remove(nota_fiscal_encontrada)
         self.__nota_fiscal_dao.remover(numero_nota)
         self.__tela_nota_fiscal.mostrar_mensagem(
             "A nota fiscal foi removida com sucesso!")
