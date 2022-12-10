@@ -138,17 +138,25 @@ class ControladorNotaFiscal:
             if not self.__eh_peso_valido(quantidade_item):
                 raise PesoInvalidoException
             quantidade_item = float(quantidade_item)
+            
         else:
             quantidade_item = dados_item_nota["it_quantidade_item_nota"]
             if not self.__eh_quantidade_valida(quantidade_item):
                 raise QuantidadeInvalidoException
             quantidade_item = int(quantidade_item)
+        
         dados_item_nota = {
             "produto_item": produto_encontrado,
             "quantidade_item": quantidade_item,
         }
 
         self.__nota_fiscal_atual.adicionar_item_nota_fiscal(dados_item_nota)
+        if eh_sorvete:
+            self.__controlador_sorvete.produto_sorvete_dao.remover(codigo_produto)
+            self.__controlador_sorvete.produto_sorvete_dao.adicionar(produto_encontrado)
+        else:
+            self.__controlador_bebida.produto_bebida_dao.remover(codigo_produto)
+            self.__controlador_bebida.produto_bebida_dao.adicionar(produto_encontrado)
         self.__tela_nota_fiscal.mostrar_mensagem(
             "O item foi adicionado com sucesso!")
 
@@ -162,6 +170,14 @@ class ControladorNotaFiscal:
         item_excluido.produto.retornar_ao_estoque(quantidade_retornada)
 
         self.__nota_fiscal_atual.excluir_item_nota_fiscal(posicao_item)
+
+        if item_excluido.produto.tipo == 1:
+            self.__controlador_sorvete.produto_sorvete_dao.remover(item_excluido.produto.codigo)
+            self.__controlador_sorvete.produto_sorvete_dao.adicionar(item_excluido.produto)
+        else:
+            self.__controlador_bebida.produto_bebida_dao.remover(item_excluido.produto.codigo)
+            self.__controlador_bebida.produto_bebida_dao.adicionar(item_excluido.produto)
+        
         self.__tela_nota_fiscal.mostrar_mensagem(
             "O item da nota fiscal foi removido com sucesso!")
 

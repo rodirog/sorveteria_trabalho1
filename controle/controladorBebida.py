@@ -207,3 +207,11 @@ class ControladorBebida:
                 self.__tela_produto.mostrar_mensagem("Voce digitou um tipo invalido.")
             except KeyError:
                 self.__tela_produto.mostrar_mensagem("Voce digitou um numero invalido.")
+    
+    @property
+    def produto_sorvete_dao(self):
+        return self.__produto_sorvete_dao
+    
+    @property
+    def produto_bebida_dao(self):
+        return self.__produto_bebida_dao
