@@ -1,8 +1,10 @@
 
 from excecoes.estoqueVazioException import EstoqueVazioException
 from entidade.abstractProduto import AbstractProduto
+from entidade.entidade import Entidade
 
-class ProdutoBebida(AbstractProduto):
+
+class ProdutoBebida(AbstractProduto, Entidade):
     def __init__(self, codigo, estoque, descricao, valor):
         super().__init__(codigo, estoque, descricao, valor)
         self.__tipo = 2
@@ -31,5 +33,9 @@ class ProdutoBebida(AbstractProduto):
     @property
     def quantidade_vendida(self):
         return self.__quantidade_vendida
+
+    @property
+    def chave(self):
+        return self.codigo
 
     

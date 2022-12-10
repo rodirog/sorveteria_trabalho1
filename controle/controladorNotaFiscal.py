@@ -11,10 +11,11 @@ from entidade.notaFiscal import NotaFiscal
 
 
 class ControladorNotaFiscal:
-    def __init__(self, controlador_cliente, controlador_vendedor, controlador_produto):
+    def __init__(self, controlador_cliente, controlador_vendedor, controlador_sorvete, controlador_bebida):
         self.__controlador_cliente = controlador_cliente
         self.__controlador_vendedor = controlador_vendedor
-        self.__controlador_produto = controlador_produto
+        self.__controlador_sorvete = controlador_sorvete
+        self.__controlador_bebida = controlador_bebida
         self.__tela_nota_fiscal = TelaNotaFiscal()
         self.__notas_fiscais = []
         self.__nota_fiscal_atual = None

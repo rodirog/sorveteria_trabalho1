@@ -5,12 +5,14 @@ from limite.telaProduto import TelaProduto
 from entidade.produtoBebida import ProdutoBebida
 from entidade.produtoSorvete import ProdutoSorvete
 from persistencia.produto_sorvete_dao import ProdutoSorveteDAO
+from persistencia.produto_bebida_dao import ProdutoBebidaDAO
 
 
 class ControladorProduto:
     def __init__(self):
         self.__tela_produto = TelaProduto()
         self.__produto_sorvete_dao = ProdutoSorveteDAO()
+        self.__produto_bebida_dao = ProdutoBebidaDAO()
         # self.__produtos = []
 
     def incluir_produto(self):
@@ -61,7 +63,7 @@ class ControladorProduto:
                 if isinstance(produto, ProdutoSorvete):
                     self.__produto_sorvete_dao.adicionar(produto)
                 else:
-                    pass
+                    self.__produto_bebida_dao.adicionar(produto)
             
             else:
                 self.__tela_produto.mostrar_mensagem("Cadastro nao efetuado")
@@ -116,7 +118,7 @@ class ControladorProduto:
                                                                 algum numero invalido na insercao dos dados!")
                 
                 else:
-            
+                    self.__produto_sorvete_dao.remover(codigo_produto)
                     if (novos_dados_produto["tipo_produto"] == True and produto.tipo == 1)\
                         or (novos_dados_produto["tipo_produto"] == False and produto.tipo == 2):
                             produto.codigo = novos_dados_produto["codigo_produto"]
@@ -136,7 +138,8 @@ class ControladorProduto:
                                 novos_dados_produto["descricao_produto"],
                                 novos_dados_produto["valor_produto"])
                         self.__produtos.append(produto)
-
+                    
+                    self.__produto_sorvete_dao.adicionar(produto)
                     self.__tela_produto.mostrar_mensagem("Produto alterado com sucesso!")
                     self.listar_produtos()
             else:
@@ -161,6 +164,7 @@ class ControladorProduto:
     def listar_produtos(self):
         dados_produtos = []
         produtos = self.__produto_sorvete_dao.listar()
+        
         for produto in produtos:
             # dados_produto = {"codigo_produto": produto.codigo,
             #                  "estoque_produto": produto.estoque,
@@ -178,8 +182,9 @@ class ControladorProduto:
     def gerar_relatorio_de_sorvetes(self):
         sorvetes = []
         lista_relatorio = []
-        
-        for produto in self.__produtos:
+        produtos = self.__produto_sorvete_dao.listar()
+
+        for produto in produtos:
             if produto.tipo == 1:
                 sorvetes.append(produto)
 
