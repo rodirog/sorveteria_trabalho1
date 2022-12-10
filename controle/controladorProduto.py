@@ -56,10 +56,10 @@ class ControladorProduto:
                                 dados_produto["valor_produto"])
             
             if not self.encontrar_produto_pelo_codigo(produto.codigo):
-                self.__produtos.append(produto)
+                # self.__produtos.append(produto)
                 self.__tela_produto.mostrar_mensagem("Produto incluso com sucesso!") 
                 if isinstance(produto, ProdutoSorvete):
-                    self.__produto_sorvete_DAO.adicionar(produto)
+                    self.__produto_sorvete_dao.adicionar(produto)
                 else:
                     pass
             
@@ -71,7 +71,7 @@ class ControladorProduto:
         # for produto in self.__produtos:
         #     if produto.codigo == codigo:
         #         return produto
-        return self.__produto_sorvete_DAO.encontrar(codigo)
+        return self.__produto_sorvete_dao.encontrar(codigo)
 
     def alterar_produto(self):
         self.listar_produtos()
@@ -124,7 +124,7 @@ class ControladorProduto:
                             produto.descricao = novos_dados_produto["descricao_produto"]
                             produto.valor = novos_dados_produto["valor_produto"]
                     else:
-                        self.__produtos.remove(produto)
+                        # self.__produtos.remove(produto)
                         if produto.tipo == 1:
                             produto = ProdutoBebida(novos_dados_produto["codigo_produto"],
                                 novos_dados_produto["estoque_produto"],
@@ -153,14 +153,14 @@ class ControladorProduto:
             produto_encontrado = self.encontrar_produto_pelo_codigo(codigo_produto)
             if produto_encontrado:
                 # self.__produtos.remove(produto_encontrado)
-                self.__produto_sorvete_DAO.remover(codigo_produto)
+                self.__produto_sorvete_dao.remover(codigo_produto)
                 self.__tela_produto.mostrar_mensagem("Produto excluido com sucesso")
             else:
                 self.__tela_produto.mostrar_mensagem("Produto nao encontrado")
 
     def listar_produtos(self):
         dados_produtos = []
-        produtos = self.__produto_sorvete_DAO.listar()
+        produtos = self.__produto_sorvete_dao.listar()
         for produto in produtos:
             # dados_produto = {"codigo_produto": produto.codigo,
             #                  "estoque_produto": produto.estoque,

@@ -26,6 +26,12 @@ class DAO(ABC):
     entidades = self.carregar()
 
     return self.encontrar_entidade(entidades, chave)
+  
+  # @abstractmethod
+  # def encontrar_pelo_codigo(self, codigo):
+  #   entidades = self.carregar()
+
+  #   return self.encontrar_entidade_pelo_codigo(entidades, codigo)
 
   @abstractmethod
   def atualizar(self, entidade: Entidade):
@@ -48,6 +54,19 @@ class DAO(ABC):
     entidades.remove(entidade_encontrada)
 
     self.salvar(entidades)
+  
+  
+  # def remover_produto(self, chave: int):
+  #   entidades = self.carregar()
+
+  #   entidade_encontrada = self.encontrar_entidade_pelo_codigo(entidades, chave)
+  #   if not entidade_encontrada:
+  #     raise EntidadeNaoExisteException
+
+  #   entidades.remove(entidade_encontrada)
+
+  #   self.salvar(entidades)
+
 
   @abstractmethod
   def listar(self):
@@ -82,3 +101,8 @@ class DAO(ABC):
     for entidade in entidades:
       if entidade.chave == chave:
         return entidade
+
+  # def encontrar_entidade_pelo_codigo(self, entidades, codigo: int):
+  #   for entidade in entidades:
+  #     if entidade.codigo == codigo:
+  #       return entidade

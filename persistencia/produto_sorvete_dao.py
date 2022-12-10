@@ -31,11 +31,14 @@ class ProdutoSorveteDAO(DAO):
     def adicionar(self, sorvete: ProdutoSorvete):
         super().adicionar(sorvete)
 
-    def encontrar(self, codigo):
-        return super().encontrar_entidade_pelo_codigo(codigo)
+    # def encontrar_pelo_codigo(self, codigo):
+    #     return super().encontrar_pelo_codigo(codigo)
 
-    def remover(self, sorvete: ProdutoSorvete):
-        super().remover(sorvete)
+    def encontrar(self, codigo):
+        super().encontrar(codigo)
+
+    def remover(self, codigo):
+        super().remover(codigo)
 
     def listar(self):
         return super().listar()

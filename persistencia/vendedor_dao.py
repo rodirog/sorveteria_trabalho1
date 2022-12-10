@@ -60,3 +60,6 @@ class VendedorDAO(DAO):
       raise ObjetoVazioException
     
     return super().encontrar(cpf)
+
+  # def encontrar_pelo_codigo(self, codigo):
+  #   pass
