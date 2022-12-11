@@ -47,7 +47,7 @@ class ClienteDAO(DAO):
 
     super().atualizar(cliente)
 
-  def remover(self, cpf):
+  def remover(self, cpf: int):
     if not cpf:
       raise ObjetoVazioException
 
