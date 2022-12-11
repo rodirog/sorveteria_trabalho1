@@ -36,8 +36,15 @@ class ControladorNotaFiscal:
         if not vendedor_encontrado:
             raise VendedorNaoExisteException
 
-        # numero_nota = self.__numero
-        numero_nota = len(self.__nota_fiscal_dao.listar()) + 1
+        numero_nota = 1
+        # numero_nota = len(self.__nota_fiscal_dao.listar()) + 1
+        
+        notas = self.__nota_fiscal_dao.listar()
+        if len(notas) > 0:
+            ultima_nota = notas[-1]
+            numero_nota = ultima_nota.numero + 1
+                #checa se o numero da nota ja existe na lista 
+                
         # self.__numero += 1
 
         nota_fiscal = NotaFiscal(
