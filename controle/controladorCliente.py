@@ -115,7 +115,7 @@ class ControladorCliente:
                 self.__tela_cliente.mostrar_mensagem(f"Erro: {err.args[0]}")
 
     def eh_nome_valido(self, nome):
-        return nome.isalpha()
+        return nome.replace(' ', '').isalpha()
 
     def eh_cpf_valido(self, cpf):
         return isinstance(cpf, int)

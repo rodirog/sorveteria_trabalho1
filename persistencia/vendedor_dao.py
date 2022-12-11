@@ -30,7 +30,7 @@ class VendedorDAO(DAO):
 
     super().adicionar(vendedor)
 
-  def encontrar(self, codigo):
+  def encontrar(self, codigo: int):
     if not codigo:
       raise ObjetoVazioException
     
@@ -46,7 +46,7 @@ class VendedorDAO(DAO):
     
     super().atualizar(vendedor)
 
-  def remover(self, codigo):
+  def remover(self, codigo: int):
     if not codigo:
       raise ObjetoVazioException
 
