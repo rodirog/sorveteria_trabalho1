@@ -11,7 +11,7 @@ class ComponenteCadastroCliente:
       [sg.Text('email:', size=(7,1)), sg.InputText(key='it_cadasto_cliente_email', size=(25,1), do_not_clear=False)],
       [sg.Text('telefone:', size=(7,1)), sg.InputText(key='it_cadasto_cliente_telefone', size=(25,1), do_not_clear=False)],
 
-      [sg.Button('Cancel'), sg.Submit()]
+      [sg.Submit(), sg.Button('Cancel')]
     ]
 
     self.__container = sg.Window('Sistema de Clientes', cliente_add_layout, finalize=True)

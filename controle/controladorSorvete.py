@@ -204,9 +204,9 @@ class ControladorSorvete:
                     break
                 opcoes[opcao]()
             except ValueError:
-                self.__tela_produto.mostrar_mensagem("Voce digitou um tipo invalido.")
+                self.__tela_sorvete.mostrar_mensagem("Voce digitou um tipo invalido.")
             except KeyError:
-                self.__tela_produto.mostrar_mensagem("Voce digitou um numero invalido.")
+                self.__tela_sorvete.mostrar_mensagem("Voce digitou um numero invalido.")
 
     @property
     def produto_sorvete_dao(self):

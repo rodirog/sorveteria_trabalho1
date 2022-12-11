@@ -35,7 +35,7 @@ class TelaCliente:
       opcao = 3
     elif values['4']:
       opcao = 4
-    if values['0'] or button in (None, 'Cancelar'):
+    if values['0'] or button in (None, 'Voltar'):
       opcao = 0
     self.close()
     return opcao

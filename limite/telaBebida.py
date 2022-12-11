@@ -10,16 +10,17 @@ class TelaBebida:
 
     def tela_opcoes(self):
         self.init_opcoes()
+        opcao = None
         button, values = self.open()
         if values['1']:
             opcao = 1
-        if values['2']:
+        elif values['2']:
             opcao = 2
-        if values['3']:
+        elif values['3']:
             opcao = 3
-        if values['4']:
+        elif values['4']:
             opcao = 4
-        if values['5']:
+        elif values['5']:
             opcao = 5
         # cobre os casos de Retornar, fechar janela, ou clicar cancelar
         #Isso faz com que retornemos a tela do sistema caso qualquer uma dessas coisas aconteca
@@ -32,7 +33,7 @@ class TelaBebida:
     #sg.theme_previewer()
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-        [sg.Text('-------- bebidaS ----------', font=("Helvica", 25))],
+        [sg.Text('-------- bebidas ----------', font=("Helvica", 25))],
         [sg.Text('Escolha sua opção', font=("Helvica", 15))],
         [sg.Radio('Incluir bebida', "RD1", key='1')],
         [sg.Radio('Excluir bebida', "RD1", key='2')],

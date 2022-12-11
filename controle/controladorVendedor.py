@@ -48,10 +48,8 @@ class ControladorVendedor:
 
   def alterar_vendedor(self):
     codigo = self.__tela_vendedor.selecionar_vendedor()
-
-    print('erro aqui', codigo, type(codigo))
     vendedor_encontrado = self.encontrar_vendedor(codigo)
-    print('2', vendedor_encontrado)
+
     if not vendedor_encontrado:
       raise VendedorNaoExisteException
 

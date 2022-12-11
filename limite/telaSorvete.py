@@ -10,20 +10,21 @@ class TelaSorvete:
 
     def tela_opcoes(self):
         self.init_opcoes()
+        opcao = None
         button, values = self.open()
         if values['1']:
             opcao = 1
-        if values['2']:
+        elif values['2']:
             opcao = 2
-        if values['3']:
+        elif values['3']:
             opcao = 3
-        if values['4']:
+        elif values['4']:
             opcao = 4
-        if values['5']:
+        elif values['5']:
             opcao = 5
         # cobre os casos de Retornar, fechar janela, ou clicar cancelar
         #Isso faz com que retornemos a tela do sistema caso qualquer uma dessas coisas aconteca
-        if values['0'] or button in (None, 'Cancelar'):
+        if values['0'] or button in (None, 'Voltar'):
             opcao = 0
         self.close()
         return opcao
@@ -40,7 +41,7 @@ class TelaSorvete:
         [sg.Radio('Alterar sorvetes', "RD1", key='4')],
         [sg.Radio('Relatório de sorvetes', "RD1", key='5')],
         [sg.Radio('Retornar', "RD1", key='0')],
-        [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        [sg.Button('Confirmar'), sg.Cancel('Voltar')]
         ]
         self.__window = sg.Window('Sistema de sorvetes').Layout(layout)
 

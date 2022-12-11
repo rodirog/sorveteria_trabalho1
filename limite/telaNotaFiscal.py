@@ -20,12 +20,13 @@ class TelaNotaFiscal:
 
     def tela_notas_opcoes(self):
         self.init_notas_opcoes()
+        opcao = None
         button, values = self.open()
         if values['1']:
             opcao = 1
-        if values['2']:
+        elif values['2']:
             opcao = 2
-        if values['3']:
+        elif values['3']:
             opcao = 3
         # cobre os casos de Retornar, fechar janela, ou clicar cancelar
         #Isso faz com que retornemos a tela do sistema caso qualquer uma dessas coisas aconteca
