@@ -19,9 +19,7 @@ class ControladorNotaFiscal:
         self.__controlador_bebida = controlador_bebida
         self.__tela_nota_fiscal = TelaNotaFiscal()
         self.__nota_fiscal_dao = NotaFiscalDAO()
-        # self.__notas_fiscais = []
         self.__nota_fiscal_atual = None
-        # self.__numero = 1
 
     def adicionar_nota_fiscal(self):
         dados_nota = self.__tela_nota_fiscal.pegar_dados_nota()
@@ -37,21 +35,17 @@ class ControladorNotaFiscal:
             raise VendedorNaoExisteException
 
         numero_nota = 1
-        # numero_nota = len(self.__nota_fiscal_dao.listar()) + 1
         
         notas = self.__nota_fiscal_dao.listar()
         if len(notas) > 0:
             ultima_nota = notas[-1]
             numero_nota = ultima_nota.numero + 1
-                #checa se o numero da nota ja existe na lista 
+                #ve o numero da ultima nota da lista e adiciona 1
                 
-        # self.__numero += 1
-
         nota_fiscal = NotaFiscal(
             numero_nota, cliente_encontrado, vendedor_encontrado)
 
         self.__nota_fiscal_atual = nota_fiscal
-        # self.__notas_fiscais.append(nota_fiscal)
 
         self.__mostrar_tela_item_opcoes()
         
@@ -90,27 +84,19 @@ class ControladorNotaFiscal:
         if not nota_fiscal_encontrada:
             raise NotaFiscalNaoExisteException
 
-        # self.__notas_fiscais.remove(nota_fiscal_encontrada)
         self.__nota_fiscal_dao.remover(numero_nota)
         self.__tela_nota_fiscal.mostrar_mensagem(
             "A nota fiscal foi removida com sucesso!")
 
     def encontrar_nota_fiscal(self, numero_nota):
-        # for nota_fiscal in self.__notas_fiscais:
-        #     if nota_fiscal.numero == numero_nota:
-        #         return nota_fiscal
         return self.__nota_fiscal_dao.encontrar(numero_nota)
 
     def listar_notas(self):
         dados_notas = []
         notas = self.__nota_fiscal_dao.listar()
-        # for nota in self.__notas_fiscais:
+
         for nota in notas:
-            # dados_produto = {"codigo_produto": produto.codigo,
-            #                  "estoque_produto": produto.estoque,
-            #                  "descricao_produto": produto.descricao,
-            #                  "tipo_produto": produto.tipo,
-            #                  "valor_produto": produto.valor}
+
             dados_notas.append({"numero_nota": nota.numero, 
                                   "nome_cliente_nota": nota.cliente.nome, 
                                   "nome_vendedor_nota": nota.vendedor.nome, 
@@ -118,21 +104,6 @@ class ControladorNotaFiscal:
                                   "data_nota": nota.datetime.strftime("%d/%m/%Y %H:%M:%S")})
 
         self.__tela_nota_fiscal.mostrar_notas(dados_notas)
-
-    # def listar_nota_fiscal(self):
-    #     dados_notas_fiscais = []
-    #     for nota_fiscal in self.__notas_fiscais:
-    #         print(nota_fiscal.itens_da_nota)
-    #         dados_nota_fiscal = {
-    #             "numero_nota": nota_fiscal.numero,
-    #             "nome_cliente_nota": nota_fiscal.cliente.nome,
-    #             "nome_vendedor_nota": nota_fiscal.vendedor.nome,
-    #             "valor_total_nota": nota_fiscal.valor_total,
-    #             "data_nota": nota_fiscal.datetime.strftime("%d/%m/%Y %H:%M:%S")
-    #         }
-    #         dados_notas_fiscais.append(dados_nota_fiscal)
-
-    #     self.__tela_nota_fiscal.mostrar_notas(dados_notas_fiscais)
 
     def adicionar_item_nota_fiscal(self):
         dados_item_nota = self.__tela_nota_fiscal.pegar_dados_item_nota()
@@ -145,7 +116,6 @@ class ControladorNotaFiscal:
         if not produto_encontrado:
             raise ProdutoNaoExisteException
 
-        # if produto_encontrado.tipo == 1:
         if eh_sorvete:
             quantidade_item = dados_item_nota["it_quantidade_item_nota"]
             if not self.__eh_peso_valido(quantidade_item):
@@ -198,11 +168,7 @@ class ControladorNotaFiscal:
         dados_itens = []
         i=0
         for item in self.__nota_fiscal_atual.itens_da_nota:
-            # dados_produto = {"codigo_produto": produto.codigo,
-            #                  "estoque_produto": produto.estoque,
-            #                  "descricao_produto": produto.descricao,
-            #                  "tipo_produto": produto.tipo,
-            #                  "valor_produto": produto.valor}
+        
             dados_itens.append({"numero_item": i,
                                 "codigo_produto": item.produto.codigo,
                                 "descricao_produto": item.produto.descricao,
@@ -222,9 +188,6 @@ class ControladorNotaFiscal:
     def encontrar_vendedor(self, codigo_vendedor):
         return self.__controlador_vendedor.encontrar_vendedor(codigo_vendedor)
 
-    # def encontrar_produto(self, codigo_produto):
-    #     return self.__controlador_produto.encontrar_produto_pelo_codigo(codigo_produto)
-
     def encontrar_sorvete(self, codigo_produto):
         return self.__controlador_sorvete.encontrar_sorvete_pelo_codigo(codigo_produto)
 
@@ -243,9 +206,6 @@ class ControladorNotaFiscal:
 
         while True:
             opcao = self.__tela_nota_fiscal.tela_notas_opcoes()
-
-            # if opcao == 0:
-            #     break
 
             try:
                 opcoes[opcao]()

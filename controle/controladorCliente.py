@@ -14,7 +14,6 @@ class ControladorCliente:
     def __init__(self):
         self.__tela_cliente = TelaCliente()
         self.__cliente_dao = ClienteDAO()
-        # self.__clientes = []
 
     def adicionar_cliente(self):
         cliente_dto = self.__tela_cliente.pegar_dados_cliente()

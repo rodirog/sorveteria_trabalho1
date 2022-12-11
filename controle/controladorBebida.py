@@ -11,7 +11,6 @@ class ControladorBebida:
     def __init__(self):
         self.__tela_bebida = TelaBebida()
         self.__produto_bebida_dao = ProdutoBebidaDAO()
-        # self.__produtos = []
 
     def incluir_bebida(self):
         try:
@@ -25,12 +24,6 @@ class ControladorBebida:
             if not numeros_sao_validos:
                 raise NumeroInvalidoException
 
-            # tipo_produto_valido = dados_produto["tipo_produto"] == 0\
-            #                             or dados_produto["tipo_produto"] == 1
-
-            # if not tipo_produto_valido:
-            #     raise TipoProdutoInvalidoException
-
         except ValueError:
             self.__tela_bebida.mostrar_mensagem("Cadastro nao efetuado. Voce inseriu")
             self.__tela_bebida.mostrar_mensagem("algum tipo errado na inserção dos dados!")
@@ -38,10 +31,6 @@ class ControladorBebida:
         except NumeroInvalidoException:
                 self.__tela_bebida.mostrar_mensagem("Cadastro nao efetuado. Voce inseriu \
                                                         algum numero invalido na insercao dos dados!")
-        
-        # except TipoProdutoInvalidoException:
-        #         self.__tela_produto.mostrar_mensagem("Cadastro nao efetuado. Voce inseriu \
-        #                                             um tipo de produto invalido na insercao dos dados!")
 
         else:
             
@@ -51,7 +40,6 @@ class ControladorBebida:
                             dados_bebida["valor_bebida"])
             
             if not self.encontrar_bebida_pelo_codigo(bebida.codigo):
-                # self.__produtos.append(produto)
                 self.__tela_bebida.mostrar_mensagem("bebida incluso com sucesso!") 
                 
                 self.__produto_bebida_dao.adicionar(bebida)
@@ -61,9 +49,6 @@ class ControladorBebida:
                 self.__tela_bebida.mostrar_mensagem("Um produto com esse codigo ja existe.")
 
     def encontrar_bebida_pelo_codigo(self, codigo):
-        # for produto in self.__produtos:
-        #     if produto.codigo == codigo:
-        #         return produto
         return self.__produto_bebida_dao.encontrar(codigo)
 
     def alterar_bebida(self):
@@ -132,7 +117,6 @@ class ControladorBebida:
         else:
             bebida_encontrado = self.encontrar_bebida_pelo_codigo(codigo_bebida)
             if bebida_encontrado:
-                # self.__produtos.remove(produto_encontrado)
                 self.__produto_bebida_dao.remover(codigo_bebida)
                 self.__tela_bebida.mostrar_mensagem("Produto excluido com sucesso")
             else:
@@ -143,11 +127,6 @@ class ControladorBebida:
         bebidas = self.__produto_bebida_dao.listar()
         
         for bebida in bebidas:
-            # dados_produto = {"codigo_produto": produto.codigo,
-            #                  "estoque_produto": produto.estoque,
-            #                  "descricao_produto": produto.descricao,
-            #                  "tipo_produto": produto.tipo,
-            #                  "valor_produto": produto.valor}
             dados_bebidas.append({"codigo_bebida": bebida.codigo, 
                                   "estoque_bebida": bebida.estoque, 
                                   "descricao_bebida": bebida.descricao, 
@@ -171,26 +150,6 @@ class ControladorBebida:
                                     "valor_bebida": bebida.valor})
             
         self.__tela_bebida.mostrar_relatorio_de_bebidas(lista_relatorio)
-
-    # def gerar_relatorio_de_bebidas(self):
-    #     bebidas = []
-    #     lista_relatorio = []
-        
-    #     for produto in self.__produtos:
-    #         if produto.tipo == 2:
-    #             bebidas.append(produto)
-
-    #     ordem_de_vendas = sorted(bebidas, key=lambda x: x.quantidade_vendida, reverse=True)
-        
-    #     for bebida in ordem_de_vendas:
-            
-    #         lista_relatorio.append({"quantidade_vendida_bebida": bebida.quantidade_vendida,
-    #                                 "codigo_bebida": bebida.codigo,
-    #                                 "estoque_bebida": bebida.estoque,
-    #                                 "descricao_bebida": bebida.descricao,
-    #                                 "valor_bebida": bebida.valor})
-            
-    #     self.__tela_produto.mostrar_relatorio_de_bebidas(lista_relatorio)
 
     def mostrar_tela_opcoes(self):
         opcoes = {1: self.incluir_bebida, 2: self.excluir_bebida,

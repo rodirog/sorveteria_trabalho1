@@ -52,7 +52,7 @@ class ControladorLoja:
                 opcao_escolhida = self.__tela_principal.tela_opcoes()
                 funcao_escolhida = lista_opcoes[opcao_escolhida]
                 funcao_escolhida()
-                #opcoes[opcao]()
+                
             except KeyError:
                 self.__tela_principal.mostrar_mensagem(
                     "Voce digitou um numero invalido.")

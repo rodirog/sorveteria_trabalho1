@@ -43,9 +43,6 @@ class ControladorVendedor:
   def encontrar_vendedor(self, codigo: int):
     return self.__vendedor_dao.encontrar(codigo)
 
-  # def encontrar_vendedor_por_cpf(self, cpf: int):
-  #   self.__vendedor_dao.encontrar(cpf)
-
   def alterar_vendedor(self):
     codigo = self.__tela_vendedor.selecionar_vendedor()
 
