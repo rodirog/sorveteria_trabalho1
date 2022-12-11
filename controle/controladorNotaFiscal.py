@@ -8,17 +8,20 @@ from excecoes.vendedorNaoExisteException import VendedorNaoExisteException
 from excecoes.estoqueVazioException import EstoqueVazioException
 from limite.telaNotaFiscal import TelaNotaFiscal
 from entidade.notaFiscal import NotaFiscal
+from persistencia.nota_fiscal_dao import NotaFiscalDAO
 
 
 class ControladorNotaFiscal:
-    def __init__(self, controlador_cliente, controlador_vendedor, controlador_produto):
+    def __init__(self, controlador_cliente, controlador_vendedor, controlador_sorvete, controlador_bebida):
         self.__controlador_cliente = controlador_cliente
         self.__controlador_vendedor = controlador_vendedor
-        self.__controlador_produto = controlador_produto
+        self.__controlador_sorvete = controlador_sorvete
+        self.__controlador_bebida = controlador_bebida
         self.__tela_nota_fiscal = TelaNotaFiscal()
-        self.__notas_fiscais = []
+        self.__nota_fiscal_dao = NotaFiscalDAO()
+        # self.__notas_fiscais = []
         self.__nota_fiscal_atual = None
-        self.__numero = 1
+        # self.__numero = 1
 
     def adicionar_nota_fiscal(self):
         dados_nota = self.__tela_nota_fiscal.pegar_dados_nota()
@@ -33,20 +36,27 @@ class ControladorNotaFiscal:
         if not vendedor_encontrado:
             raise VendedorNaoExisteException
 
-        numero_nota = self.__numero
-
-        self.__numero += 1
+        numero_nota = 1
+        # numero_nota = len(self.__nota_fiscal_dao.listar()) + 1
+        
+        notas = self.__nota_fiscal_dao.listar()
+        if len(notas) > 0:
+            ultima_nota = notas[-1]
+            numero_nota = ultima_nota.numero + 1
+                #checa se o numero da nota ja existe na lista 
+                
+        # self.__numero += 1
 
         nota_fiscal = NotaFiscal(
             numero_nota, cliente_encontrado, vendedor_encontrado)
 
         self.__nota_fiscal_atual = nota_fiscal
-        self.__notas_fiscais.append(nota_fiscal)
+        # self.__notas_fiscais.append(nota_fiscal)
 
         self.__mostrar_tela_item_opcoes()
         
         self.gerar_relatorio_da_nota(nota_fiscal)
-
+        self.__nota_fiscal_dao.adicionar(nota_fiscal)
         self.__tela_nota_fiscal.mostrar_mensagem(
             "A nota fiscal foi cadastrada com sucesso!")
 
@@ -80,18 +90,22 @@ class ControladorNotaFiscal:
         if not nota_fiscal_encontrada:
             raise NotaFiscalNaoExisteException
 
-        self.__notas_fiscais.remove(nota_fiscal_encontrada)
+        # self.__notas_fiscais.remove(nota_fiscal_encontrada)
+        self.__nota_fiscal_dao.remover(numero_nota)
         self.__tela_nota_fiscal.mostrar_mensagem(
             "A nota fiscal foi removida com sucesso!")
 
     def encontrar_nota_fiscal(self, numero_nota):
-        for nota_fiscal in self.__notas_fiscais:
-            if nota_fiscal.numero == numero_nota:
-                return nota_fiscal
+        # for nota_fiscal in self.__notas_fiscais:
+        #     if nota_fiscal.numero == numero_nota:
+        #         return nota_fiscal
+        return self.__nota_fiscal_dao.encontrar(numero_nota)
 
     def listar_notas(self):
         dados_notas = []
-        for nota in self.__notas_fiscais:
+        notas = self.__nota_fiscal_dao.listar()
+        # for nota in self.__notas_fiscais:
+        for nota in notas:
             # dados_produto = {"codigo_produto": produto.codigo,
             #                  "estoque_produto": produto.estoque,
             #                  "descricao_produto": produto.descricao,
@@ -122,28 +136,40 @@ class ControladorNotaFiscal:
 
     def adicionar_item_nota_fiscal(self):
         dados_item_nota = self.__tela_nota_fiscal.pegar_dados_item_nota()
-
+        eh_sorvete = dados_item_nota["rd_sorvete"]
         codigo_produto = int(dados_item_nota["it_codigo_produto_item_nota"])
-        produto_encontrado = self.encontrar_produto(codigo_produto)
+        if eh_sorvete:
+            produto_encontrado = self.encontrar_sorvete(codigo_produto)
+        else:
+            produto_encontrado = self.encontrar_bebida(codigo_produto)
         if not produto_encontrado:
             raise ProdutoNaoExisteException
 
-        if produto_encontrado.tipo == 1:
+        # if produto_encontrado.tipo == 1:
+        if eh_sorvete:
             quantidade_item = dados_item_nota["it_quantidade_item_nota"]
             if not self.__eh_peso_valido(quantidade_item):
                 raise PesoInvalidoException
             quantidade_item = float(quantidade_item)
+            
         else:
             quantidade_item = dados_item_nota["it_quantidade_item_nota"]
             if not self.__eh_quantidade_valida(quantidade_item):
                 raise QuantidadeInvalidoException
             quantidade_item = int(quantidade_item)
+        
         dados_item_nota = {
             "produto_item": produto_encontrado,
             "quantidade_item": quantidade_item,
         }
 
         self.__nota_fiscal_atual.adicionar_item_nota_fiscal(dados_item_nota)
+        if eh_sorvete:
+            self.__controlador_sorvete.produto_sorvete_dao.remover(codigo_produto)
+            self.__controlador_sorvete.produto_sorvete_dao.adicionar(produto_encontrado)
+        else:
+            self.__controlador_bebida.produto_bebida_dao.remover(codigo_produto)
+            self.__controlador_bebida.produto_bebida_dao.adicionar(produto_encontrado)
         self.__tela_nota_fiscal.mostrar_mensagem(
             "O item foi adicionado com sucesso!")
 
@@ -157,6 +183,14 @@ class ControladorNotaFiscal:
         item_excluido.produto.retornar_ao_estoque(quantidade_retornada)
 
         self.__nota_fiscal_atual.excluir_item_nota_fiscal(posicao_item)
+
+        if item_excluido.produto.tipo == 1:
+            self.__controlador_sorvete.produto_sorvete_dao.remover(item_excluido.produto.codigo)
+            self.__controlador_sorvete.produto_sorvete_dao.adicionar(item_excluido.produto)
+        else:
+            self.__controlador_bebida.produto_bebida_dao.remover(item_excluido.produto.codigo)
+            self.__controlador_bebida.produto_bebida_dao.adicionar(item_excluido.produto)
+        
         self.__tela_nota_fiscal.mostrar_mensagem(
             "O item da nota fiscal foi removido com sucesso!")
 
@@ -188,8 +222,14 @@ class ControladorNotaFiscal:
     def encontrar_vendedor(self, codigo_vendedor):
         return self.__controlador_vendedor.encontrar_vendedor(codigo_vendedor)
 
-    def encontrar_produto(self, codigo_produto):
-        return self.__controlador_produto.encontrar_produto_pelo_codigo(codigo_produto)
+    # def encontrar_produto(self, codigo_produto):
+    #     return self.__controlador_produto.encontrar_produto_pelo_codigo(codigo_produto)
+
+    def encontrar_sorvete(self, codigo_produto):
+        return self.__controlador_sorvete.encontrar_sorvete_pelo_codigo(codigo_produto)
+
+    def encontrar_bebida(self, codigo_produto):
+        return self.__controlador_bebida.encontrar_bebida_pelo_codigo(codigo_produto)
 
     def mostrar_tela_opcoes(self):
         if self.__nota_fiscal_atual:

@@ -273,6 +273,7 @@ class TelaNotaFiscal:
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
             [sg.Text("Cadastro Item Nota Fiscal")],
+            [sg.Radio('Sorvete', "RADIO01", default=True, key="rd_sorvete"), sg.Radio('Bebida', "RADIO01")],
             [sg.Text("Codigo produto", size = (15,1)), sg.InputText(key="it_codigo_produto_item_nota")],
             [sg.Text("Quantidade/peso item", size = (15,1)), sg.InputText(key="it_quantidade_item_nota")],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
@@ -280,11 +281,12 @@ class TelaNotaFiscal:
         self.__window = sg.Window('Sistema de Notas Fiscais').Layout(layout)
 
         button, values = self.open()
+        tipo_produto = values["rd_sorvete"]
         codigo_produto = values['it_codigo_produto_item_nota']
         quantidade_produto = values['it_quantidade_item_nota']
         
         self.close()
-        return {"it_codigo_produto_item_nota": codigo_produto, "it_quantidade_item_nota": quantidade_produto}
+        return {"rd_sorvete": tipo_produto, "it_codigo_produto_item_nota": codigo_produto, "it_quantidade_item_nota": quantidade_produto}
 
     # def pegar_dados_item_nota(self):
     #     print("CADASTRO ITEM NOTA FISCAL")
