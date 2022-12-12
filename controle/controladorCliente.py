@@ -14,37 +14,40 @@ class ControladorCliente:
     def __init__(self):
         self.__tela_cliente = TelaCliente()
         self.__cliente_dao = ClienteDAO()
-        # self.__clientes = []
 
     def adicionar_cliente(self):
-        cliente_dto = self.__tela_cliente.pegar_dados_cliente()
+        try:
+            cliente_dto = self.__tela_cliente.pegar_dados_cliente()
 
-        cpf = cliente_dto.cpf
-        if not self.eh_cpf_valido(cpf):
-            raise CpfInvalidoException
+            cpf = cliente_dto.cpf
+            if not self.eh_cpf_valido(cpf):
+                raise CpfInvalidoException
 
-        nome = cliente_dto.nome
-        if not self.eh_nome_valido(nome):
-            raise NomeInvalidoException
+            nome = cliente_dto.nome
+            if not self.eh_nome_valido(nome):
+                raise NomeInvalidoException
 
-        email = cliente_dto.email
-        if not self.eh_email_valido(email):
-            raise EmailInvalidoException
+            email = cliente_dto.email
+            if not self.eh_email_valido(email):
+                raise EmailInvalidoException
 
-        telefone = cliente_dto.telefone
-        if not self.eh_telefone_valido(telefone):
-            raise TelefoneInvalidoException
+            telefone = cliente_dto.telefone
+            if not self.eh_telefone_valido(telefone):
+                raise TelefoneInvalidoException
 
-        cliente = Cliente(nome,
-                          cpf,
-                          email,
-                          telefone)
+            cliente = Cliente(nome,
+                            cpf,
+                            email,
+                            telefone)
 
-        self.__cliente_dao.adicionar(cliente)
-        self.__tela_cliente.mostrar_mensagem(
-            "O cliente foi cadastrado com sucesso!")
+            self.__cliente_dao.adicionar(cliente)
+            self.__tela_cliente.mostrar_mensagem(
+                "O cliente foi cadastrado com sucesso!")
+        except AttributeError:
+            pass
 
     def excluir_cliente(self):
+      try:
         cpf = self.__tela_cliente.selecionar_cliente()
         if not self.eh_cpf_valido(cpf):
             raise CpfInvalidoException
@@ -52,11 +55,14 @@ class ControladorCliente:
         self.__cliente_dao.remover(cpf)
         self.__tela_cliente.mostrar_mensagem(
             "O cliente foi removido com sucesso!")
+      except AttributeError:
+            pass
 
     def encontrar_cliente(self, cpf: int):
       return self.__cliente_dao.encontrar(cpf)
 
     def alterar_cliente(self):
+      try:
         cpf = self.__tela_cliente.selecionar_cliente()
             
         cliente_encontrado = self.encontrar_cliente(cpf)
@@ -86,6 +92,9 @@ class ControladorCliente:
         self.__cliente_dao.atualizar(cliente_encontrado)
         self.__tela_cliente.mostrar_mensagem(
             "O cliente foi alterado com sucesso!")
+
+      except AttributeError:
+        pass
 
     def listar_clientes(self):
         clientes_dtos = []

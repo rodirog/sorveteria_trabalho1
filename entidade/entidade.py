@@ -7,6 +7,5 @@ class Entidade(ABC):
     pass
 
   @abstractmethod
-  # @property
   def chave(self):
     pass

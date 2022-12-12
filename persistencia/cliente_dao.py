@@ -8,7 +8,6 @@
 from entidade.cliente import Cliente
 from excecoes.clienteJahExisteException import ClienteJahExisteException
 from excecoes.clienteNaoExisteException import ClienteNaoExisteException
-from excecoes.cpfInvalidoException import CpfInvalidoException
 from excecoes.objeto_vazio_exception import ObjetoVazioException
 from persistencia.dao import DAO
 

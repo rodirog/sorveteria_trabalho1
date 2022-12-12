@@ -2,7 +2,6 @@ import PySimpleGUI as sg
 
 class ComponenteOpcoes:
   def __init__(self, rotulo: str):
-    # singular, plural = rotulo
     sg.ChangeLookAndFeel('DarkTeal4')
 
     tab_layout = [

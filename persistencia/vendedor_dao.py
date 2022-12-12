@@ -7,7 +7,6 @@
 from entidade.vendedor import Vendedor
 from excecoes.vendedorJahExisteException import VendedorJahExisteException
 from excecoes.vendedorNaoExisteException import VendedorNaoExisteException
-from excecoes.cpfInvalidoException import CpfInvalidoException
 from excecoes.objeto_vazio_exception import ObjetoVazioException
 from persistencia.dao import DAO
 

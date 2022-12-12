@@ -9,7 +9,6 @@ from limite.componentes.componente_vendedor_selecao import ComponenteVendedorSel
 class TelaVendedor:
   def __init__(self):
     self.__window = self.criar_tela_opcoes()
-    self.__cpf_vendedor_selecionado = None
 
   def mostrar_tela_opcoes(self):
     self.__window = self.criar_tela_opcoes()
@@ -17,7 +16,6 @@ class TelaVendedor:
     button, values = self.open()
     if values['1']:
       opcao = 1
-      #self.pegar_dados_vendeor()
     elif values['2']:
       opcao = 2
     elif values['3']:
@@ -59,7 +57,11 @@ class TelaVendedor:
 
   def pegar_dados_vendedor(self):
     self.__window = self.criar_tela_dados()
+    button, _ = self.open()
     while True:
+      if button in (sg.WIN_CLOSED, 'Cancelar'):
+        self.close()
+        break
       try:
         vendedor = self.pegar_vendedor()
         self.close()

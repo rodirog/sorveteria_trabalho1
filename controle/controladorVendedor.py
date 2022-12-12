@@ -15,57 +15,63 @@ class ControladorVendedor:
     self.__vendedor_dao = VendedorDAO()
 
   def adicionar_vendedor(self):
-    vendedor_dto = self.__tela_vendedor.pegar_dados_vendedor()
+    try:
+      vendedor_dto = self.__tela_vendedor.pegar_dados_vendedor()
 
-    cpf = vendedor_dto.cpf
-    if not self.eh_cpf_valido(cpf):
-      raise CpfInvalidoException
+      cpf = vendedor_dto.cpf
+      if not self.eh_cpf_valido(cpf):
+        raise CpfInvalidoException
 
-    nome = vendedor_dto.nome
-    if not self.eh_nome_valido(nome):
-      raise NomeInvalidoException
+      nome = vendedor_dto.nome
+      if not self.eh_nome_valido(nome):
+        raise NomeInvalidoException
 
-    vendedor = Vendedor(nome, cpf)
+      vendedor = Vendedor(nome, cpf)
 
-    self.__vendedor_dao.adicionar(vendedor)
-    self.__tela_vendedor.mostrar_mensagem(
-        "O Vendedor foi cadastrado com sucesso!")
+      self.__vendedor_dao.adicionar(vendedor)
+      self.__tela_vendedor.mostrar_mensagem(
+          "O Vendedor foi cadastrado com sucesso!")
+    except AttributeError:
+            pass
 
   def excluir_vendedor(self):
-    codigo = self.__tela_vendedor.selecionar_vendedor()
-    if not self.eh_codigo_valido(codigo):
-      raise CodigoVendedorInvalidoException
+    try:
+      codigo = self.__tela_vendedor.selecionar_vendedor()
+      if not self.eh_codigo_valido(codigo):
+        raise CodigoVendedorInvalidoException
 
-    self.__vendedor_dao.remover(codigo)
-    self.__tela_vendedor.mostrar_mensagem(
-        "O vendedor foi removido com sucesso!")
+      self.__vendedor_dao.remover(codigo)
+      self.__tela_vendedor.mostrar_mensagem(
+          "O vendedor foi removido com sucesso!")
+    except AttributeError:
+            pass
 
   def encontrar_vendedor(self, codigo: int):
     return self.__vendedor_dao.encontrar(codigo)
 
-  # def encontrar_vendedor_por_cpf(self, cpf: int):
-  #   self.__vendedor_dao.encontrar(cpf)
-
   def alterar_vendedor(self):
-    codigo = self.__tela_vendedor.selecionar_vendedor()
-    vendedor_encontrado = self.encontrar_vendedor(codigo)
+    try:
+      codigo = self.__tela_vendedor.selecionar_vendedor()
+      vendedor_encontrado = self.encontrar_vendedor(codigo)
 
-    if not vendedor_encontrado:
-      raise VendedorNaoExisteException
+      if not vendedor_encontrado:
+        raise VendedorNaoExisteException
 
-    vendedor_dto = VendedorDto(vendedor_encontrado.nome, vendedor_encontrado.cpf, vendedor_encontrado.codigo)
+      vendedor_dto = VendedorDto(vendedor_encontrado.nome, vendedor_encontrado.cpf, vendedor_encontrado.codigo)
 
-    vendedor_dto = self.__tela_vendedor.alterar_dados_vendedor(vendedor_dto)
+      vendedor_dto = self.__tela_vendedor.alterar_dados_vendedor(vendedor_dto)
 
-    nome = vendedor_dto.nome
-    if not self.eh_nome_valido(nome):
-      raise NomeInvalidoException
+      nome = vendedor_dto.nome
+      if not self.eh_nome_valido(nome):
+        raise NomeInvalidoException
 
-    vendedor_encontrado.nome = nome
+      vendedor_encontrado.nome = nome
 
-    self.__vendedor_dao.atualizar(vendedor_encontrado)
-    self.__tela_vendedor.mostrar_mensagem(
-        "O vendedor foi alterado com sucesso!")
+      self.__vendedor_dao.atualizar(vendedor_encontrado)
+      self.__tela_vendedor.mostrar_mensagem(
+          "O vendedor foi alterado com sucesso!")
+    except AttributeError:
+            pass
 
   def listar_vendedores(self):
     vendedores_dtos = []
