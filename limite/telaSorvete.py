@@ -32,7 +32,7 @@ class TelaSorvete:
     def init_opcoes(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-        [sg.Text('-------- sorveteS ----------', font=("Helvica", 25))],
+        [sg.Text('-------- SORVETES ----------', font=("Helvica", 25))],
         [sg.Text('Escolha sua opção', font=("Helvica", 15))],
         [sg.Radio('Incluir sorvete', "RD1", key='1')],
         [sg.Radio('Excluir sorvete', "RD1", key='2')],
@@ -99,12 +99,12 @@ class TelaSorvete:
             string_todos_sorvetes = string_todos_sorvetes + "DESCRICAO: " + str(sorvete["descricao_sorvete"]) + '\n'
             string_todos_sorvetes = string_todos_sorvetes + "VALOR: " + str(sorvete["valor_sorvete"]) + '\n\n'
 
-        sg.Popup('-------- LISTA DE sorveteS ----------', string_todos_sorvetes)
+        sg.Popup('-------- LISTA DE SORVETES ----------', string_todos_sorvetes)
 
     def selecionar_sorvete(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-        [sg.Text('-------- SELECIONAR sorvete ----------', font=("Helvica", 25))],
+        [sg.Text('-------- SELECIONAR SORVETE ----------', font=("Helvica", 25))],
         [sg.Text('Digite o codigo do sorvete que deseja selecionar:', font=("Helvica", 15))],
         [sg.Text('Codigo:', size=(15, 1)), sg.InputText(key='it_codigo')],
         [sg.Button('Confirmar'), sg.Cancel('Cancelar')]

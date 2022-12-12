@@ -30,7 +30,7 @@ class TelaBebida:
     def init_opcoes(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-        [sg.Text('-------- bebidas ----------', font=("Helvica", 25))],
+        [sg.Text('-------- BEBIDAS ----------', font=("Helvica", 25))],
         [sg.Text('Escolha sua opção', font=("Helvica", 15))],
         [sg.Radio('Incluir bebida', "RD1", key='1')],
         [sg.Radio('Excluir bebida', "RD1", key='2')],
@@ -45,7 +45,7 @@ class TelaBebida:
     def pegar_dados_bebida(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text("Incluir novo bebida")],
+            [sg.Text("Incluir nova bebida")],
             [sg.Text("Codigo", size = (15,1)), sg.InputText(key="it_codigo")],
             [sg.Text("Estoque", size = (15,1)), sg.InputText(key="it_estoque")],
             [sg.Text("Descricao", size = (15,1)), sg.InputText(key="it_descricao")],
@@ -96,12 +96,12 @@ class TelaBebida:
             string_todos_bebidas = string_todos_bebidas + "DESCRICAO: " + str(bebida["descricao_bebida"]) + '\n'
             string_todos_bebidas = string_todos_bebidas + "VALOR: " + str(bebida["valor_bebida"]) + '\n\n'
 
-        sg.Popup('-------- LISTA DE bebidaS ----------', string_todos_bebidas)
+        sg.Popup('-------- LISTA DE BEBIDAS ----------', string_todos_bebidas)
 
     def selecionar_bebida(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-        [sg.Text('-------- SELECIONAR bebida ----------', font=("Helvica", 25))],
+        [sg.Text('-------- SELECIONAR BEBIDAS ----------', font=("Helvica", 25))],
         [sg.Text('Digite o codigo do bebida que deseja selecionar:', font=("Helvica", 15))],
         [sg.Text('Codigo:', size=(15, 1)), sg.InputText(key='it_codigo')],
         [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
@@ -124,7 +124,7 @@ class TelaBebida:
             string_todos_bebidas = string_todos_bebidas + "ESTOQUE: " + str(dado["estoque_bebida"]) + '\n'
             string_todos_bebidas = string_todos_bebidas + "VALOR: " + str(dado["valor_bebida"]) + '\n\n'
 
-        sg.Popup('-------- LISTA DE bebidaS ----------', string_todos_bebidas)
+        sg.Popup('-------- LISTA DE BEBIDAS ----------', string_todos_bebidas)
 
     def close(self):
         self.__window.Close()

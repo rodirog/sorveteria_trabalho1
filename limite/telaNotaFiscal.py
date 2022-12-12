@@ -120,7 +120,7 @@ class TelaNotaFiscal:
             col7.append([sg.Text(str(item["total_item"]), font=("Helvica", 10))])
         
 
-        layout = [[[[sg.Text('------------- Relatório da Nota -------------', font=("Helvica", 25))],
+        layout = [[[[sg.Text('------------- Relatorio da Nota -------------', font=("Helvica", 25))],
             [sg.Column(col1, key='c1', element_justification='l', expand_x=True),
              sg.Column(col2, key='c2', element_justification='c', vertical_alignment='t', expand_x=True),
              sg.Column(col3, key='c3', element_justification='c', vertical_alignment='t', expand_x=True),
@@ -134,7 +134,7 @@ class TelaNotaFiscal:
             [sg.Button('Retornar')]
         ]
         
-        self.__window = sg.Window('Relatório de nota fiscal').Layout(layout)
+        self.__window = sg.Window('Relatorio de nota fiscal').Layout(layout)
 
         button, values = self.open()
         
