@@ -24,8 +24,8 @@ class ControladorSorvete:
                 raise NumeroInvalidoException
 
         except ValueError:
-            self.__tela_sorvete.mostrar_mensagem("Cadastro nao efetuado. Voce inseriu")
-            self.__tela_sorvete.mostrar_mensagem("algum tipo errado na inserção dos dados!")
+            self.__tela_sorvete.mostrar_mensagem("Cadastro nao efetuado. \
+                                                    Voce inseriu algum tipo errado na inserção dos dados!")
         
         except NumeroInvalidoException:
                 self.__tela_sorvete.mostrar_mensagem("Cadastro nao efetuado. Voce inseriu \
@@ -45,8 +45,8 @@ class ControladorSorvete:
                 self.__produto_sorvete_dao.adicionar(sorvete)
             
             else:
-                self.__tela_sorvete.mostrar_mensagem("Cadastro nao efetuado")
-                self.__tela_sorvete.mostrar_mensagem("Um produto com esse codigo ja existe.")
+                self.__tela_sorvete.mostrar_mensagem("Cadastro nao efetuado. \
+                                                        Um produto com esse codigo ja existe.")
 
     def encontrar_sorvete_pelo_codigo(self, codigo):
         return self.__produto_sorvete_dao.encontrar(codigo)
@@ -85,8 +85,9 @@ class ControladorSorvete:
                         raise NumeroInvalidoException
                 
                 except ValueError:
-                    self.__tela_sorvete.mostrar_mensagem("Alteracao nao efetuada. Voce inseriu")
-                    self.__tela_sorvete.mostrar_mensagem("algum tipo errado na insercao de dados.")
+                    self.__tela_sorvete.mostrar_mensagem("Alteracao nao efetuada. Voce inseriu \
+                                                            algum tipo errado na insercao de dados.")
+                   
 
                 except NumeroInvalidoException:
                         self.__tela_sorvete.mostrar_mensagem("Alteracao nao efetuada. Voce inseriu \

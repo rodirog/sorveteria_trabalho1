@@ -25,8 +25,8 @@ class ControladorBebida:
                 raise NumeroInvalidoException
 
         except ValueError:
-            self.__tela_bebida.mostrar_mensagem("Cadastro nao efetuado. Voce inseriu")
-            self.__tela_bebida.mostrar_mensagem("algum tipo errado na inserção dos dados!")
+            self.__tela_bebida.mostrar_mensagem("Cadastro nao efetuado. Voce inseriu \
+                                                    algum tipo errado na inserção dos dados!")
         
         except NumeroInvalidoException:
                 self.__tela_bebida.mostrar_mensagem("Cadastro nao efetuado. Voce inseriu \
@@ -40,13 +40,14 @@ class ControladorBebida:
                             dados_bebida["valor_bebida"])
             
             if not self.encontrar_bebida_pelo_codigo(bebida.codigo):
-                self.__tela_bebida.mostrar_mensagem("bebida incluso com sucesso!") 
+                self.__tela_bebida.mostrar_mensagem("Bebida inclusa com sucesso!") 
                 
                 self.__produto_bebida_dao.adicionar(bebida)
             
             else:
-                self.__tela_bebida.mostrar_mensagem("Cadastro nao efetuado")
-                self.__tela_bebida.mostrar_mensagem("Um produto com esse codigo ja existe.")
+                self.__tela_bebida.mostrar_mensagem("Cadastro nao efetuado. \
+                                                        Um produto com esse codigo ja existe.")
+                
 
     def encontrar_bebida_pelo_codigo(self, codigo):
         return self.__produto_bebida_dao.encontrar(codigo)
@@ -85,8 +86,8 @@ class ControladorBebida:
                         raise NumeroInvalidoException
                 
                 except ValueError:
-                    self.__tela_bebida.mostrar_mensagem("Alteracao nao efetuada. Voce inseriu")
-                    self.__tela_bebida.mostrar_mensagem("algum tipo errado na insercao de dados.")
+                    self.__tela_bebida.mostrar_mensagem("Alteracao nao efetuada. Voce inseriu \
+                                                            algum tipo errado na insercao de dados.")
 
                 except NumeroInvalidoException:
                         self.__tela_bebida.mostrar_mensagem("Alteracao nao efetuada. Voce inseriu \
