@@ -54,6 +54,8 @@ class TelaBebida:
         self.__window = sg.Window('Sistema de bebidas').Layout(layout)
 
         button, values = self.open()
+        if button in (None, "Cancelar"):
+            raise TypeError
         codigo = int(values['it_codigo'])
         estoque = int(values['it_estoque'])
         descricao = values['it_descricao']
@@ -75,6 +77,8 @@ class TelaBebida:
         self.__window = sg.Window('Sistema de bebidas').Layout(layout)
 
         button, values = self.open()
+        if button in (None, "Cancelar"):
+            raise TypeError
         codigo = int(values['it_codigo'])
         estoque = int(values['it_estoque'])
         descricao = values['it_descricao']
@@ -104,6 +108,8 @@ class TelaBebida:
         self.__window = sg.Window('Seleciona bebida').Layout(layout)
 
         button, values = self.open()
+        if button in (None, "Cancelar"):
+            raise TypeError
         codigo = values['it_codigo']
         self.close()
         return int(codigo)

@@ -200,7 +200,8 @@ class TelaNotaFiscal:
         button, values = self.open()
         cpf_cliente = values['it_cpf_cliente']
         codigo_vendedor = values['it_codigo_vendedor']
-        
+        if button in (None, "Cancelar"):
+            raise TypeError
         self.close()
         return {"cpf_cliente": cpf_cliente, "codigo_vendedor": codigo_vendedor}
 
@@ -216,10 +217,13 @@ class TelaNotaFiscal:
         self.__window = sg.Window('Sistema de Notas Fiscais').Layout(layout)
 
         button, values = self.open()
+        if button in (None, "Cancelar"):
+            return TypeError
+
         tipo_produto = values["rd_sorvete"]
         codigo_produto = values['it_codigo_produto_item_nota']
         quantidade_produto = values['it_quantidade_item_nota']
-        
+
         self.close()
         return {"rd_sorvete": tipo_produto, "it_codigo_produto_item_nota": codigo_produto, "it_quantidade_item_nota": quantidade_produto}
 
@@ -234,7 +238,10 @@ class TelaNotaFiscal:
         self.__window = sg.Window('Seleciona nota fiscal').Layout(layout)
 
         button, values = self.open()
+        if button in (None, "Cancelar"):
+            raise TypeError
         numero = values['it_numero_nota']
+
         self.close()
         return int(numero)
 
@@ -249,6 +256,8 @@ class TelaNotaFiscal:
         self.__window = sg.Window('Seleciona item').Layout(layout)
 
         button, values = self.open()
+        if button in (None, "Cancelar"):
+            raise TypeError
         numero = values['it_numero_item']
         self.close()
         return int(numero)

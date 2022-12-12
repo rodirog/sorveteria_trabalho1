@@ -54,10 +54,13 @@ class TelaSorvete:
         self.__window = sg.Window('Sistema de sorvetes').Layout(layout)
 
         button, values = self.open()
+        if button in (None, "Cancelar"):
+            raise TypeError
         codigo = int(values['it_codigo'])
         estoque = int(values['it_estoque'])
         descricao = values['it_descricao']
         valor = float(values['it_valor'])
+        
 
         self.close()
         return {"codigo_sorvete": codigo, "estoque_sorvete": estoque, "descricao_sorvete": descricao, "valor_sorvete": valor}
@@ -75,11 +78,13 @@ class TelaSorvete:
         self.__window = sg.Window('Sistema de sorvetes').Layout(layout)
 
         button, values = self.open()
+        if button in (None, "Cancelar"):
+            raise TypeError
         codigo = int(values['it_codigo'])
         estoque = int(values['it_estoque'])
         descricao = values['it_descricao']
         valor = float(values['it_valor'])
-
+        
         self.close()
         return {"codigo_sorvete": codigo, "estoque_sorvete": estoque, "descricao_sorvete": descricao, "valor_sorvete": valor}
 
@@ -104,7 +109,10 @@ class TelaSorvete:
         self.__window = sg.Window('Seleciona sorvete').Layout(layout)
 
         button, values = self.open()
+        if button in (None, "Cancelar"):
+            raise TypeError
         codigo = values['it_codigo']
+        
         self.close()
         return int(codigo)
 

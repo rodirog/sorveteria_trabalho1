@@ -59,3 +59,5 @@ class ControladorLoja:
             except ValueError:
                 self.__tela_principal.mostrar_mensagem(
                     "Voce digitou um tipo invalido.")
+            except TypeError:
+                pass
