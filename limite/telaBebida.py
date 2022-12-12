@@ -22,15 +22,12 @@ class TelaBebida:
             opcao = 4
         elif values['5']:
             opcao = 5
-        # cobre os casos de Retornar, fechar janela, ou clicar cancelar
-        #Isso faz com que retornemos a tela do sistema caso qualquer uma dessas coisas aconteca
         if values['0'] or button in (None, 'Cancelar'):
             opcao = 0
         self.close()
         return opcao
 
     def init_opcoes(self):
-    #sg.theme_previewer()
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
         [sg.Text('-------- bebidas ----------', font=("Helvica", 25))],
@@ -45,8 +42,6 @@ class TelaBebida:
         ]
         self.__window = sg.Window('Sistema de bebidas').Layout(layout)
 
-    # fazer aqui tratamento dos dados, caso a entrada seja diferente do esperado
-  # opção de tratamento: adicionar um if e só coletar nome e telefone se o button é 'Confirmar'
     def pegar_dados_bebida(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
@@ -60,6 +55,8 @@ class TelaBebida:
         self.__window = sg.Window('Sistema de bebidas').Layout(layout)
 
         button, values = self.open()
+        if button in (None, "Cancelar"):
+            raise TypeError
         codigo = int(values['it_codigo'])
         estoque = int(values['it_estoque'])
         descricao = values['it_descricao']
@@ -81,6 +78,8 @@ class TelaBebida:
         self.__window = sg.Window('Sistema de bebidas').Layout(layout)
 
         button, values = self.open()
+        if button in (None, "Cancelar"):
+            raise TypeError
         codigo = int(values['it_codigo'])
         estoque = int(values['it_estoque'])
         descricao = values['it_descricao']
@@ -89,7 +88,6 @@ class TelaBebida:
         self.close()
         return {"codigo_bebida": codigo, "estoque_bebida": estoque, "descricao_bebida": descricao, "valor_bebida": valor}
 
-     # fazer aqui tratamento dos dados, caso a entrada seja diferente do esperado
     def mostrar_bebidas(self, dados_bebidas):
         string_todos_bebidas = ""
         for bebida in dados_bebidas:
@@ -100,7 +98,6 @@ class TelaBebida:
 
         sg.Popup('-------- LISTA DE bebidaS ----------', string_todos_bebidas)
 
-     # fazer aqui tratamento dos dados, caso a entrada seja diferente do esperado
     def selecionar_bebida(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
@@ -112,6 +109,8 @@ class TelaBebida:
         self.__window = sg.Window('Seleciona bebida').Layout(layout)
 
         button, values = self.open()
+        if button in (None, "Cancelar"):
+            raise TypeError
         codigo = values['it_codigo']
         self.close()
         return int(codigo)
@@ -126,17 +125,6 @@ class TelaBebida:
             string_todos_bebidas = string_todos_bebidas + "VALOR: " + str(dado["valor_bebida"]) + '\n\n'
 
         sg.Popup('-------- LISTA DE bebidaS ----------', string_todos_bebidas)
-
-    # def mostrar_relatorio_de_bebidas(self, dados_bebidas):
-    #     string_todas_bebidas = ""
-    #     for dado in dados_bebidas:
-    #         string_todas_bebidas = string_todas_bebidas + "DESCRICAO: " + str(dado["descricao_bebida"]) + '\n'
-    #         string_todas_bebidas = string_todas_bebidas + "QUANTIDADE VENDIDA: " + str(dado["quantidade_vendida_bebida"]) + " unidade(s)" + '\n'
-    #         string_todas_bebidas = string_todas_bebidas + "CODIGO: " + str(dado["codigo_bebida"]) + '\n'
-    #         string_todas_bebidas = string_todas_bebidas + "ESTOQUE: " + str(dado["estoque_bebida"]) + '\n'
-    #         string_todas_bebidas = string_todas_bebidas + "VALOR: " + str(dado["valor_bebida"]) + '\n\n'
-
-    #     sg.Popup('-------- LISTA DE BEBIDAS ----------', string_todas_bebidas)
 
     def close(self):
         self.__window.Close()

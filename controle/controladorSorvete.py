@@ -11,12 +11,10 @@ class ControladorSorvete:
     def __init__(self):
         self.__tela_sorvete = TelaSorvete()
         self.__produto_sorvete_dao = ProdutoSorveteDAO()
-        # self.__produtos = []
 
     def incluir_sorvete(self):
         try:
             dados_sorvete = self.__tela_sorvete.pegar_dados_sorvete()
-            #ValueError se refere a essa linha
 
             numeros_sao_validos = dados_sorvete["codigo_sorvete"] >= 0 \
                                     and dados_sorvete["estoque_sorvete"] > 0 \
@@ -25,12 +23,6 @@ class ControladorSorvete:
             if not numeros_sao_validos:
                 raise NumeroInvalidoException
 
-            # tipo_produto_valido = dados_produto["tipo_produto"] == 0\
-            #                             or dados_produto["tipo_produto"] == 1
-
-            # if not tipo_produto_valido:
-            #     raise TipoProdutoInvalidoException
-
         except ValueError:
             self.__tela_sorvete.mostrar_mensagem("Cadastro nao efetuado. Voce inseriu")
             self.__tela_sorvete.mostrar_mensagem("algum tipo errado na inserção dos dados!")
@@ -38,10 +30,6 @@ class ControladorSorvete:
         except NumeroInvalidoException:
                 self.__tela_sorvete.mostrar_mensagem("Cadastro nao efetuado. Voce inseriu \
                                                         algum numero invalido na insercao dos dados!")
-        
-        # except TipoProdutoInvalidoException:
-        #         self.__tela_produto.mostrar_mensagem("Cadastro nao efetuado. Voce inseriu \
-        #                                             um tipo de produto invalido na insercao dos dados!")
 
         else:
             
@@ -61,9 +49,6 @@ class ControladorSorvete:
                 self.__tela_sorvete.mostrar_mensagem("Um produto com esse codigo ja existe.")
 
     def encontrar_sorvete_pelo_codigo(self, codigo):
-        # for produto in self.__produtos:
-        #     if produto.codigo == codigo:
-        #         return produto
         return self.__produto_sorvete_dao.encontrar(codigo)
 
     def alterar_sorvete(self):
@@ -143,11 +128,6 @@ class ControladorSorvete:
         sorvetes = self.__produto_sorvete_dao.listar()
         
         for sorvete in sorvetes:
-            # dados_produto = {"codigo_produto": produto.codigo,
-            #                  "estoque_produto": produto.estoque,
-            #                  "descricao_produto": produto.descricao,
-            #                  "tipo_produto": produto.tipo,
-            #                  "valor_produto": produto.valor}
             dados_sorvetes.append({"codigo_sorvete": sorvete.codigo, 
                                   "estoque_sorvete": sorvete.estoque, 
                                   "descricao_sorvete": sorvete.descricao, 
@@ -171,26 +151,6 @@ class ControladorSorvete:
                                     "valor_sorvete": sorvete.valor})
             
         self.__tela_sorvete.mostrar_relatorio_de_sorvetes(lista_relatorio)
-
-    # def gerar_relatorio_de_bebidas(self):
-    #     bebidas = []
-    #     lista_relatorio = []
-        
-    #     for produto in self.__produtos:
-    #         if produto.tipo == 2:
-    #             bebidas.append(produto)
-
-    #     ordem_de_vendas = sorted(bebidas, key=lambda x: x.quantidade_vendida, reverse=True)
-        
-    #     for bebida in ordem_de_vendas:
-            
-    #         lista_relatorio.append({"quantidade_vendida_bebida": bebida.quantidade_vendida,
-    #                                 "codigo_bebida": bebida.codigo,
-    #                                 "estoque_bebida": bebida.estoque,
-    #                                 "descricao_bebida": bebida.descricao,
-    #                                 "valor_bebida": bebida.valor})
-            
-    #     self.__tela_produto.mostrar_relatorio_de_bebidas(lista_relatorio)
 
     def mostrar_tela_opcoes(self):
         opcoes = {1: self.incluir_sorvete, 2: self.excluir_sorvete,

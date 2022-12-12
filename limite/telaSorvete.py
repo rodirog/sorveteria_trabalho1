@@ -30,7 +30,6 @@ class TelaSorvete:
         return opcao
 
     def init_opcoes(self):
-    #sg.theme_previewer()
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
         [sg.Text('-------- sorveteS ----------', font=("Helvica", 25))],
@@ -45,8 +44,6 @@ class TelaSorvete:
         ]
         self.__window = sg.Window('Sistema de sorvetes').Layout(layout)
 
-    # fazer aqui tratamento dos dados, caso a entrada seja diferente do esperado
-  # opção de tratamento: adicionar um if e só coletar nome e telefone se o button é 'Confirmar'
     def pegar_dados_sorvete(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
@@ -60,10 +57,13 @@ class TelaSorvete:
         self.__window = sg.Window('Sistema de sorvetes').Layout(layout)
 
         button, values = self.open()
+        if button in (None, "Cancelar"):
+            raise TypeError
         codigo = int(values['it_codigo'])
         estoque = int(values['it_estoque'])
         descricao = values['it_descricao']
         valor = float(values['it_valor'])
+        
 
         self.close()
         return {"codigo_sorvete": codigo, "estoque_sorvete": estoque, "descricao_sorvete": descricao, "valor_sorvete": valor}
@@ -81,15 +81,16 @@ class TelaSorvete:
         self.__window = sg.Window('Sistema de sorvetes').Layout(layout)
 
         button, values = self.open()
+        if button in (None, "Cancelar"):
+            raise TypeError
         codigo = int(values['it_codigo'])
         estoque = int(values['it_estoque'])
         descricao = values['it_descricao']
         valor = float(values['it_valor'])
-
+        
         self.close()
         return {"codigo_sorvete": codigo, "estoque_sorvete": estoque, "descricao_sorvete": descricao, "valor_sorvete": valor}
 
-     # fazer aqui tratamento dos dados, caso a entrada seja diferente do esperado
     def mostrar_sorvetes(self, dados_sorvetes):
         string_todos_sorvetes = ""
         for sorvete in dados_sorvetes:
@@ -100,7 +101,6 @@ class TelaSorvete:
 
         sg.Popup('-------- LISTA DE sorveteS ----------', string_todos_sorvetes)
 
-     # fazer aqui tratamento dos dados, caso a entrada seja diferente do esperado
     def selecionar_sorvete(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
@@ -112,7 +112,10 @@ class TelaSorvete:
         self.__window = sg.Window('Seleciona sorvete').Layout(layout)
 
         button, values = self.open()
+        if button in (None, "Cancelar"):
+            raise TypeError
         codigo = values['it_codigo']
+        
         self.close()
         return int(codigo)
 
@@ -127,17 +130,6 @@ class TelaSorvete:
 
         sg.Popup('-------- LISTA DE SORVETES ----------', string_todos_sorvetes)
 
-    # def mostrar_relatorio_de_bebidas(self, dados_bebidas):
-    #     string_todas_bebidas = ""
-    #     for dado in dados_bebidas:
-    #         string_todas_bebidas = string_todas_bebidas + "DESCRICAO: " + str(dado["descricao_bebida"]) + '\n'
-    #         string_todas_bebidas = string_todas_bebidas + "QUANTIDADE VENDIDA: " + str(dado["quantidade_vendida_bebida"]) + " unidade(s)" + '\n'
-    #         string_todas_bebidas = string_todas_bebidas + "CODIGO: " + str(dado["codigo_bebida"]) + '\n'
-    #         string_todas_bebidas = string_todas_bebidas + "ESTOQUE: " + str(dado["estoque_bebida"]) + '\n'
-    #         string_todas_bebidas = string_todas_bebidas + "VALOR: " + str(dado["valor_bebida"]) + '\n\n'
-
-    #     sg.Popup('-------- LISTA DE BEBIDAS ----------', string_todas_bebidas)
-
     def close(self):
         self.__window.Close()
 
@@ -147,53 +139,3 @@ class TelaSorvete:
     
     def mostrar_mensagem(self, msg):
         sg.popup("", msg)
-
-
-    # def pegar_dados_sorvete(self):
-    #     print()
-    #     print("CADASTRO sorvete")
-    #     codigo_sorvete = int(input("Codigo do sorvete: "))
-    #     estoque_sorvete = int(input("Estoque do sorvete: "))
-    #     descricao_sorvete = str(input("Descricao do sorvete: "))
-    #     tipo_sorvete = int(input("Tipo do sorvete (insira '1' para sorvete ou '2' para bebida): "))
-    #     valor_sorvete = float(input("Valor do sorvete: "))
-
-    #     return {"codigo_sorvete": codigo_sorvete, "estoque_sorvete": estoque_sorvete, "descricao_sorvete": descricao_sorvete, "tipo_sorvete": tipo_sorvete, "valor_sorvete": valor_sorvete}
-
-    # def alterar_dados_sorvete(self):
-    #     print()
-    #     print("ALTERAR sorvete")
-    #     codigo_sorvete = int(input("Codigo do sorvete: "))
-    #     estoque_sorvete = int(input("Estoque do sorvete: "))
-    #     descricao_sorvete = str(input("Descricao do sorvete: "))
-    #     valor_sorvete = float(input("Valor do sorvete: "))
-
-    #     return {"codigo_sorvete": codigo_sorvete, "estoque_sorvete": estoque_sorvete, "descricao_sorvete": descricao_sorvete, "valor_sorvete": valor_sorvete}
-
-    # def mostrar_sorvete(self, dados_sorvete):
-    #     print()
-    #     print("sorvete")
-    #     print(f"Codigo: {dados_sorvete['codigo_sorvete']}")
-    #     print(f"Estoque: {dados_sorvete['estoque_sorvete']}")
-    #     print(f"Descricao: {dados_sorvete['descricao_sorvete']}")
-    #     print(f"Tipo: {dados_sorvete['tipo_sorvete']}")
-    #     print(f"Valor: {dados_sorvete['valor_sorvete']}")
-    #     print()
-
-    # def selecionar_sorvete(self):
-    #     print()
-    #     codigo = int(input("Insira o codigo do sorvete que deseja selecionar: "))
-    #     return codigo
-
-
-
-    # def mostrar_relatorio_de_bebidas(self, dados_bebida):
-    #     print()
-    #     print("BEBIDA")
-    #     print(f"Quantidade total vendida: {dados_bebida['quantidade_vendida_sorvete']} unidade(s)")
-    #     print(f"Codigo: {dados_bebida['codigo_sorvete']}")
-    #     print(f"Estoque: {dados_bebida['estoque_sorvete']}")
-    #     print(f"Descricao: {dados_bebida['descricao_sorvete']}")
-    #     print(f"Valor: {dados_bebida['valor_sorvete']}")
-    #     print()
-

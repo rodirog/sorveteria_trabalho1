@@ -20,8 +20,6 @@ class TelaLoja:
             opcao = 4
         elif values['5']:
             opcao = 5
-        
-        # cobre os casos de voltar, não clicar em nada e fechar janela, ou clicar cancelar
         if values['0'] or button in (None,'Cancelar'):
             opcao = 0
         self.close()
@@ -31,7 +29,6 @@ class TelaLoja:
         self.__window.Close()
 
     def init_components(self):
-        #sg.theme_previewer()
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
             [sg.Text('Bem vindo ao sistema de vendas!', font=("Helvica",25))],
@@ -45,18 +42,6 @@ class TelaLoja:
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
         self.__window = sg.Window('Sistema de vendas').Layout(layout)
-
-    # def mostrar_tela_inicial(self):
-    #     print("*" * 20)
-    #     print("Sistema Vendas")
-    #     print("*" * 20)
-    #     print("1 - Produtos")
-    #     print("2 - Clientes")
-    #     print("3 - Vendedores")
-    #     print("4 - Notas Fiscais")
-    #     print("0 - Sair")
-    #     opcao = int(input("Escolha a opcao: "))
-    #     return opcao
 
     def mostrar_mensagem(self, msg):
         print(msg)
